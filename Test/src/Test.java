@@ -1,5 +1,5 @@
 /**
- * @author lukasschiefermueller
+ * @author Julia Hofer, Lydia Grillenberger and Lukas Schiefermüller
  *
  */
 public class Test {
