@@ -1,3 +1,0 @@
-INDEX VERSION 1.130+E:\Dokumente\JKU\2. Semester\Practical Software Technology\Project\Repository\.metadata\.plugins\org.eclipse.jdt.core
-3017952843.index
-170000124.index
