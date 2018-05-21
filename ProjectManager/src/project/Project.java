@@ -201,4 +201,7 @@ public class Project {
 		this.tasks = tasks;
 	}
 
+	public String toString() {
+		return title + "\t" + description + "\t" + priority;
+	}
 }
