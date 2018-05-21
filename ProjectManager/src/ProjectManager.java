@@ -17,6 +17,7 @@ import java.awt.Insets;
 import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 import javax.swing.AbstractListModel;
@@ -37,6 +38,7 @@ public class ProjectManager {
 	private JTable table;
 
 	private ArrayList<Project> projects;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -57,7 +59,11 @@ public class ProjectManager {
 	 * Create the application.
 	 */
 	public ProjectManager() {
-		projects = new ArrayList<>(10);
+		int n = 10;
+		projects = new ArrayList<>(n);
+		for (int i = 0; i < n; i++) {
+			projects.add(new Project(null, null, null, null, null, false, null, null, null, null));
+		}
 		initialize();
 	}
 
@@ -85,19 +91,29 @@ public class ProjectManager {
 		//scrollPane.add(lblOurLabel);
 		
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_1.gridx = 0;
-		gbc_scrollPane_1.gridy = 0;
-		panel.add(scrollPane_1, gbc_scrollPane_1);
+		JScrollPane scrollPane = new JScrollPane();
+		/*
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 0;
+		panel.add(scrollPane, gbc_scrollPane);
+		*/
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setViewportBorder(new LineBorder(Color.RED));
+		//scrollPane.getViewport().add(jButton1, null);
 		
 		System.out.println(projects.size());
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < projects.size(); i++) {
 			JTextPane p = new JTextPane();
 			p.setText("Test" + Integer.toString(i));
-			scrollPane_1.add(p);
+			scrollPane.getViewport().add(p, null);
 		}
+		
+		frame.add(scrollPane, BorderLayout.CENTER);
+	    //frame.setSize(400, 150);
+	    //frame.setVisible(true);
 	}
 
 }
