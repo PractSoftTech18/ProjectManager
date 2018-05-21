@@ -6,6 +6,7 @@ package project;
 import customer.*;
 import java.awt.Color;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.ArrayList;
 
 /**
@@ -49,6 +50,29 @@ public class Project {
 		this.eventDate = eventDate;
 		this.customer = customer;
 		this.tasks = tasks;
+	}
+
+	/**
+	 * 
+	 */
+	public Project() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Titel: ");
+		this.setTitle(sc.nextLine());
+		System.out.print("Beschreibung: ");
+		this.setDescription(sc.nextLine());
+		System.out.print("Anmerkungen: ");
+		this.setDescription(sc.nextLine());
+		System.out.print("Priority: 0=LOW\t1=NORMAL\t2=HIGH: ");
+		int i = sc.nextInt();
+		Priority p = i == 2 ? Priority.HIGH : (i == 1 ? Priority.NORMAL : Priority.LOW);
+		this.setPriority(p);
+		this.setColor(new Color(0,255,0));
+		this.setOpen(true);
+		this.setDeadline(new Date(1234));
+		this.setEventDate(new Date(2234));
+		tasks = new ArrayList<Task>();
+		// sc.close();
 	}
 
 	/**

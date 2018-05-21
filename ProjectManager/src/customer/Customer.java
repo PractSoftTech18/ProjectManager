@@ -41,8 +41,8 @@ public class Customer {
 	/**
 	 * @return the contactPerson
 	 */
-	public int getContactPerson() {
-		return contactPerson;
+	public String getContactPerson() {
+		return persons.get(contactPerson).getName();
 	}
 
 	/**

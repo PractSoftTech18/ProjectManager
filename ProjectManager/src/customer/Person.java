@@ -3,6 +3,8 @@
  */
 package customer;
 
+import java.util.Scanner;
+
 /**
  * @author Lukas Schiefermueller
  *
@@ -30,6 +32,20 @@ public class Person {
 		this.relation = relation;
 	}
 
+	public Person() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Name: ");
+		this.setName(sc.nextLine());
+		System.out.print("Telefonnummer: ");
+		this.setName(sc.nextLine());
+		System.out.print("Email: ");
+		this.setName(sc.nextLine());
+		System.out.print("Addresse: ");
+		this.setName(sc.nextLine());
+		System.out.print("Relation: ");
+		this.setName(sc.nextLine());
+		//sc.close();
+	}
 	/**
 	 * @return the name
 	 */

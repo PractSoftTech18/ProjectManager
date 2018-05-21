@@ -13,10 +13,14 @@ import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -60,21 +64,44 @@ public class ProjectManager {
 		 * } catch (Exception e) { e.printStackTrace(); } } });
 		 */
 		ProjectManager pm = new ProjectManager();
-		pm.setUp();
+		int i = 1;
+		Scanner sc = new Scanner(System.in);
+		while (i != 0) {
+			System.out.println("1\tNeues Projekt!");
+			System.out.println("2\tProjekte anzeigen!");
+			System.out.println("0\tBeenden!");
+			i = sc.nextInt();
+			switch (i) {
+			case 1:
+				try {
+					pm.newProject();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case 2:
+				pm.showProjects();
+				break;
+			}
+		}
+		sc.close();
 	}
 
 	/**
 	 * Create the application.
 	 */
 	public ProjectManager() {
-		int n = 10;
-		projects = new ArrayList<>(n);
-		ArrayList<Person> pers = new ArrayList<>();
-		pers.add(new Person("Name", "Nummer", "EMail", "Adresse", "Zeuge"));
-		for (int i = 0; i < n; i++)
-			projects.add(new Project("Titel" + i, "Beschreibung" + i, "Wos was i" + i, Priority.LOW, new Color(0, 155, 255), true,
-					new Date(2018, 12, 31), new Date(2018, 12, 31), new Customer(pers, 1), null));
-		// initialize();
+		/*
+		 * int n = 10; projects = new ArrayList<>(n); ArrayList<Person> pers = new
+		 * ArrayList<>(); pers.add(new Person("Name", "Nummer", "EMail", "Adresse",
+		 * "Zeuge")); for (int i = 0; i < n; i++) projects.add(new Project("Titel" + i,
+		 * "Beschreibung" + i, "Wos was i" + i, Priority.LOW, new Color(0, 155, 255),
+		 * true, new Date(2), new Date(3), new Customer(pers, 1), null)); //
+		 * initialize();
+		 * 
+		 */
+		projects = new ArrayList<>();
 		active = Paths.get(System.getProperty("user.dir").toString() + "//Projects//Active");
 		archive = Paths.get(System.getProperty("user.dir").toString() + "//Projects//Archive");
 		System.out.println(active);
@@ -86,10 +113,44 @@ public class ProjectManager {
 	/**
 	 * 
 	 */
-	private void setUp() {
-		for (int i = 0; i < projects.size(); i++) {
-			System.out.println(projects.get(i));
+	private void newProject() throws IOException {
+		int countPersons;
+		System.out.println("Wieviele Personen: "); // In GUI durch Add-Button ersetzen.
+		Scanner sc = new Scanner(System.in);
+		countPersons = sc.nextInt();
+		// sc.close();
+		ArrayList<Person> pers = new ArrayList<>(countPersons);
+		for (int i = 0; i < countPersons; i++) {
+			Person p = new Person();
+			pers.add(p);
 		}
+		System.out.println("Ansprechpartner: "); // In GUI durch Add-Button ersetzen.
+
+		int a = sc.nextInt();
+		Project P = new Project();
+		P.setCustomer(new Customer(pers, a < 0 ? 0 : a >= countPersons ? 0 : a));
+		projects.add(P);
+		new File(active + "//" + P.getTitle()).mkdirs();
+		System.out
+				.println(active.toString() + "//" + P.getTitle() + "//" + P.getCustomer().getContactPerson() + ".txt");
+		File F = new File(active.toString() + "/" + P.getTitle() + "/" + P.getCustomer().getContactPerson() + ".txt");
+		boolean ex = false;
+		try {
+			ex = F.createNewFile();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		System.out.println(ex);
+
+	}
+
+	/**
+	 * 
+	 */
+	private void showProjects() {
+		File[] directories = new File(active.toString()).listFiles(File::isDirectory);
+		for (int i = 0; i < directories.length; i++)
+			System.out.println(directories[i].getName());
 	}
 
 	/**
