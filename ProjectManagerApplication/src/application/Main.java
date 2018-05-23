@@ -11,11 +11,12 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/application/MyScene.fxml"));
-			Scene scene = new Scene(root,300,300);
+			Scene scene = new Scene(root,800,800);
 			
 			primaryStage.setTitle("Hello Try Out");
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

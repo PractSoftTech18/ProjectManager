@@ -25,7 +25,7 @@ public class App implements Initializable {
 	private TabPane MyTabPane;
 	
 	@FXML
-	private Tab MyMainTab, SecondTab;
+	private Tab MyMainTab;
 	
 	@FXML
 	private GridPane MyGridPane;
@@ -35,23 +35,28 @@ public class App implements Initializable {
 	private ListView<String> MyListView;
 	
 	@FXML
-	private Button MyButton;
+	private Button MyButton, NewTab;
 
+	private static int buttonclicked;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
-		// TODO (don't really need to do anything here).
 
 	}
 
 	// When user click on myButton
 	// this method will be called.
 	public void addFieldtoVBox(ActionEvent event) {
-		ObservableList<String> items =FXCollections.observableArrayList (
-			    "Single", "Double", "Suite", "Family App","Single", "Double", "Suite", "Family App");
+		ObservableList<String> items = MyListView.getItems();
+		items.add(Integer.toString(++buttonclicked));
 		MyListView.setItems(items);
 
 	}
 
+	public void addNewTab(ActionEvent event) {
+		Tab next = new Tab();
+		next.setText("Name");
+		MyTabPane.getTabs().add(next);
+	}
+	
 }
