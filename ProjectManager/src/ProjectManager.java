@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+import java.awt.Graphics;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,6 +33,8 @@ import javax.swing.border.LineBorder;
 import customer.Customer;
 
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import java.awt.GridLayout;
@@ -64,6 +67,7 @@ public class ProjectManager {
 		 * } catch (Exception e) { e.printStackTrace(); } } });
 		 */
 		ProjectManager pm = new ProjectManager();
+		pm.frame.setVisible(true);
 		int i = 1;
 		Scanner sc = new Scanner(System.in);
 		while (i != 0) {
@@ -106,7 +110,7 @@ public class ProjectManager {
 		archive = Paths.get(System.getProperty("user.dir").toString() + "//Projects//Archive");
 		System.out.println(active);
 		System.out.println(archive);
-
+		initialize();
 		// setUp();
 	}
 
@@ -167,12 +171,14 @@ public class ProjectManager {
 
 		JPanel panel = new JPanel();
 		tabbedPane.addTab("New tab", null, panel, null);
+		/*
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 0, 0 };
 		gbl_panel.rowHeights = new int[] { 0, 0 };
-		gbl_panel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_panel.columnWeights = new double[] { 10.0, 10.0};//Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 10.0, 10.0};//Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
+		*/
 		// JLabel lblOurLabel = new JLabel("l");
 		// scrollPane.add(lblOurLabel);
 
@@ -187,14 +193,22 @@ public class ProjectManager {
 		scrollPane.setViewportBorder(new LineBorder(Color.RED));
 		// scrollPane.getViewport().add(jButton1, null);
 
-		System.out.println(projects.size());
-		for (int i = 0; i < projects.size(); i++) {
-			JTextPane p = new JTextPane();
+		ArrayList<JTextField> fields = new ArrayList<>();
+		for (int i = 0; i < 100; i++) {
+			JTextField p = new JTextField();
 			p.setText("Test" + Integer.toString(i));
-			scrollPane.getViewport().add(p, null);
+			fields.add(p);
+scrollPane.add(p);
 		}
 
-		frame.add(scrollPane, BorderLayout.CENTER);
+
+		scrollPane.getViewport();
+		
+		
+		// scrollPane.setBounds(10, 10, frame.WIDTH-10, frame.HEIGHT-10);
+		scrollPane.setVisible(true);
+		tabbedPane.add(scrollPane, BorderLayout.CENTER);
+		
 		// frame.setSize(400, 150);
 		// frame.setVisible(true);
 	}

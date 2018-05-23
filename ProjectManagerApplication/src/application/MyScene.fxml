@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="352.0" prefWidth="327.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="application.App">
+	<children>
+		<TabPane fx:id="MyTabPane" layoutX="3.0" layoutY="4.0"
+			prefHeight="458.0" prefWidth="453.0" tabClosingPolicy="UNAVAILABLE">
+			<tabs>
+				<Tab fx:id="MyMainTab" text="Main Tab">
+					<content>
+						<GridPane fx:id="MyGridPane">
+							<columnConstraints>
+								<ColumnConstraints hgrow="SOMETIMES"
+									minWidth="10.0" prefWidth="100.0" />
+								<ColumnConstraints hgrow="SOMETIMES"
+									minWidth="10.0" prefWidth="100.0" />
+							</columnConstraints>
+							<rowConstraints>
+								<RowConstraints minHeight="10.0"
+									prefHeight="30.0" vgrow="SOMETIMES" />
+								<RowConstraints minHeight="10.0"
+									prefHeight="30.0" vgrow="SOMETIMES" />
+								<RowConstraints minHeight="10.0"
+									prefHeight="30.0" vgrow="SOMETIMES" />
+							</rowConstraints>
+							<ListView fx:id="MyListView" prefHeight="142.0"
+								prefWidth="226.0" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+
+					<Button fx:id="MyButton" contentDisplay="CENTER"
+						mnemonicParsing="false" prefHeight="59.0" prefWidth="177.0"
+						text="Knopf" GridPane.columnIndex="1" GridPane.rowIndex="0" onAction="#addFieldtoVBox" />
+
+</GridPane>
+</content>
+</Tab>
+	<Tab fx:id="SecondTab" text="Don't know yet" />
+</tabs>
+</TabPane>
+</children>
+</AnchorPane>
