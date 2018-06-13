@@ -56,6 +56,7 @@ public class App implements Initializable {
 	public void addNewTab(ActionEvent event) {
 		Tab next = new Tab();
 		next.setText("Name");
+		next.setClosable(true);
 		MyTabPane.getTabs().add(next);
 	}
 	
