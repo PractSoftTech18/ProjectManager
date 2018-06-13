@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 /*
 import java.text.DateFormat;
@@ -8,10 +9,13 @@ import java.util.Date;
 */
 import java.util.ResourceBundle;
 
+import javax.security.auth.login.Configuration;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -25,7 +29,7 @@ public class App implements Initializable {
 	private TabPane MyTabPane;
 	
 	@FXML
-	private Tab MyMainTab;
+	private Tab MyMainTab, createProject;
 	
 	@FXML
 	private GridPane MyGridPane;
@@ -35,7 +39,7 @@ public class App implements Initializable {
 	private ListView<String> MyListView;
 	
 	@FXML
-	private Button MyButton, NewTab;
+	private Button MyButton, btnCreateProject;
 
 	private static int buttonclicked;
 	
@@ -53,11 +57,12 @@ public class App implements Initializable {
 
 	}
 
-	public void addNewTab(ActionEvent event) {
-		Tab next = new Tab();
-		next.setText("Name");
-		next.setClosable(true);
-		MyTabPane.getTabs().add(next);
+	public void createNewProject(ActionEvent event) throws IOException {		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/CreateProject.fxml"));
+		Tab tabNewProject = new Tab("Neues Projekt");
+		tabNewProject.setContent(loader.load());
+		MyTabPane.getTabs().add(tabNewProject);
+		MyTabPane.getSelectionModel().select(tabNewProject);
 	}
 	
 }
