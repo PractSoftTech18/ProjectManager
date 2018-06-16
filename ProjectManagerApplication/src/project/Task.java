@@ -11,8 +11,9 @@ import java.util.Date;
 public class Task {
 	private String taskName;
 	private String taskRemark;
+	private Status taskStatus;
 	private Priority taskPriority;
-	private boolean taskOpen;
+	//private boolean taskOpen;
 	private Date taskDate;
 
 	/**
@@ -22,12 +23,12 @@ public class Task {
 	 * @param taskOpen
 	 * @param taskDate
 	 */
-	public Task(String taskName, String taskRemark, Priority taskPriority, boolean taskOpen, Date taskDate) {
+	public Task(String taskName, String taskRemark, Priority taskPriority, Date taskDate) {
 		// super();
 		this.taskName = taskName;
 		this.taskRemark = taskRemark;
 		this.taskPriority = taskPriority;
-		this.taskOpen = taskOpen;
+		//this.taskOpen = taskOpen;
 		this.taskDate = taskDate;
 	}
 
@@ -69,6 +70,21 @@ public class Task {
 	}
 
 	/**
+	 * @return the taskStatus
+	 */
+	public Status getTaskStatus() {
+		return taskStatus;
+	}
+
+	/**
+	 * @param status
+	 *            the taskStatus to set
+	 */
+	public void setTaskStatus(Status taskStatus) {
+		this.taskStatus = taskStatus;
+	}
+	
+	/**
 	 * @return the taskPriority
 	 */
 	public Priority getTaskPriority() {
@@ -83,20 +99,20 @@ public class Task {
 		this.taskPriority = taskPriority;
 	}
 
-	/**
+	/*
 	 * @return the taskOpen
 	 */
-	public boolean isTaskOpen() {
+	/*public boolean isTaskOpen() {
 		return taskOpen;
-	}
+	}*/
 
-	/**
+	/*
 	 * @param taskOpen
 	 *            the taskOpen to set
 	 */
-	public void setTaskOpen(boolean taskOpen) {
+	/*public void setTaskOpen(boolean taskOpen) {
 		this.taskOpen = taskOpen;
-	}
+	}*/
 
 	/**
 	 * @return the taskDate

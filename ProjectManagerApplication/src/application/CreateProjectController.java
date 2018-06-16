@@ -6,7 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
-
+/**
+ * @author Julia Hofer
+ * @version 1.00, June 26th 2018
+ */
 public class CreateProjectController {
 
     @FXML

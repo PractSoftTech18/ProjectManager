@@ -21,10 +21,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
 
 public class App implements Initializable {
 
+	private Data ourData = Data.getData();
+	
 	@FXML
 	private TabPane MyTabPane;
 	
@@ -39,13 +43,19 @@ public class App implements Initializable {
 	private ListView<String> MyListView;
 	
 	@FXML
-	private Button MyButton, btnCreateProject;
+	private Button MyButton, btnCreateProject, btnStatusSettings, btnTasks;
+	
+	@FXML
+	private TableView<String[]> tblProjects;
+	
+	@FXML
+	private TableColumn<String, String> tblColProjects;
 
 	private static int buttonclicked;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		//updateTblProjects;
 	}
 
 	// When user click on myButton
@@ -64,5 +74,44 @@ public class App implements Initializable {
 		MyTabPane.getTabs().add(tabNewProject);
 		MyTabPane.getSelectionModel().select(tabNewProject);
 	}
+	
+	public void changeStatusSettings(ActionEvent event) throws IOException {		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/StatusSettings.fxml"));
+		Tab tabStatusSettings = new Tab("Statuseinstellungen");
+		tabStatusSettings.setContent(loader.load());
+		MyTabPane.getTabs().add(tabStatusSettings);
+		MyTabPane.getSelectionModel().select(tabStatusSettings);
+	}
+	
+	public void viewTasks(ActionEvent event) throws IOException {		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/Tasks.fxml"));
+		Tab tabStatusSettings = new Tab("Tasks");
+		tabStatusSettings.setContent(loader.load());
+		MyTabPane.getTabs().add(tabStatusSettings);
+		MyTabPane.getSelectionModel().select(tabStatusSettings);
+	}
+	
+	/**
+	 * refresh the table of projects
+	 * 
+	 * @author Lydia Grillenberger
+	 * @version 1.00, June 26th 2018
+	 * @param e
+	 */
+	public void updateTblProjects(ActionEvent e) {
+		ObservableList<String[]> tblItems = tblProjects.getItems();
+		//tblColProjects = new TableColumn<>();
+		//ObservableList<TableColumn<String, ?>> tblItems = tblColProjects.getColumns();
+		//for(int i = 0; i < 5; i++) {//ourData.projects.size()
+			//String[] arr = {Integer.toString(i),Integer.toString(i),Integer.toString(i),Integer.toString(i)};
+			String[] arr = {"Hello", "out", "there", "programming"};
+			tblItems.add(arr);
+			tblItems.add(arr);
+			tblItems.add(arr);
+		//}
+		tblProjects.setItems(tblItems);
+	}
+	
+	
 	
 }

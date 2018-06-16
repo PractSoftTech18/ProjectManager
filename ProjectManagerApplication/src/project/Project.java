@@ -16,10 +16,10 @@ public class Project {
 	private String title;
 	private String description;
 	private String notes;
-	private String status;
+	private Status status;
 	private Priority priority;
 	private Color color; // https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html
-	private boolean open;
+	//private boolean open;
 	private Date deadline;
 	private Date eventDate;
 	private Customer customer;
@@ -37,7 +37,7 @@ public class Project {
 	 * @param customer
 	 * @param tasks
 	 */
-	public Project(String title, String description, String notes, Priority priority, Color color, boolean open,
+	public Project(String title, String description, String notes, Priority priority, Color color, 
 			Date deadline, Date eventDate, Customer customer, ArrayList<Task> tasks) {
 		// super();
 		this.title = title;
@@ -45,7 +45,7 @@ public class Project {
 		this.notes = notes;
 		this.priority = priority;
 		this.color = color;
-		this.open = open;
+		//this.open = open;
 		this.deadline = deadline;
 		this.eventDate = eventDate;
 		this.customer = customer;
@@ -124,7 +124,7 @@ public class Project {
 	/**
 	 * @return the status
 	 */
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
@@ -132,7 +132,7 @@ public class Project {
 	 * @param status
 	 *            the status to set
 	 */
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 	
@@ -166,20 +166,20 @@ public class Project {
 		this.color = color;
 	}
 
-	/**
+	/*
 	 * @return the open
 	 */
-	public boolean isOpen() {
+	/*public boolean isOpen() {
 		return open;
-	}
+	}*/
 
-	/**
+	/*
 	 * @param open
 	 *            the open to set
 	 */
-	public void setOpen(boolean open) {
+	/*public void setOpen(boolean open) {
 		this.open = open;
-	}
+	}*/
 
 	/**
 	 * @return the deadline
