@@ -7,5 +7,26 @@ package project;
  * @version 1.00, June 26th 2018
  */
 public enum Priority {
-	LOW, NORMAL, HIGH
+	LOW, NORMAL, HIGH;
+	
+	/**
+	 * @author Lydia Grillenberger
+	 * @return String representation of this priority
+	 */
+	@Override
+	public String toString() {
+		String ret = "";
+		switch(this) {
+		case LOW:
+			ret = "niedrig";
+			break;
+		case NORMAL:
+			ret = "normal";
+			break;
+		case HIGH:
+			ret = "hoch";
+			break;
+		}
+		return ret;
+	}
 }
