@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import application.Data;
@@ -84,5 +85,26 @@ public class FileHandler implements FileHandlerInterface{
 			e1.printStackTrace();
 		}
 		return s;
+	}
+	
+	/**
+	 * This method is used internally for saving a String to a file.
+	 * 
+	 * @author Lydia Grillenberger
+	 * @param file file to which to save the String
+	 * @param string String to save
+	 */
+	private void writeToFile(File file, String string) {
+		file.setWritable(true);
+		FileWriter fw = null;
+		try {
+			fw = new FileWriter(file);
+			fw.write(string);
+			fw.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		file.setWritable(false); // writeToFile is the only one to write to this file
 	}
 }
