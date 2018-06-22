@@ -12,12 +12,29 @@ import project.Status;
  * @version 1.00, June 26th 2018
  */
 public class Data {
+	/**
+	 * all projects
+	 */
 	public ArrayList<Project> projects;
+	
+	/**
+	 * all different status for projects
+	 */
 	public ArrayList<Status> projectStatus;
+	
+	/**
+	 * all different status for tasks
+	 */
 	public ArrayList<Status> taskStatus;
 	
+	/**
+	 * only instance of Data
+	 */
 	private static Data ourData = new Data();
 	
+	/**
+	 * forbid creating of new Data
+	 */
 	private Data(){}
 	
 	/**

@@ -9,9 +9,9 @@ import java.util.Date;
 */
 import java.util.ResourceBundle;
 
-import javax.security.auth.login.Configuration;
+//import javax.security.auth.login.Configuration;
 
-import javafx.collections.FXCollections;
+//import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,8 +25,18 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
 
+/**
+ * controller for MyScene
+ * 
+ * @author Lydia Grillenberger
+ * @author Julia Hofer
+ * @author Lukas Schiefermueller
+ * @version 1.00, June 26th 2018
+ */
 public class App implements Initializable {
-
+	/**
+	 * available data for this run of the application
+	 */
 	private Data ourData = Data.getData();
 	
 	@FXML
@@ -67,6 +77,13 @@ public class App implements Initializable {
 
 	}
 
+	/**
+	 * change to new project tab
+	 * 
+	 * @author Julia Hofer
+	 * @param event
+	 * @throws IOException
+	 */
 	public void createNewProject(ActionEvent event) throws IOException {		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/CreateProject.fxml"));
 		Tab tabNewProject = new Tab("Neues Projekt");
@@ -75,6 +92,13 @@ public class App implements Initializable {
 		MyTabPane.getSelectionModel().select(tabNewProject);
 	}
 	
+	/**
+	 * change to status settings tab 
+	 * 
+	 * @author Lydia Grillenberger
+	 * @param event
+	 * @throws IOException
+	 */
 	public void changeStatusSettings(ActionEvent event) throws IOException {		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/StatusSettings.fxml"));
 		Tab tabStatusSettings = new Tab("Statuseinstellungen");
@@ -83,6 +107,13 @@ public class App implements Initializable {
 		MyTabPane.getSelectionModel().select(tabStatusSettings);
 	}
 	
+	/**
+	 * change to tasks tab
+	 * 
+	 * @author Lydia Grillenberger
+	 * @param event
+	 * @throws IOException
+	 */
 	public void viewTasks(ActionEvent event) throws IOException {		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/Tasks.fxml"));
 		Tab tabStatusSettings = new Tab("Tasks");
@@ -96,9 +127,9 @@ public class App implements Initializable {
 	 * 
 	 * @author Lydia Grillenberger
 	 * @version 1.00, June 26th 2018
-	 * @param e
+	 * @param event
 	 */
-	public void updateTblProjects(ActionEvent e) {
+	public void updateTblProjects(ActionEvent event) {
 		ObservableList<String[]> tblItems = tblProjects.getItems();
 		//tblColProjects = new TableColumn<>();
 		//ObservableList<TableColumn<String, ?>> tblItems = tblColProjects.getColumns();
@@ -111,7 +142,4 @@ public class App implements Initializable {
 		//}
 		tblProjects.setItems(tblItems);
 	}
-	
-	
-	
 }

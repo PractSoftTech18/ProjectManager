@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 /**
+ * controller for CreateProject
+ * 
  * @author Julia Hofer
  * @version 1.00, June 26th 2018
  */

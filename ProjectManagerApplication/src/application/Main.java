@@ -6,7 +6,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * class to start the application
+ * 
+ * @author Lukas Schiefermueller
+ * @version 1.00, June 26th 2018
+ */
 public class Main extends Application {
+	/**
+	 * start the application
+	 * 
+	 * @param primaryStage stage
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -22,6 +33,11 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * main method for launching
+	 * 
+	 * @param args are launched
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

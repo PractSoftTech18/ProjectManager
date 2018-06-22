@@ -5,6 +5,8 @@ import javafx.scene.control.TableView;
 import project.Status;
 
 /**
+ * controller for StatusSettings
+ * 
  * @author Lydia Grillenberger
  * @version 1.00, June 26th 2018
  */
