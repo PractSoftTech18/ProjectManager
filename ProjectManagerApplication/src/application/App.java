@@ -2,6 +2,8 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 /*
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -48,7 +50,6 @@ public class App implements Initializable {
 	@FXML
 	private GridPane MyGridPane;
 	
-	
 	@FXML
 	private ListView<String> MyListView;
 	
@@ -63,9 +64,15 @@ public class App implements Initializable {
 
 	private static int buttonclicked;
 	
+	private Path active, archive;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//updateTblProjects;
+		// At the beginning of the program.
+		// Sets the paths to the active and archive working directory.
+		active = Paths.get(System.getProperty("user.dir").toString() + "//Projects//Active");
+		archive = Paths.get(System.getProperty("user.dir").toString() + "//Projects//Archive");
 	}
 
 	// When user click on myButton

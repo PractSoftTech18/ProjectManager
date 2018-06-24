@@ -12,7 +12,7 @@
   <children>
     <GridPane focusTraversable="true" layoutX="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="0.0">
       <children>
-        <TextField prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+        <TextField fx:id="TextField_ProjectName" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
         <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" text="Projektname" underline="false" visible="true" wrapText="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
           <labelFor>
             <Button fx:id="NewTab" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addNewTab" prefHeight="200.0" prefWidth="200.0" text="Neuer Tab" />
@@ -33,7 +33,7 @@
             </Label>
             <ChoiceBox fx:id="choiceBoxPriority" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <ChoiceBox fx:id="choiceBoxStatus" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <ColorPicker GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ColorPicker fx:id="Color_Project" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" layoutX="69.0" layoutY="57.0" text="Farbe" underline="false" visible="true" wrapText="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                <labelFor>
                   <Button fx:id="NewTab1" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addNewTab" prefHeight="200.0" prefWidth="200.0" text="Neuer Tab" />
@@ -41,8 +41,8 @@
             </Label>
             <Label text="Deadline" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
             <Label text="Event" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
-            <DatePicker GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <DatePicker GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <DatePicker fx:id="Date_Deadline" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <DatePicker fx:id="Date_Event" GridPane.columnIndex="4" GridPane.rowIndex="3" />
             <Label text="Beschreibung" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="TOP" />
             <Label text="Notizen" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" GridPane.valignment="TOP" />
             <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />

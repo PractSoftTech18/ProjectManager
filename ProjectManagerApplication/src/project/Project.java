@@ -1,7 +1,7 @@
 package project;
 
 import customer.*;
-import java.awt.Color;
+import javafx.scene.paint.Color;
 import java.util.Date;
 //import java.util.Scanner;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class Project {
 	private String notes;
 	private Status status;
 	private Priority priority;
-	private Color color; // https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html
+	private Color color;
 	//private boolean open;
 	private Date deadline;
 	private Date eventDate;
@@ -159,11 +159,11 @@ public class Project {
 	}
 
 	/**
-	 * @param color
+	 * @param p
 	 *            the color to set
 	 */
-	public void setColor(Color color) {
-		this.color = color;
+	public void setColor(Color p) {
+		this.color = p;
 	}
 
 	/*

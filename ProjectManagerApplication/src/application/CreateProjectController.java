@@ -2,6 +2,7 @@ package application;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
@@ -11,7 +12,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import project.Priority;
+import project.Project;
 import project.Status;
 
 /**
@@ -40,6 +44,17 @@ public class CreateProjectController {
     
     @FXML
     private TableColumn<String, String> name;
+    
+    // Lukas Schiefermüller, 24.06.2018
+    @FXML
+    private TextField TextField_ProjectName;
+    
+    // Lukas Schiefermüller, 24.06.2018
+    @FXML
+    private Color Color_Project;
+    
+    @FXML
+    private Date Date_Deadline, Date_Event;
     
     @FXML
     void addNewTab(ActionEvent event) {
@@ -93,12 +108,22 @@ public class CreateProjectController {
     /**
      * save project
      * 
-     * @author ?
+     * @author Lukas Schiefermüller
+     * @version 1.0
      * @param event select Button save
      */
     public void save(ActionEvent event) {
     	// read the given information
     	// FileHandler.add(project)
     	// close this tab and go to dashboard
+    	Project newProject = new Project();
+    	newProject.setTitle(TextField_ProjectName.getText());
+    	newProject.setColor(new Color(Color_Project.getRed(), Color_Project.getGreen(), Color_Project.getBlue(), Color_Project.getOpacity()));
+    	String dummy = choiceBoxPriority.getSelectionModel().getSelectedItem();
+    	Priority p = dummy == "LOW" ? Priority.LOW : (dummy == "NORMAL" ? Priority.NORMAL : Priority.HIGH);
+    	newProject.setPriority(p);
+    	
+    	newProject.setDeadline(Date_Deadline);
+    	newProject.setEventDate(Date_Event);
     }
 }
