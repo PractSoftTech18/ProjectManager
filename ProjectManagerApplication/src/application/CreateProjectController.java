@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 
 import customer.Customer;
 import customer.Person;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +20,10 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import project.Priority;
 import project.Project;
@@ -45,29 +49,47 @@ public class CreateProjectController {
     private URL location;
 
     @FXML
-    private Button NewTab;
+    private Button NewTab, btnSave, btnAddPerson, btnAddTask;
 
     @FXML
-    private ChoiceBox<String> choiceBoxPriority, choiceBoxStatus, choiceBoxContactPerson;
+    private ChoiceBox<String> cBoxPriority, cBoxStatus, cBoxContactPerson;
     
     @FXML
-    private TableColumn<String, String> name;
-    
-    // Lukas Schiefermüller, 24.06.2018
+    private TableColumn<Person, String> tblColName, tblColRelation, tblColPhone, tblColMail, tblColAd;
+   
     @FXML
-    private TextField TextField_ProjectName;
-    
-    // Lukas Schiefermüller, 24.06.2018
-    @FXML
-    private ColorPicker Color_Project;
+    private TableColumn<String, String> tblColTask, tblColPriority, tblColDate, tblColNote, tblColStatus;
     
     @FXML
-    private DatePicker Date_Deadline, Date_Event;
+    private TableView<Person> tblPersons;
+    
+    @FXML
+    private TableView<?> tblTasks;
+    
+    @FXML
+    private TextField tfProjectName;
+    
+    @FXML
+    private TextArea tfDescription, tfNotes;
+    
+    @FXML
+    private TextField tfTask, tfTaskDate, tfTaskStatus, tfTaskNote, tfTaskPriority;
+    
+    @FXML
+    private TextField tfPersonName, tfPersonAd, tfPersonRelation, tfPersonPhone, tfPersonMail;
+    
+    @FXML
+    private ColorPicker colorPProject;
+    
+    @FXML
+    private DatePicker datePDeadline, datePEvent;
     
     @FXML
     void addNewTab(ActionEvent event) {
     }
 
+    private ObservableList<Person> person;
+    
     /**
      * initialize view of creating a project
      * 
@@ -78,17 +100,24 @@ public class CreateProjectController {
     @FXML
     void initialize() {
         assert NewTab != null : "fx:id=\"NewTab\" was not injected: check your FXML file 'CreateProject.fxml'.";
-        ObservableList<String> items = choiceBoxPriority.getItems();
+        ObservableList<String> items = cBoxPriority.getItems();
 		items.addAll(Priority.HIGH.toString(), Priority.NORMAL.toString(), Priority.LOW.toString());
-		choiceBoxPriority.setItems(items);
-		choiceBoxPriority.setValue(Priority.NORMAL.toString());
+		cBoxPriority.setItems(items);
+		cBoxPriority.setValue(Priority.NORMAL.toString());
 		
-		items = choiceBoxStatus.getItems();
+		items = cBoxStatus.getItems();
         for (Status s : Status.values()) {
         	items.add(s.getStatus());
         }
-    	choiceBoxStatus.setItems(items);
-    	choiceBoxStatus.setValue(Status.PREPRODUCTION.getStatus());
+    	cBoxStatus.setItems(items);
+    	cBoxStatus.setValue(Status.PREPRODUCTION.getStatus());
+    	
+    	tblColName.setCellValueFactory(new PropertyValueFactory<Person,String>("name"));
+    	tblColPhone.setCellValueFactory(new PropertyValueFactory<Person,String>("phoneNumber"));
+    	tblColMail.setCellValueFactory(new PropertyValueFactory<Person,String>("email"));
+    	tblColAd.setCellValueFactory(new PropertyValueFactory<Person,String>("address"));
+    	tblColRelation.setCellValueFactory(new PropertyValueFactory<Person,String>("relation"));
+    	person = FXCollections.observableArrayList();
     }
     
     /**
@@ -100,14 +129,14 @@ public class CreateProjectController {
     public void selectContactPerson(ActionEvent event) {
     	// should be called when choiceBoxContactPerson.onShowingProperty() but I cannot find
     	// onShowingProperty in Scene Builder
-    	if(name != null) {
-	    	ObservableList<TableColumn<String,?>> personChoice = name.getColumns();
+    	if(tblColName != null) {
+	    	ObservableList<TableColumn<Person,?>> personChoice = tblColName.getColumns();
 	        if(personChoice != null) {
-	        	ObservableList<String> items = choiceBoxContactPerson.getItems();
-	        	for(Iterator<TableColumn<String,?>> it = personChoice.iterator(); it.hasNext();) {
+	        	ObservableList<String> items = cBoxContactPerson.getItems();
+	        	for(Iterator<TableColumn<Person,?>> it = personChoice.iterator(); it.hasNext();) {
 	        		items.add(it.next().toString());
 	        	}
-	        	choiceBoxContactPerson.setItems(items);
+	        	cBoxContactPerson.setItems(items);
 	        }
     	}
     }
@@ -118,23 +147,23 @@ public class CreateProjectController {
      * @author Lukas Schiefermueller
      * @param event select button save
      */
-    public void save(ActionEvent event) {
+    public void btnSave(ActionEvent event) {
     	// read the given information
     	// FileHandler.add(project)
     	// close this tab and go to dashboard
     	Project newProject = new Project();
-    	newProject.setTitle(TextField_ProjectName.getText());
+    	newProject.setTitle(tfProjectName.getText());
     	
-    	newProject.setColor(Color_Project.getValue());
-    	String dummy = choiceBoxPriority.getSelectionModel().getSelectedItem();
+    	newProject.setColor(colorPProject.getValue());
+    	String dummy = cBoxPriority.getSelectionModel().getSelectedItem();
     	Priority p = dummy == "LOW" ? Priority.LOW : (dummy == "NORMAL" ? Priority.NORMAL : Priority.HIGH);
     	newProject.setPriority(p);
     	// https://stackoverflow.com/questions/20446026/get-value-from-date-picker
-    	LocalDate localDate = Date_Deadline.getValue();
+    	LocalDate localDate = datePDeadline.getValue();
     	Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
     	newProject.setDeadline(Date.from(instant));
     	
-    	localDate = Date_Deadline.getValue();
+    	localDate = datePDeadline.getValue();
     	instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
     	newProject.setEventDate(Date.from(instant));
     	
@@ -147,5 +176,27 @@ public class CreateProjectController {
     	
     	FileHandlerInterface fi = new FileHandler();
     	fi.add(newProject);
+    	
+    	/*
+    	 * Add persons from person list
+    	 */
+    	
+    	
+    }
+    
+    /**
+     * add person to project
+     * 
+     * @author Lukas Schiefermueller
+     * @param event click button "Hinzuf�gen"
+     */
+   public void btnAddPerson(ActionEvent event) {
+    	// tblPersons.getColumns().addAll(tblColName,tblColPhone, tblColMail, tblColAd, tblColRelation);
+	   
+    	person.add(new Person(tfPersonName.getText(), tfPersonPhone.getText(), tfPersonMail.getText(), tfPersonAd.getText(), tfPersonRelation.getText()));
+    	tblPersons.setItems(person);
+    	//tblPersons.addAll(5, tfPersonName.getText(),tfPersonName.getText(),tfPersonName.getText(),tfPersonName.getText(),tfPersonName.getText());
+    
+    	// add this person to table view
     }
 }
