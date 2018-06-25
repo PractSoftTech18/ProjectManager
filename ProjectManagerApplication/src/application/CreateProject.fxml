@@ -47,7 +47,7 @@
             <Label text="Notizen" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" GridPane.valignment="TOP" />
             <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
             <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-            <TableView prefHeight="193.0" prefWidth="303.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+            <TableView onMouseClicked="#addNewTab" prefHeight="193.0" prefWidth="303.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
               <columns>
                 <TableColumn fx:id="name" prefWidth="75.0" text="Name" />
                 <TableColumn prefWidth="75.0" text="Aufgabe" />

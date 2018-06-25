@@ -1,6 +1,9 @@
 package application;
 
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -11,6 +14,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
@@ -51,10 +56,10 @@ public class CreateProjectController {
     
     // Lukas Schiefermüller, 24.06.2018
     @FXML
-    private Color Color_Project;
+    private ColorPicker Color_Project;
     
     @FXML
-    private Date Date_Deadline, Date_Event;
+    private DatePicker Date_Deadline, Date_Event;
     
     @FXML
     void addNewTab(ActionEvent event) {
@@ -118,12 +123,20 @@ public class CreateProjectController {
     	// close this tab and go to dashboard
     	Project newProject = new Project();
     	newProject.setTitle(TextField_ProjectName.getText());
-    	newProject.setColor(new Color(Color_Project.getRed(), Color_Project.getGreen(), Color_Project.getBlue(), Color_Project.getOpacity()));
+    	
+    	newProject.setColor(Color_Project.getValue());
     	String dummy = choiceBoxPriority.getSelectionModel().getSelectedItem();
     	Priority p = dummy == "LOW" ? Priority.LOW : (dummy == "NORMAL" ? Priority.NORMAL : Priority.HIGH);
     	newProject.setPriority(p);
+    	// https://stackoverflow.com/questions/20446026/get-value-from-date-picker
+    	LocalDate localDate = Date_Deadline.getValue();
+    	Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+    	newProject.setDeadline(Date.from(instant));
     	
-    	newProject.setDeadline(Date_Deadline);
-    	newProject.setEventDate(Date_Event);
+    	localDate = Date_Deadline.getValue();
+    	instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+    	newProject.setEventDate(Date.from(instant));
+    	
+
     }
 }
