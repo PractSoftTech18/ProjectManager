@@ -20,6 +20,9 @@
           <GridPane.margin>
             <Insets right="4.0" fx:id="x1" />
           </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
         </Label>
         <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" text="Priorität" underline="false" visible="true" wrapText="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.margin="$x1" GridPane.rowIndex="3" GridPane.valignment="CENTER">
           <labelFor>
@@ -30,24 +33,42 @@
                <labelFor>
                   <Button id="NewTab" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addNewTab" prefHeight="200.0" prefWidth="200.0" text="Neuer Tab" />
                </labelFor>
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin>
             </Label>
-            <ChoiceBox fx:id="choiceBoxPriority" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <ChoiceBox fx:id="choiceBoxStatus" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <ChoiceBox fx:id="choiceBoxPriority" prefWidth="150.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="choiceBoxStatus" prefWidth="150.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
             <ColorPicker fx:id="Color_Project" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" layoutX="69.0" layoutY="57.0" text="Farbe" underline="false" visible="true" wrapText="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                <labelFor>
                   <Button fx:id="NewTab1" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addNewTab" prefHeight="200.0" prefWidth="200.0" text="Neuer Tab" />
                </labelFor>
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin>
             </Label>
-            <Label text="Deadline" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
-            <Label text="Event" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+            <Label text="Deadline" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="4.0" />
+               </GridPane.margin></Label>
+            <Label text="Event" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="4.0" />
+               </GridPane.margin></Label>
             <DatePicker fx:id="Date_Deadline" GridPane.columnIndex="4" GridPane.rowIndex="2" />
             <DatePicker fx:id="Date_Event" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <Label text="Beschreibung" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="TOP" />
-            <Label text="Notizen" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" GridPane.valignment="TOP" />
-            <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-            <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-            <TableView onMouseClicked="#addNewTab" prefHeight="193.0" prefWidth="303.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+            <Label text="Beschreibung" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="25" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin></Label>
+            <Label text="Notizen" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="27" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin></Label>
+            <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="25" />
+            <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="27" />
+            <TableView onMouseClicked="#addNewTab" prefHeight="193.0" prefWidth="303.0" GridPane.columnIndex="2" GridPane.rowIndex="13">
               <columns>
                 <TableColumn fx:id="name" prefWidth="75.0" text="Name" />
                 <TableColumn prefWidth="75.0" text="Aufgabe" />
@@ -55,9 +76,18 @@
                   <TableColumn prefWidth="75.0" text="E-Mail" />
                   <TableColumn prefWidth="75.0" text="Adresse" />
               </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
             </TableView>
-            <Label text="Personen" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP" />
-            <TableView fx:id="tblTasks" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="7">
+            <Label text="Personen" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <TableView fx:id="tblTasks" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="23">
                <columns>
                   <TableColumn prefWidth="75.0" text="Task" />
                   <TableColumn prefWidth="75.0" text="Datum" />
@@ -65,32 +95,126 @@
                   <TableColumn prefWidth="75.0" text="Priorität" />
                   <TableColumn prefWidth="75.0" text="Bemerkung" />
                </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
             </TableView>
-            <Label text="Tasks" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="TOP" />
-            <Label text="Ansprechpartner" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
-            <ChoiceBox fx:id="choiceBoxContactPerson" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-            <Button mnemonicParsing="false" onAction="#save" text="Speichern" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
+            <Label text="Ansprechpartner" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="14">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin></Label>
+            <ChoiceBox fx:id="choiceBoxContactPerson" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="14" />
+            <Button mnemonicParsing="false" onAction="#save" text="Speichern" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="27" />
+            <TextField fx:id="TextField_ProjectName1" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+            <TextField fx:id="TextField_ProjectName2" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+            <TextField fx:id="TextField_ProjectName3" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+            <TextField fx:id="TextField_ProjectName4" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+            <TextField fx:id="TextField_ProjectName5" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+            <Label alignment="CENTER_RIGHT" text="Name" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin>
+            </Label>
+            <Label alignment="CENTER_RIGHT" text="Aufgabe" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin>
+            </Label>
+            <Label alignment="CENTER_RIGHT" text="Aufgabe" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="E-Mail" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="10">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Adresse" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="11">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin>
+            </Label>
+            <Button mnemonicParsing="false" text="Hinzufügen" GridPane.columnIndex="4" GridPane.rowIndex="11" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="18" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="17" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="19" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="20" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="21" />
+            <Label text="Tasks" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="16">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label text="Bezeichnung" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="17">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Datum" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="18">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Status" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="19">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Priorität" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="20">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Bemerkung" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="21">
+               <GridPane.margin>
+                  <Insets right="4.0" />
+               </GridPane.margin>
+            </Label>
+            <Button mnemonicParsing="false" text="Hinzufügen" GridPane.columnIndex="4" GridPane.rowIndex="21" />
       </children>
       <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="30.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="-Infinity" prefWidth="80.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="400.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="100.0" />
+        <ColumnConstraints hgrow="ALWAYS" minWidth="-Infinity" prefWidth="400.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="10.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
         <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="80.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="30.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="30.0" />
       </columnConstraints>
       <rowConstraints>
         <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="10.0" vgrow="NEVER" />
         <RowConstraints maxHeight="30.0" minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER" />
         <RowConstraints maxHeight="30.0" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="335.0" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="335.0" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="10.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="335.0" minHeight="-Infinity" prefHeight="100.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="335.0" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="335.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="335.0" minHeight="-Infinity" prefHeight="100.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="335.0" minHeight="-Infinity" prefHeight="80.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="335.0" minHeight="-Infinity" prefHeight="80.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="10.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="335.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
     </GridPane>
