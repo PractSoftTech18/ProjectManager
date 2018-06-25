@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -43,7 +44,6 @@ public class FileHandler implements FileHandlerInterface {
 	 * @author Lukas Schiefermueller
 	 * @param project
 	 *            project to be added
-	 * @return true/false whether it worked
 	 */
 	public void add(Project project) {
 		System.out.println(active);
@@ -73,16 +73,34 @@ public class FileHandler implements FileHandlerInterface {
 	/**
 	 * Here existing files need to be changed.
 	 * 
+	 * @author Lydia Grillenberger
 	 * @author Lukas Schiefermueller
 	 * @param project
 	 *            project to be changed with the changed values inside
-	 * @return true/false whether it worked
+	 * @param oldTitle
+	 *            old title of the project
 	 */
-	public void change(Project project) {
-		// needs to be implemented
-		// Care about renaming the project: In the file structure there is the old name.
-		// (maybe forbid renaming)
+	public void change(Project project, String oldTitle) {
+		for (Path dir : active) {
+			if (dir.toString().equals(active.toString() + "//" + oldTitle)) {
+				try {
+					Files.delete(dir);
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+				break;
+			}
+		}
+		add(project);
 
+		int i = 0;
+		while (i < ourData.projects.size() && !ourData.projects.get(i).getTitle().equals(oldTitle)) {
+			i++;
+		}
+		if (i < ourData.projects.size()) {
+			ourData.projects.remove(i);
+		}
+		ourData.projects.add(project);
 	}
 
 	/**
@@ -91,7 +109,6 @@ public class FileHandler implements FileHandlerInterface {
 	 * 
 	 * @author Lydia Grillenberger
 	 * @author Lukas Schiefermueller
-	 * @return true/false whether it worked
 	 */
 	public void read() {
 		for (Path dir : active) {
@@ -133,7 +150,7 @@ public class FileHandler implements FileHandlerInterface {
 			for (Iterator<String> it = s.iterator(); it.hasNext();) {
 				val = it.next().split(";");
 				task.add(new Task(val[0], val[1], Status.returnStatus(val[2], true), Priority.returnPriority(val[3]),
-							new Date(Long.parseLong(val[4]))));
+						new Date(Long.parseLong(val[4]))));
 			}
 			pro.setTasks(task);
 			ourData.projects.add(pro);
@@ -141,13 +158,13 @@ public class FileHandler implements FileHandlerInterface {
 	}
 
 	/**
-	 * This method is used internally for reading a String from a file.
+	 * This method is used internally for reading Strings from a file.
 	 * 
 	 * @author Lydia Grillenberger
 	 * @author Lukas Schiefermueller
 	 * @param file
 	 *            file to be read from
-	 * @return the content of the file as String
+	 * @return the content of the file as a String ArrayList
 	 */
 	private ArrayList<String> readFile(File file) {
 		FileReader fr = null;
