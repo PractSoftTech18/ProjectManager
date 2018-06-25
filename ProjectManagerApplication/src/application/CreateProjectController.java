@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
+import customer.Customer;
+import customer.Person;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,7 +24,8 @@ import javafx.scene.paint.Color;
 import project.Priority;
 import project.Project;
 import project.Status;
-
+import files.FileHandler;
+import files.FileHandlerInterface;
 /**
  * controller for CreateProject
  * 
@@ -135,6 +138,14 @@ public class CreateProjectController {
     	instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
     	newProject.setEventDate(Date.from(instant));
     	
-
+    	ArrayList<Person> persons = new ArrayList<>();
+    	persons.add(new Person());
+    	persons.add(new Person());
+    	Customer customer = new Customer(persons, 1);
+    	
+    	newProject.setCustomer(customer);
+    	
+    	FileHandlerInterface fi = new FileHandler();
+    	fi.add(newProject);
     }
 }

@@ -20,7 +20,7 @@ public class Customer {
 	public Customer(ArrayList<Person> persons, int contactPerson) {
 		//super();
 		this.persons = persons;
-		this.contactPerson = contactPerson;
+		this.contactPerson = contactPerson < 0 ? 0 : (contactPerson >= persons.size() ? 0 : contactPerson);
 	}
 
 	/**

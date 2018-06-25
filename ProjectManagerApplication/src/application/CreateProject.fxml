@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 
+
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CreateProjectController">
   <children>
     <GridPane focusTraversable="true" layoutX="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="0.0">
@@ -51,21 +52,25 @@
             <Label text="Deadline" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="4.0" />
-               </GridPane.margin></Label>
+               </GridPane.margin>
+            </Label>
             <Label text="Event" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="4.0" />
-               </GridPane.margin></Label>
+               </GridPane.margin>
+            </Label>
             <DatePicker fx:id="Date_Deadline" GridPane.columnIndex="4" GridPane.rowIndex="2" />
             <DatePicker fx:id="Date_Event" GridPane.columnIndex="4" GridPane.rowIndex="3" />
             <Label text="Beschreibung" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="25" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="4.0" />
-               </GridPane.margin></Label>
+               </GridPane.margin>
+            </Label>
             <Label text="Notizen" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="27" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="4.0" />
-               </GridPane.margin></Label>
+               </GridPane.margin>
+            </Label>
             <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="25" />
             <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="27" />
             <TableView onMouseClicked="#addNewTab" prefHeight="193.0" prefWidth="303.0" GridPane.columnIndex="2" GridPane.rowIndex="13">
@@ -86,7 +91,8 @@
                </GridPane.margin>
                <font>
                   <Font name="System Bold" size="12.0" />
-               </font></Label>
+               </font>
+            </Label>
             <TableView fx:id="tblTasks" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="23">
                <columns>
                   <TableColumn prefWidth="75.0" text="Task" />
@@ -102,7 +108,8 @@
             <Label text="Ansprechpartner" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="14">
                <GridPane.margin>
                   <Insets right="4.0" />
-               </GridPane.margin></Label>
+               </GridPane.margin>
+            </Label>
             <ChoiceBox fx:id="choiceBoxContactPerson" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="14" />
             <Button mnemonicParsing="false" onAction="#save" text="Speichern" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="27" />
             <TextField fx:id="TextField_ProjectName1" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />

@@ -32,6 +32,8 @@ public class Person {
 	}
 
 	public Person() {
+		this.setName("Name 1");
+		this.setRelation("Vater");
 		// everything has to be set via setters
 		/*Scanner sc = new Scanner(System.in);
 		System.out.print("Name: ");

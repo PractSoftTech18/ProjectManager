@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import application.Data;
 import project.Project;
@@ -20,16 +22,23 @@ public class FileHandler implements FileHandlerInterface{
 	 */
 	private Data ourData = Data.getData();
 	
+	// Sets the paths to the active and archive working directory.
+	private final Path active = Paths.get(System.getProperty("user.dir").toString() + "//Projects//Active");
+	
 	/**
 	 * This includes creating the files/data structure that are needed for storing a project such that it can
 	 * be reloaded after closing the application.
 	 * 
-	 * @author ?
+	 * @author Lydia Grillenberger
+	 * @author Lukas Schiefermueller
 	 * @param project project to be added
 	 * @return true/false whether it worked
 	 */
 	public boolean add(Project project) {
-		// needs to be implemented
+		System.out.println(active);
+		new File(active + "//" + project.getTitle()).mkdirs();
+		File F = new File(active.toString() + "/" + project.getTitle() + "/" + project.getCustomer().getContactPerson() + ".txt");
+		writeToFile(F, "Test 1 ,2 ,3 4!");
 		return false;
 	}
 	
