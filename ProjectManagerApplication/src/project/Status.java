@@ -74,4 +74,12 @@ public enum Status {
     public Color getColor () {
     	return color;
     }
+    
+    /**
+     * 
+     * @return whether it is a task status or a project status
+     */
+    public boolean getTask () {
+    	return task;
+    }
 }

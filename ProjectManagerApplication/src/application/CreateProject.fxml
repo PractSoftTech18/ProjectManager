@@ -39,8 +39,8 @@
                         <Insets right="4.0" />
                      </GridPane.margin>
                   </Label>
-                  <ChoiceBox fx:id="cBoxPriority" prefWidth="150.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
-                  <ChoiceBox fx:id="cBoxStatus" prefWidth="150.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
+                  <ChoiceBox fx:id="cBoxPriority" prefWidth="400.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                  <ChoiceBox fx:id="cBoxStatus" prefWidth="400.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
                   <ColorPicker fx:id="colorPProject" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" layoutX="69.0" layoutY="57.0" text="Farbe" underline="false" visible="true" wrapText="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                      <labelFor>
@@ -100,13 +100,13 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TableView fx:id="tblTasks" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="23">
+                  <TableView fx:id="tblTasks" editable="true" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="23">
                      <columns>
                         <TableColumn fx:id="tblColTask" prefWidth="75.0" text="Task" />
-                        <TableColumn fx:id="tblColDate" prefWidth="75.0" text="Datum" />
+                        <TableColumn fx:id="tblColRemark" prefWidth="75.0" text="Bemerkung" />
                         <TableColumn fx:id="tblColStatus" prefWidth="75.0" text="Status" />
                         <TableColumn fx:id="tblColPriority" prefWidth="75.0" text="Priorität" />
-                        <TableColumn fx:id="tblColNote" prefWidth="75.0" text="Bemerkung" />
+                        <TableColumn fx:id="tblColDate" prefWidth="75.0" text="Datum" />
                      </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -117,7 +117,7 @@
                         <Insets right="4.0" />
                      </GridPane.margin>
                   </Label>
-                  <ChoiceBox fx:id="cBoxContactPerson" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="14" />
+                  <ChoiceBox fx:id="cBoxContactPerson" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="14" />
                   <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSave" text="Speichern" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="27" />
                   <TextField fx:id="tfPersonName" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                   <TextField fx:id="tfPersonRelation" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
@@ -150,11 +150,8 @@
                      </GridPane.margin>
                   </Label>
                   <Button fx:id="btnAddPerson" mnemonicParsing="false" onAction="#btnAddPerson" text="Hinzufügen" GridPane.columnIndex="4" GridPane.rowIndex="11" />
-                  <TextField fx:id="tfTaskDate" GridPane.columnIndex="2" GridPane.rowIndex="18" />
                   <TextField fx:id="tfTask" GridPane.columnIndex="2" GridPane.rowIndex="17" />
-                  <TextField fx:id="tfTaskStatus" GridPane.columnIndex="2" GridPane.rowIndex="19" />
-                  <TextField fx:id="tfTaskPriority" GridPane.columnIndex="2" GridPane.rowIndex="20" />
-                  <TextField fx:id="tfTaskNote" GridPane.columnIndex="2" GridPane.rowIndex="21" />
+                  <TextField fx:id="tfTaskRemark" GridPane.columnIndex="2" GridPane.rowIndex="21" />
                   <Label text="Tasks" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="16">
                      <GridPane.margin>
                         <Insets right="4.0" />
@@ -188,7 +185,10 @@
                         <Insets right="4.0" />
                      </GridPane.margin>
                   </Label>
-                  <Button fx:id="btnAddTask" mnemonicParsing="false" text="Hinzufügen" GridPane.columnIndex="4" GridPane.rowIndex="21" />
+                  <Button fx:id="btnAddTask" mnemonicParsing="false" onAction="#btnAddTask" text="Hinzufügen" GridPane.columnIndex="4" GridPane.rowIndex="21" />
+                  <ChoiceBox fx:id="cBoxTaskStatus" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="19" />
+                  <ChoiceBox fx:id="cBoxTaskPriority" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="20" />
+                  <DatePicker fx:id="datePTaskDate" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="18" />
             </children>
             <columnConstraints>
               <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="30.0" />
