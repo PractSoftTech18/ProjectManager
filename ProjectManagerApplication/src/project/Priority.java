@@ -8,25 +8,34 @@ package project;
  */
 public enum Priority {
 	LOW, NORMAL, HIGH;
-	
+
 	/**
 	 * @author Lydia Grillenberger
 	 * @return String representation of this priority
 	 */
 	@Override
 	public String toString() {
-		String ret = "";
-		switch(this) {
+		switch (this) {
 		case LOW:
-			ret = "Niedrig";
-			break;
+			return "Niedrig";
 		case NORMAL:
-			ret = "Normal";
-			break;
+			return "Normal";
 		case HIGH:
-			ret = "Hoch";
-			break;
+			return "Hoch";
+		default: return null;
 		}
-		return ret;
+	}
+
+	public static Priority returnPriority(String prio) {
+		switch (prio) {
+		case "Niedrig":
+			return LOW;
+		case "Normal":
+			return NORMAL;
+		case "Hoch":
+			return HIGH;
+		default:
+			return null;
+		}
 	}
 }

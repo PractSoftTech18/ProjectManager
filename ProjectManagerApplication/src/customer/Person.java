@@ -23,7 +23,7 @@ public class Person {
 	 * @param relation
 	 */
 	public Person(String name, String phoneNumber, String email, String address, String relation) {
-		//super();
+		// super();
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
@@ -35,20 +35,16 @@ public class Person {
 		this.setName("Name 1");
 		this.setRelation("Vater");
 		// everything has to be set via setters
-		/*Scanner sc = new Scanner(System.in);
-		System.out.print("Name: ");
-		this.setName(sc.nextLine());
-		System.out.print("Telefonnummer: ");
-		this.setName(sc.nextLine());
-		System.out.print("Email: ");
-		this.setName(sc.nextLine());
-		System.out.print("Addresse: ");
-		this.setName(sc.nextLine());
-		System.out.print("Relation: ");
-		this.setName(sc.nextLine());
-		//sc.close();*/
+		/*
+		 * Scanner sc = new Scanner(System.in); System.out.print("Name: ");
+		 * this.setName(sc.nextLine()); System.out.print("Telefonnummer: ");
+		 * this.setName(sc.nextLine()); System.out.print("Email: ");
+		 * this.setName(sc.nextLine()); System.out.print("Addresse: ");
+		 * this.setName(sc.nextLine()); System.out.print("Relation: ");
+		 * this.setName(sc.nextLine()); //sc.close();
+		 */
 	}
-	
+
 	/**
 	 * @return the name
 	 */
@@ -124,4 +120,7 @@ public class Person {
 		this.relation = relation;
 	}
 
+	public String toFile() {
+		return name + ";" + phoneNumber + ";" + email + ";" + address + ";" + relation;
+	}
 }

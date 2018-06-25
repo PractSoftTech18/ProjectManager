@@ -9,27 +9,28 @@ import java.util.Date;
  * @version 1.00, June 26th 2018
  */
 public class Task {
-	private String taskName;
-	private String taskRemark;
-	private Status taskStatus;
-	private Priority taskPriority;
-	//private boolean taskOpen;
-	private Date taskDate;
+	private String name;
+	private String remark;
+	private Status status;
+	private Priority priority;
+	// private boolean taskOpen;
+	private Date date;
 
 	/**
-	 * @param taskName
-	 * @param taskRemark
-	 * @param taskPriority
+	 * @param name
+	 * @param remark
+	 * @param priority
 	 * @param taskOpen
-	 * @param taskDate
+	 * @param date
 	 */
-	public Task(String taskName, String taskRemark, Priority taskPriority, Date taskDate) {
+	public Task(String taskName, String taskRemark, Status taskStatus, Priority taskPriority, Date taskDate) {
 		// super();
-		this.taskName = taskName;
-		this.taskRemark = taskRemark;
-		this.taskPriority = taskPriority;
+		this.name = taskName;
+		this.remark = taskRemark;
+		this.status = taskStatus;
+		this.priority = taskPriority;
 		//this.taskOpen = taskOpen;
-		this.taskDate = taskDate;
+		this.date = taskDate;
 	}
 
 	/**
@@ -43,7 +44,7 @@ public class Task {
 	 * @return the taskName
 	 */
 	public String getTaskName() {
-		return taskName;
+		return name;
 	}
 
 	/**
@@ -51,14 +52,14 @@ public class Task {
 	 *            the taskName to set
 	 */
 	public void setTaskName(String taskName) {
-		this.taskName = taskName;
+		this.name = taskName;
 	}
 
 	/**
 	 * @return the taskRemark
 	 */
 	public String getTaskRemark() {
-		return taskRemark;
+		return remark;
 	}
 
 	/**
@@ -66,14 +67,14 @@ public class Task {
 	 *            the taskRemark to set
 	 */
 	public void setTaskRemark(String taskRemark) {
-		this.taskRemark = taskRemark;
+		this.remark = taskRemark;
 	}
 
 	/**
 	 * @return the taskStatus
 	 */
 	public Status getTaskStatus() {
-		return taskStatus;
+		return status;
 	}
 
 	/**
@@ -81,14 +82,14 @@ public class Task {
 	 *            the taskStatus to set
 	 */
 	public void setTaskStatus(Status taskStatus) {
-		this.taskStatus = taskStatus;
+		this.status = taskStatus;
 	}
 	
 	/**
 	 * @return the taskPriority
 	 */
 	public Priority getTaskPriority() {
-		return taskPriority;
+		return priority;
 	}
 
 	/**
@@ -96,7 +97,7 @@ public class Task {
 	 *            the taskPriority to set
 	 */
 	public void setTaskPriority(Priority taskPriority) {
-		this.taskPriority = taskPriority;
+		this.priority = taskPriority;
 	}
 
 	/*
@@ -118,7 +119,7 @@ public class Task {
 	 * @return the taskDate
 	 */
 	public Date getTaskDate() {
-		return taskDate;
+		return date;
 	}
 
 	/**
@@ -126,7 +127,11 @@ public class Task {
 	 *            the taskDate to set
 	 */
 	public void setTaskDate(Date taskDate) {
-		this.taskDate = taskDate;
+		this.date = taskDate;
+	}
+
+	public String toFile() {
+		return name + ";" + remark + ";" + status.getStatus() + ";" + priority.name() + ";" +  date.getTime();
 	}
 
 }

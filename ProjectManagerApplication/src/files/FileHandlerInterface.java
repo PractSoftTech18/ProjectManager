@@ -14,7 +14,7 @@ public interface FileHandlerInterface {
 	 * @param project project to be added
 	 * @return true/false whether it worked
 	 */
-	public boolean add(Project project);
+	public void add(Project project);
 	
 	/**
 	 * Here existing files need to be changed.
@@ -23,7 +23,7 @@ public interface FileHandlerInterface {
 	 * @param project project to be changed with the changed values inside
 	 * @return true/false whether it worked
 	 */
-	public boolean change(Project project);
+	public void change(Project project);
 	
 	/**
 	 * There should be a possibility for getting all existing projects and tasks to initialize them after
@@ -31,5 +31,5 @@ public interface FileHandlerInterface {
 	 * 
 	 * @return true/false whether it worked
 	 */
-	public boolean read();
+	public void read();
 }
