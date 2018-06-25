@@ -188,7 +188,7 @@ public class CreateProjectController {
      * add person to project
      * 
      * @author Lukas Schiefermueller
-     * @param event click button "Hinzufügen"
+     * @param event click button "Hinzufï¿½gen"
      */
    public void btnAddPerson(ActionEvent event) {
     	// tblPersons.getColumns().addAll(tblColName,tblColPhone, tblColMail, tblColAd, tblColRelation);
