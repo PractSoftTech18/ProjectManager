@@ -18,13 +18,13 @@ public enum Priority {
 		String ret = "";
 		switch(this) {
 		case LOW:
-			ret = "niedrig";
+			ret = "Niedrig";
 			break;
 		case NORMAL:
-			ret = "normal";
+			ret = "Normal";
 			break;
 		case HIGH:
-			ret = "hoch";
+			ret = "Hoch";
 			break;
 		}
 		return ret;

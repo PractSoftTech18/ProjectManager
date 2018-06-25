@@ -70,6 +70,7 @@ public class CreateProjectController {
      * 
      * @author Lydia Grillenberger
      * @author Julia Hofer
+     * @author Lukas Schiefermueller
      */
     @FXML
     void initialize() {
@@ -78,15 +79,13 @@ public class CreateProjectController {
 		items.addAll(Priority.HIGH.toString(), Priority.NORMAL.toString(), Priority.LOW.toString());
 		choiceBoxPriority.setItems(items);
 		choiceBoxPriority.setValue(Priority.NORMAL.toString());
-        ArrayList<Status> statusChoice = ourData.projectStatus;
-        if(statusChoice != null) {
-        	items = choiceBoxStatus.getItems();
-        	for(Iterator<Status> it = statusChoice.iterator(); it.hasNext();) {
-        		Status status = it.next();
-        		items.add(status.getStatus());
-        	}
-        	choiceBoxStatus.setItems(items);
+		
+		items = choiceBoxStatus.getItems();
+        for (Status s : Status.values()) {
+        	items.add(s.getStatus());
         }
+    	choiceBoxStatus.setItems(items);
+    	choiceBoxStatus.setValue(Status.PREPRODUCTION.getStatus());
     }
     
     /**
@@ -113,9 +112,8 @@ public class CreateProjectController {
     /**
      * save project
      * 
-     * @author Lukas Schiefermüller
-     * @version 1.0
-     * @param event select Button save
+     * @author Lukas Schiefermueller
+     * @param event select button save
      */
     public void save(ActionEvent event) {
     	// read the given information

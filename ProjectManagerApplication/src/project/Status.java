@@ -3,65 +3,44 @@ package project;
 import javafx.scene.paint.Color;
 
 /**
- * @author Lydia Grillenberger
+ * https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
+ * @author Lydia Grillenberger, Lukas Schiefermueller
  * @version 1.00, June 26th 2018
  */
-public class Status {
-	/**
-	 * how the status is called
-	 */
-	private String status;
+public enum Status {
+	PREPRODUCTION ("Vorproduktion", new Color(1, 215./255, 0, 1)),
+    PRODUCTION   ("Produktion", new Color(1, 0, 0, 1)),
+    POSTPRODUCTION   ("Post-Produktion", new Color(1, 99./255, 71./255, 1)),
+    REVISION    ("Revision", new Color(154./255, 50./255, 205./255, 1)),
+    INCOME ("Geldeingang",   new Color(50./255, 205./255, 50./255, 1));
 	
-	/**
-	 * the corresponding color of the status
-	 */
-	private Color color;
-	
-	/**
-	 * constructor
-	 * 
-	 * @param status how the status is called
-	 * @param color the corresponding color of the status
-	 */
-	public Status(String status, Color color) {
-		this.status = status;
-		this.color = color;
-	}
-	
-	/**
-	 * default constructor
-	 */
-	public Status() {
-		// everything has to be set via setters
-	}
-	
-	/**
-	 * @return the status
-	 */
-	public String getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status
-	 *            the status to set
-	 */
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
-	/**
-	 * @return the color
-	 */
-	public Color getColor() {
-		return color;
-	}
-
-	/**
-	 * @param color
-	 *            the color to set
-	 */
-	public void setColor(Color color) {
-		this.color = color;
-	}
+	private final String status;
+    private final Color color; // in meters
+    
+    /**
+     * Constructor of Status
+     * @param status, String of the Status
+     * @param color, Color of the Status
+     * @author Lydia Grillenberger, Lukas Schiefermueller
+     */
+    Status(String status, Color color) {
+        this.status = status;
+        this.color = color;
+    }
+    
+    /**
+     * 
+     * @return Status
+     */
+    public String getStatus () {
+    	return status;
+    }
+    
+    /**
+     * 
+     * @return Color of Status
+     */
+    public Color getColor () {
+    	return color;
+    }
 }
