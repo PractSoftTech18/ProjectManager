@@ -13,6 +13,10 @@ public class Customer {
 	private ArrayList<Person> persons;
 	private int contactPerson;
 
+	public Customer() {
+		persons = new ArrayList<>();
+		contactPerson = -1;
+	}
 	/**
 	 * @param persons
 	 * @param contactPerson
@@ -23,6 +27,13 @@ public class Customer {
 		this.contactPerson = contactPerson < 0 ? 0 : (contactPerson >= persons.size() ? 0 : contactPerson);
 	}
 
+	/**
+	 * 
+	 */
+	public void add (Person p) {
+		persons.add(p);
+	}
+	
 	/**
 	 * @return the persons
 	 */
@@ -39,12 +50,19 @@ public class Customer {
 	}
 
 	/**
-	 * @return the contactPerson
+	 * @return the contact Person
 	 */
 	public String getContactPerson() {
 		return persons.get(contactPerson).getName();
 	}
 
+	/**
+	 * @return the index of the contact Person
+	 */
+	public int getContactPersonIndex() {
+		return contactPerson;
+	}
+	
 	/**
 	 * @param contactPerson
 	 *            the contactPerson to set

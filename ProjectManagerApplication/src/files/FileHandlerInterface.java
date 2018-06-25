@@ -12,24 +12,21 @@ public interface FileHandlerInterface {
 	 * be reloaded after closing the application.
 	 * 
 	 * @param project project to be added
-	 * @return true/false whether it worked
 	 */
-	public boolean add(Project project);
+	public void add(Project project);
 	
 	/**
 	 * Here existing files need to be changed.
 	 *  (comment: The project name must not be changed! -> file structure)
 	 * 
 	 * @param project project to be changed with the changed values inside
-	 * @return true/false whether it worked
+	 * @param oldTitle old title of the project
 	 */
-	public boolean change(Project project);
+	public void change(Project project, String oldTitle);
 	
 	/**
 	 * There should be a possibility for getting all existing projects and tasks to initialize them after
 	 * starting the application.
-	 * 
-	 * @return true/false whether it worked
 	 */
-	public boolean read();
+	public void read();
 }
