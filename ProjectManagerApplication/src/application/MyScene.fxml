@@ -24,8 +24,8 @@
                         <TableView fx:id="tblProjects" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                           <columns>
                             <TableColumn fx:id="tblColProjects" prefWidth="180.0" text="Projekt" />
-                              <TableColumn prefWidth="70.0" text="Termin" />
-                              <TableColumn prefWidth="100.0" text="Status" />
+                              <TableColumn fx:id="tblColDate" prefWidth="70.0" text="Termin" />
+                              <TableColumn fx:id="tblColStatus" prefWidth="125.0" text="Status" />
                           </columns>
                         </TableView>
                         <Button fx:id="btnTasks" mnemonicParsing="false" onAction="#viewTasks" prefHeight="40.0" prefWidth="120.0" text="Tasks" GridPane.columnIndex="3" GridPane.rowIndex="1" />

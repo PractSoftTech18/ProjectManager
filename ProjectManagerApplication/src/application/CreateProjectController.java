@@ -125,6 +125,7 @@ public class CreateProjectController {
 
 		// Project
 		items = cBoxStatus.getItems();
+<<<<<<< HEAD
 		for (Status s : Status.values()) {
 			if (!(s.getTask())) {
 				items.add(s.getStatus());
@@ -299,4 +300,99 @@ public class CreateProjectController {
 
 		// add this task to table view
 	}
+=======
+        for (Status s : Status.values()) {
+        	items.add(s.getStatus());
+        }
+    	cBoxStatus.setItems(items);
+    	cBoxStatus.setValue(Status.PREPRODUCTION.getStatus());
+    	
+    	tblColName.setCellValueFactory(new PropertyValueFactory<Person,String>("name"));
+    	tblColPhone.setCellValueFactory(new PropertyValueFactory<Person,String>("phoneNumber"));
+    	tblColMail.setCellValueFactory(new PropertyValueFactory<Person,String>("email"));
+    	tblColAd.setCellValueFactory(new PropertyValueFactory<Person,String>("address"));
+    	tblColRelation.setCellValueFactory(new PropertyValueFactory<Person,String>("relation"));
+    	person = FXCollections.observableArrayList();
+    }
+    
+    /**
+     * initialize choiceBox menu of choiceBoxContactPerson
+     * 
+     * @author Lydia Grillenberger
+     * @param event select choiceBox
+     */
+    public void selectContactPerson(ActionEvent event) {
+    	// should be called when choiceBoxContactPerson.onShowingProperty() but I cannot find
+    	// onShowingProperty in Scene Builder
+    	if(tblColName != null) {
+	    	ObservableList<TableColumn<Person,?>> personChoice = tblColName.getColumns();
+	        if(personChoice != null) {
+	        	ObservableList<String> items = cBoxContactPerson.getItems();
+	        	for(Iterator<TableColumn<Person,?>> it = personChoice.iterator(); it.hasNext();) {
+	        		items.add(it.next().toString());
+	        	}
+	        	cBoxContactPerson.setItems(items);
+	        }
+    	}
+    }
+    
+    /**
+     * save project
+     * 
+     * @author Lukas Schiefermueller
+     * @param event select button save
+     */
+    public void btnSave(ActionEvent event) {
+    	// read the given information
+    	// FileHandler.add(project)
+    	// close this tab and go to dashboard
+    	Project newProject = new Project();
+    	newProject.setTitle(tfProjectName.getText());
+    	
+    	newProject.setColor(colorPProject.getValue());
+    	String dummy = cBoxPriority.getSelectionModel().getSelectedItem();
+    	Priority p = dummy == "LOW" ? Priority.LOW : (dummy == "NORMAL" ? Priority.NORMAL : Priority.HIGH);
+    	newProject.setPriority(p);
+    	// https://stackoverflow.com/questions/20446026/get-value-from-date-picker
+    	LocalDate localDate = datePDeadline.getValue();
+    	Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+    	newProject.setDeadline(Date.from(instant));
+    	
+    	localDate = datePDeadline.getValue();
+    	instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+    	newProject.setEventDate(Date.from(instant));
+    	
+    	ArrayList<Person> persons = new ArrayList<>();
+    	persons.add(new Person());
+    	persons.add(new Person());
+    	Customer customer = new Customer(persons, 1);
+    	
+    	newProject.setCustomer(customer);
+    	
+    	FileHandlerInterface fi = new FileHandler();
+    	fi.add(newProject);
+    	
+    	/*
+    	 * Add persons from person list
+    	 */
+    	
+    	
+    }
+    
+    /**
+     * add person to project
+     * 
+     * @author Lukas Schiefermueller
+     * @param event click button "Hinzuf�gen"
+     */
+   public void btnAddPerson(ActionEvent event) {
+    	// tblPersons.getColumns().addAll(tblColName,tblColPhone, tblColMail, tblColAd, tblColRelation);
+	   
+    	person.add(new Person(tfPersonName.getText(), tfPersonPhone.getText(), tfPersonMail.getText(), tfPersonAd.getText(), tfPersonRelation.getText()));
+    	tblPersons.setItems(person);
+    	//tblPersons.addAll(5, tfPersonName.getText(),tfPersonName.getText(),tfPersonName.getText(),tfPersonName.getText(),tfPersonName.getText());
+    
+    	// add this person to table view
+    }
+>>>>>>> branch 'master' of https://github.com/PractSoftTech18/ProjectManager.git
 }

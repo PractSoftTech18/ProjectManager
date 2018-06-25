@@ -4,12 +4,19 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 /*
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 */
 import java.util.ResourceBundle;
+
+import customer.Person;
+import javafx.collections.FXCollections;
 
 //import javax.security.auth.login.Configuration;
 
@@ -25,7 +32,10 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import project.Project;
+import project.Status;
 
 /**
  * controller for MyScene
@@ -35,7 +45,7 @@ import javafx.scene.layout.GridPane;
  * @author Lukas Schiefermueller
  * @version 1.00, June 26th 2018
  */
-public class App implements Initializable {
+public class App /*implements Initializable*/ {
 	/**
 	 * available data for this run of the application
 	 */
@@ -57,28 +67,59 @@ public class App implements Initializable {
 	private Button MyButton, btnCreateProject, btnStatusSettings, btnTasks;
 	
 	@FXML
-	private TableView<String[]> tblProjects;
+	private TableView<TableStruct> tblProjects;
 	
 	@FXML
-	private TableColumn<String, String> tblColProjects;
+	private TableColumn<TableStruct, String> tblColProjects;
 
-	private static int buttonclicked;
+	@FXML
+	private TableColumn<TableStruct, String> tblColStatus;
 	
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	@FXML
+	private TableColumn<TableStruct, String> tblColDate;
+	
+	private static int buttonclicked;
+	private ObservableList<TableStruct> projects;
+	private ArrayList<TableStruct> list;
+	
+	public class TableStruct {
+		private String title, date, stat;
+		
+		public TableStruct (String s, String st, String d) {
+			title = s; 
+			stat = st;
+			date = d;
+		}
+	}
+	
+	@FXML
+	public void initialize() {
+		list = new ArrayList<>();
+		for (int i  = 0; i < 5; i++) {
+			list.add(new TableStruct("Titel " + i, "Status " + i, "Datum " + i));
+		}
+		
+		tblColProjects.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("title"));
+		tblColStatus.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("stat"));
+    	tblColDate.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("date"));
+    	
+    	projects = FXCollections.observableArrayList();
+    	
 		//updateTblProjects;
 		
 	}
 
 	// When user click on myButton
 	// this method will be called.
+	
 	public void addFieldtoVBox(ActionEvent event) {
 		ObservableList<String> items = MyListView.getItems();
 		items.add(Integer.toString(++buttonclicked));
 		MyListView.setItems(items);
 
 	}
-
+	
+	
 	/**
 	 * change to new project tab
 	 * 
@@ -132,16 +173,23 @@ public class App implements Initializable {
 	 * @param event
 	 */
 	public void updateTblProjects(ActionEvent event) {
-		ObservableList<String[]> tblItems = tblProjects.getItems();
-		//tblColProjects = new TableColumn<>();
-		//ObservableList<TableColumn<String, ?>> tblItems = tblColProjects.getColumns();
-		//for(int i = 0; i < 5; i++) {//ourData.projects.size()
-			//String[] arr = {Integer.toString(i),Integer.toString(i),Integer.toString(i),Integer.toString(i)};
-			String[] arr = {"Hello", "out", "there", "programming"};
-			tblItems.add(arr);
-			tblItems.add(arr);
-			tblItems.add(arr);
-		//}
-		tblProjects.setItems(tblItems);
+		/*
+		for (Iterator<Project> pro = ourData.projects.iterator(); pro.hasNext();) {
+			Project p = pro.next();
+			projects.add(new TableStruct(p.getTitle(), p.getStatus().toString(), p.getEventDate().toString()));
+		}
+		*/
+		for (int i = 0; i < list.size(); i++) {
+			projects.add(list.get(i));
+		}
+		tblProjects.setItems(projects);
 	}
+
+	/*
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 }
