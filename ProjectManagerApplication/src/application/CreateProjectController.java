@@ -60,16 +60,7 @@ public class CreateProjectController {
 	private TableColumn<Person, String> tblColName, tblColRelation, tblColPhone, tblColMail, tblColAd;
 
 	@FXML
-	private TableColumn<TableTask, String> tblColTask, tblColRemark;
-
-	@FXML
-	private TableColumn<TableTask, String> tblColStatus;
-
-	@FXML
-	private TableColumn<TableTask, String> tblColPriority;
-
-	@FXML
-	private TableColumn<TableTask, String> tblColDate;
+	private TableColumn<TableTask, String> tblColTask, tblColRemark, tblColStatus, tblColPriority, tblColDate;
 
 	@FXML
 	private TableView<Person> tblPersons;
@@ -250,9 +241,9 @@ public class CreateProjectController {
 	}
 
 	/**
-	 * 
+	 * Class similar to Task.java but only relies on String parameters
+	 * Used for creating/representation of tasks in tblTasks
 	 * @author Julia Hofer
-	 *
 	 */
 	public class TableTask {
 		private String tname;
@@ -280,6 +271,26 @@ public class CreateProjectController {
 			String s = tname + " " + tremark + " " + tstatus + " " + tpriority + " " + tdate;
 			return s;
 		}
+
+		public String getTname() {
+			return tname;
+		}
+
+		public String getTremark() {
+			return tremark;
+		}
+
+		public String getTstatus() {
+			return tstatus;
+		}
+
+		public String getTpriority() {
+			return tpriority;
+		}
+
+		public String getTdate() {
+			return tdate;
+		}
 	}
 
 	/**
@@ -289,8 +300,15 @@ public class CreateProjectController {
 	 * @param event
 	 *            click button "Hinzufuegen"
 	 */
-	public void btnAddTask(ActionEvent event) {		
-		LocalDate localDate = datePTaskDate.getValue();
+	public void btnAddTask(ActionEvent event) {
+
+		String dateString = "";
+
+		if (datePTaskDate.getValue() != null) {
+			LocalDate localDate = datePTaskDate.getValue();
+			dateString = localDate.toString();
+		}
+
 		/*
 		 * Instant instant =
 		 * Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
@@ -301,10 +319,7 @@ public class CreateProjectController {
 		 */
 
 		task.add(new TableTask(tfTask.getText(), tfTaskRemark.getText(), cBoxTaskStatus.getValue(),
-				cBoxTaskPriority.getValue(), localDate.toString()));
-
-
-		System.out.print(task.get(task.size() - 1).toFile());
+				cBoxTaskPriority.getValue(), dateString));
 		tblTasks.setItems(task);
 
 		tfTask.clear();
