@@ -48,12 +48,13 @@ public class FileHandler implements FileHandlerInterface {
 	public void add(Project project) {
 		System.out.println(active);
 		new File(active + "//" + project.getTitle()).mkdirs();
+		
+		// Project.txt
 		String addToFile = "";
-		addToFile += project.getTitle() + ";" + project.getDescription() + ";" + project.getNotes() + ";"
-				+ project.getStatus().getStatus() + ";" + project.getPriority().name() + ";"
-				+ project.getColor().getRed() + ";" + project.getColor().getGreen() + project.getColor().getBlue() + ";"
-				+ ";" + project.getDeadline().getTime() + ";" + project.getEventDate().getTime();
+		addToFile += project.toFile();
 		writeToFile(new File(active.toString() + "/" + project.getTitle() + "/Project.txt"), addToFile);
+		
+		// Customer.txt
 		addToFile = "";
 		for (Iterator<Person> p = project.getCustomer().getPersons().iterator(); p.hasNext();) {
 			addToFile += p.next().toFile() + "\n";
@@ -61,6 +62,7 @@ public class FileHandler implements FileHandlerInterface {
 		addToFile += project.getCustomer().getContactPersonIndex();
 		writeToFile(new File(active.toString() + "/" + project.getTitle() + "/Customer.txt"), addToFile);
 
+		// Tasks.txt
 		addToFile = "";
 		for (Iterator<Task> t = project.getTasks().iterator(); t.hasNext();) {
 			addToFile += t.next().toFile() + "\n";
