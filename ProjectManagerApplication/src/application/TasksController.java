@@ -2,6 +2,7 @@ package application;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,7 +28,7 @@ public class TasksController {
 	private Data ourData = Data.getData();
 	
 	@FXML
-	private TableView<TblTask> tblTask;
+	private TableView<TblTask> tblTasks;
 	
 	@FXML
 	private TableColumn<TblTask, String> tblColTask, tblColProject, tblColRemark, tblColStatus,
@@ -42,7 +43,7 @@ public class TasksController {
 	 * @author Lydia Grillenberger
 	 */
 	@FXML
-	void initialize() {
+	public void initialize() {
 		tblColTask.setCellValueFactory(new PropertyValueFactory<TblTask, String>("name"));
 		tblColProject.setCellValueFactory(new PropertyValueFactory<TblTask, String>("project"));
 		tblColRemark.setCellValueFactory(new PropertyValueFactory<TblTask, String>("remark"));
@@ -50,7 +51,13 @@ public class TasksController {
 		tblColPriority.setCellValueFactory(new PropertyValueFactory<TblTask, String>("priority"));
 		tblColDate.setCellValueFactory(new PropertyValueFactory<TblTask, String>("date"));
 		listTask = FXCollections.observableArrayList();
-		
+		fillTable();
+	}
+	
+	/**
+	 * fill the table with all tasks
+	 */
+	public void fillTable() {
 		Project project;
 		Task task;
 		Status status;
@@ -77,7 +84,56 @@ public class TasksController {
 						priorityString, dateString));
 			}
 		}
-		tblTask.setItems(listTask);
+		tblTasks.setItems(listTask);
+		
+		// project color
+		tblColProject.setCellFactory(column -> {
+		    return new TableCell<TblTask, String>() {
+		        @Override
+		        protected void updateItem(String item, boolean empty) {
+		            super.updateItem(item, empty);
+		            if (item == null || empty || item.equals("")) {
+		                setText(null);
+		                setStyle("");
+		            } else {
+		              setText(item);
+		              Project project = new Project();
+		              for (int i = 0; i < ourData.projects.size(); i++) {
+		            	  if ((project = ourData.projects.get(i)).getTitle().equals(item)) {
+		            		  break;
+		            	  }
+		               }
+		               if(project.getColor() != null) {
+			               String style = "-fx-background-color: rgb(" + (project.getColor().getRed() * 255)
+			            		   + ", " + (project.getColor().getGreen() * 255) 
+			            		   + ", " + (project.getColor().getBlue() * 255) + ")";
+			               setStyle(style);
+		               }
+		            }
+		        }
+		    };
+		});
+		
+		// status color
+		tblColStatus.setCellFactory(column -> {
+		    return new TableCell<TblTask, String>() {
+		        @Override
+		        protected void updateItem(String item, boolean empty) {
+		            super.updateItem(item, empty);
+		            if (item == null || empty || item.equals("")) {
+		                setText(null);
+		                setStyle("");
+		            } else {
+		                setText(item);
+		                Status status = Status.returnStatus(item, true);
+		                String style = "-fx-background-color: rgb(" + (status.getColor().getRed() * 255)
+		                		+ ", " + (status.getColor().getGreen() * 255) 
+		                		+ ", " + (status.getColor().getBlue() * 255) + ")";
+		               	setStyle(style);
+		            }
+		        }
+		    };
+		});
 	}
 	
 	/**
@@ -109,11 +165,6 @@ public class TasksController {
 			this.priority = priority;
 			this.date = date;
 		}
-
-		/*public String toFile() {
-			String s = tname + " " + tremark + " " + tstatus + " " + tpriority + " " + tdate;
-			return s;
-		}*/
 
 		public String getName() {
 			return name;

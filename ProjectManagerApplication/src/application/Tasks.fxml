@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TasksController">
    <children>
       <GridPane prefHeight="600.0" prefWidth="800.0">
         <columnConstraints>
@@ -21,12 +21,12 @@
          <children>
             <TableView fx:id="tblTasks" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
               <columns>
-                <TableColumn prefWidth="180.0" text="Task" />
-                <TableColumn prefWidth="180.0" text="Projekt" />
-                  <TableColumn prefWidth="120.0" text="Bemerkung" />
-                  <TableColumn text="Status" />
-                  <TableColumn text="Priorität" />
-                  <TableColumn text="Datum" />
+                <TableColumn fx:id="tblColTask" prefWidth="180.0" text="Task" />
+                <TableColumn fx:id="tblColProject" prefWidth="180.0" text="Projekt" />
+                  <TableColumn fx:id="tblColRemark" prefWidth="120.0" text="Bemerkung" />
+                  <TableColumn fx:id="tblColStatus" text="Status" />
+                  <TableColumn fx:id="tblColPriority" text="Priorität" />
+                  <TableColumn fx:id="tblColDate" text="Datum" />
               </columns>
             </TableView>
          </children>

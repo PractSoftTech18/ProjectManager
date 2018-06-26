@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-import application.TasksController.TblTask;
 import files.FileHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -85,7 +84,7 @@ public class App {
 
 	private ObservableList<TableStruct> projects;
 
-	private ObservableList<TableTask> task;
+	private ObservableList<TableTask> taskList;
 
 	/**
 	 * Class similar to Task.java but only relies on String parameters Used for
@@ -116,8 +115,8 @@ public class App {
 		}
 
 		public String toFile() {
-			String s = tname + " " + tremark + " " + tstatus + " " + tpriority + " " + tdate;
-			return s;
+			String ret = tname + " " + tremark + " " + tstatus + " " + tpriority + " " + tdate;
+			return ret;
 		}
 
 		public String getTname() {
@@ -144,10 +143,10 @@ public class App {
 	public class TableStruct {
 		private String title, date, status;
 
-		public TableStruct(String s, String st, String d) {
-			title = s;
-			status = st;
-			date = d;
+		public TableStruct(String title, String status, String date) {
+			this.title = title;
+			this.status = status;
+			this.date = date;
 		}
 
 		public String getTitle() {
@@ -184,7 +183,7 @@ public class App {
 		tblColStatusT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tstatus"));
 		tblColPriorityT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tpriority"));
 		tblColDateT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tdate"));
-		task = FXCollections.observableArrayList();
+		taskList = FXCollections.observableArrayList();
 
 		updateTblProjects();
 
@@ -278,37 +277,58 @@ public class App {
 		 * MyTabPane.getSelectionModel().select(tabStatusSettings);
 		 */
 		TableStruct tblStruct = tblProjects.getSelectionModel().getSelectedItem();
-		Project p = new Project();
+		Project project = new Project();
 		if (tblStruct != null) {
-			task.clear();
+			taskList.clear();
 			for (int i = 0; i < ourData.projects.size(); i++) {
 				if (ourData.projects.get(i).getTitle().equals(tblStruct.getTitle())) {
-					p = ourData.projects.get(i);
+					project = ourData.projects.get(i);
 					break;
 				}
 			}
 
-			ArrayList<Task> Tt = p.getTasks();
-			for (Task t : Tt) {
+			ArrayList<Task> allTasks = project.getTasks();
+			for (Task task : allTasks) {
 				String dateString = "";
-				Date d;
+				Date date;
 				SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-				if ((d = t.getDate()) != null) {
-					dateString = dateFormatter.format(d);
+				if ((date = task.getDate()) != null) {
+					dateString = dateFormatter.format(date);
 				}
-				String prio = "";
-				Priority P;
-				if ((P = t.getPriority()) != null)
-					prio = P.toString();
-				String stat = "";
-				Status S;
-				if ((S = t.getStatus()) != null)
-					stat = S.getStatus();
-				task.add(new TableTask(t.getName(), t.getRemark(), stat,
-						prio, dateString));
+				String priorityString = "";
+				Priority priority;
+				if ((priority = task.getPriority()) != null)
+					priorityString = priority.toString();
+				String statusString = "";
+				Status status;
+				if ((status = task.getStatus()) != null)
+					statusString = status.getStatus();
+				taskList.add(new TableTask(task.getName(), task.getRemark(), statusString,
+						priorityString, dateString));
 
 			}
-			tblTasks.setItems(task);
+			tblTasks.setItems(taskList);
+			
+			// status color
+			tblColStatusT.setCellFactory(column -> {
+			    return new TableCell<TableTask, String>() {
+			        @Override
+			        protected void updateItem(String item, boolean empty) {
+			            super.updateItem(item, empty);
+			            if (item == null || empty || item.equals("")) {
+			                setText(null);
+			                setStyle("");
+			            } else {
+			                setText(item);
+			                Status status = Status.returnStatus(item, true);
+			                String style = "-fx-background-color: rgb(" + (status.getColor().getRed() * 255)
+			                		+ ", " + (status.getColor().getGreen() * 255) 
+			                		+ ", " + (status.getColor().getBlue() * 255) + ")";
+			               	setStyle(style);
+			            }
+			        }
+			    };
+			});
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Fehler");
@@ -325,15 +345,15 @@ public class App {
 	 * @author Lukas Schiefermueller
 	 */
 	public void updateTblProjects() {
-		for (Iterator<Project> pro = ourData.projects.iterator(); pro.hasNext();) {
-			Project p = pro.next();
-			Date d;
+		for (Iterator<Project> it = ourData.projects.iterator(); it.hasNext();) {
+			Project project = it.next();
+			Date date;
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 			String dateString = "";
-			if ((d = p.getEventDate()) != null) {
-				dateString = dateFormatter.format(d);
+			if ((date = project.getEventDate()) != null) {
+				dateString = dateFormatter.format(date);
 			}
-			projects.add(new TableStruct(p.getTitle(), p.getStatus().getStatus(), dateString));
+			projects.add(new TableStruct(project.getTitle(), project.getStatus().getStatus(), dateString));
 
 		}
 		tblProjects.setItems(projects);
@@ -354,8 +374,7 @@ public class App {
 		        @Override
 		        protected void updateItem(String item, boolean empty) {
 		            super.updateItem(item, empty);
-
-		            if (item == null || empty) {
+		            if (item == null || empty || item.equals("")) {
 		                setText(null);
 		                setStyle("");
 		            } else {
@@ -376,8 +395,7 @@ public class App {
 		        @Override
 		        protected void updateItem(String item, boolean empty) {
 		            super.updateItem(item, empty);
-
-		            if (item == null || empty) {
+		            if (item == null || empty || item.equals("")) {
 		                setText(null);
 		                setStyle("");
 		            } else {
@@ -386,7 +404,7 @@ public class App {
 		              for (int i = 0; i < ourData.projects.size(); i++) {
 		            	  if ((project = ourData.projects.get(i)).getTitle().equals(item)) {
 		            		  break;
-		            		  }
+		            	  }
 		               }
 		               if(project.getColor() != null) {
 			               String style = "-fx-background-color: rgb(" + (project.getColor().getRed() * 255)
