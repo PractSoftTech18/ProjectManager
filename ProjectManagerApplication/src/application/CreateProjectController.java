@@ -72,7 +72,7 @@ public class CreateProjectController {
 	private TextField tfProjectName;
 
 	@FXML
-	private TextArea tfDescription, tfNotes;
+	private TextArea taDescription, taNotes;
 
 	@FXML
 	private TextField tfTask, tfTaskRemark;
@@ -91,7 +91,9 @@ public class CreateProjectController {
 	}
 
 	private ObservableList<Person> person;
-	private ObservableList<TableTask> task;
+	private ObservableList<String> contactP;
+	private ObservableList<TableTask> tableTask;
+	private ArrayList<Task> task = new ArrayList<>();
 
 	/**
 	 * initialize view of creating a project
@@ -149,32 +151,25 @@ public class CreateProjectController {
 		tblColStatus.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tstatus"));
 		tblColPriority.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tpriority"));
 		tblColDate.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tdate"));
-		task = FXCollections.observableArrayList();
+		tableTask = FXCollections.observableArrayList();
 
 	}
-
-	/**
-	 * initialize choiceBox menu of choiceBoxContactPerson
+	/*
+	 * /** initialize choiceBox menu of choiceBoxContactPerson
 	 * 
 	 * @author Lydia Grillenberger
-	 * @param event
-	 *            select choiceBox
+	 * 
+	 * @param event select choiceBox
+	 * 
+	 * public void selectContactPerson(ActionEvent event) { // should be called when
+	 * cBoxContactPerson.onShowingProperty() but I cannot // find //
+	 * onShowingProperty in Scene Builder if (tblColName != null) {
+	 * ObservableList<TableColumn<Person, ?>> personChoice =
+	 * tblColName.getColumns(); if (personChoice != null) { ObservableList<String>
+	 * items = cBoxContactPerson.getItems(); for (Iterator<TableColumn<Person, ?>>
+	 * it = personChoice.iterator(); it.hasNext();) {
+	 * items.add(it.next().toString()); } cBoxContactPerson.setItems(items); } } }
 	 */
-	public void selectContactPerson(ActionEvent event) {
-		// should be called when cBoxContactPerson.onShowingProperty() but I cannot
-		// find
-		// onShowingProperty in Scene Builder
-		if (tblColName != null) {
-			ObservableList<TableColumn<Person, ?>> personChoice = tblColName.getColumns();
-			if (personChoice != null) {
-				ObservableList<String> items = cBoxContactPerson.getItems();
-				for (Iterator<TableColumn<Person, ?>> it = personChoice.iterator(); it.hasNext();) {
-					items.add(it.next().toString());
-				}
-				cBoxContactPerson.setItems(items);
-			}
-		}
-	}
 
 	/**
 	 * save project
@@ -188,12 +183,15 @@ public class CreateProjectController {
 		// FileHandler.add(project)
 		// close this tab and go to dashboard
 		Project newProject = new Project();
+
 		newProject.setTitle(tfProjectName.getText());
 
 		newProject.setColor(colorPProject.getValue());
+
 		String dummy = cBoxPriority.getSelectionModel().getSelectedItem();
-		Priority p = dummy == "LOW" ? Priority.LOW : (dummy == "NORMAL" ? Priority.NORMAL : Priority.HIGH);
+		Priority p = dummy == "Niedrig" ? Priority.LOW : (dummy == "Normal" ? Priority.NORMAL : Priority.HIGH);
 		newProject.setPriority(p);
+
 		// https://stackoverflow.com/questions/20446026/get-value-from-date-picker
 		LocalDate localDate = datePDeadline.getValue();
 		Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
@@ -204,19 +202,24 @@ public class CreateProjectController {
 		newProject.setEventDate(Date.from(instant));
 
 		ArrayList<Person> persons = new ArrayList<>();
-		persons.add(new Person());
-		persons.add(new Person());
-		Customer customer = new Customer(persons, 1);
-
-		newProject.setCustomer(customer);
-
-		FileHandlerInterface fi = new FileHandler();
-		fi.add(newProject);
-
+		persons = new ArrayList<Person>(person);
+		Customer customer = new Customer(persons, 0);
+		/*
+		 * Ansprechpartner im moment vordefiniert durch 0
+		 */
 		/*
 		 * Add persons from person list
 		 */
+		newProject.setCustomer(customer);
 
+		newProject.setTasks(task);
+
+		newProject.setDescription(taDescription.getText());
+
+		newProject.setNotes(taNotes.getText());
+
+		FileHandlerInterface fi = new FileHandler();
+		fi.add(newProject);
 	}
 
 	/**
@@ -231,6 +234,10 @@ public class CreateProjectController {
 				tfPersonAd.getText(), tfPersonRelation.getText()));
 		tblPersons.setItems(person);
 
+		contactP = cBoxContactPerson.getItems();
+		contactP.add(tfPersonName.getText());
+		cBoxContactPerson.setItems(contactP);
+
 		tfPersonName.clear();
 		tfPersonPhone.clear();
 		tfPersonMail.clear();
@@ -241,8 +248,9 @@ public class CreateProjectController {
 	}
 
 	/**
-	 * Class similar to Task.java but only relies on String parameters
-	 * Used for creating/representation of tasks in tblTasks
+	 * Class similar to Task.java but only relies on String parameters Used for
+	 * creating/representation of tasks in tblTasks
+	 * 
 	 * @author Julia Hofer
 	 */
 	public class TableTask {
@@ -303,24 +311,23 @@ public class CreateProjectController {
 	public void btnAddTask(ActionEvent event) {
 
 		String dateString = "";
+		Instant instant;
 
 		if (datePTaskDate.getValue() != null) {
 			LocalDate localDate = datePTaskDate.getValue();
 			dateString = localDate.toString();
+			instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+		} else {
+			instant = Instant.now();
 		}
 
-		/*
-		 * Instant instant =
-		 * Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-		 * 
-		 * task.add(new Task(tfTask.getText(), tfTaskRemark.getText(),
-		 * Status.returnStatus(cBoxTaskStatus.getValue(), true),
-		 * Priority.returnPriority(cBoxTaskPriority.getValue()), Date.from(instant)));
-		 */
+		task.add(
+				new Task(tfTask.getText(), tfTaskRemark.getText(), Status.returnStatus(cBoxTaskStatus.getValue(), true),
+						Priority.returnPriority(cBoxTaskPriority.getValue()), Date.from(instant)));
 
-		task.add(new TableTask(tfTask.getText(), tfTaskRemark.getText(), cBoxTaskStatus.getValue(),
+		tableTask.add(new TableTask(tfTask.getText(), tfTaskRemark.getText(), cBoxTaskStatus.getValue(),
 				cBoxTaskPriority.getValue(), dateString));
-		tblTasks.setItems(task);
+		tblTasks.setItems(tableTask);
 
 		tfTask.clear();
 		tfTaskRemark.clear();

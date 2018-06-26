@@ -187,8 +187,8 @@
                   <ChoiceBox fx:id="cBoxTaskPriority" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="20" />
                   <TextField fx:id="tfTaskRemark" GridPane.columnIndex="2" GridPane.rowIndex="21" />
                   <Button fx:id="btnAddTask" mnemonicParsing="false" onAction="#btnAddTask" text="Hinzufügen" GridPane.columnIndex="4" GridPane.rowIndex="21" />
-                  <TextArea fx:id="tfDescription" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="25" />
-                  <TextArea fx:id="tfNotes" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="27" />
+                  <TextArea fx:id="taDescription" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="25" />
+                  <TextArea fx:id="taNotes" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="27" />
             </children>
             <columnConstraints>
               <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="30.0" />
