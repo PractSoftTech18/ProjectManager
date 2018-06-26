@@ -25,6 +25,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import project.Priority;
 import project.Project;
 import project.Status;
@@ -203,9 +204,12 @@ public class CreateProjectController {
 
 		ArrayList<Person> persons = new ArrayList<>();
 		persons = new ArrayList<Person>(person);
-		Customer customer = new Customer(persons, 0);
+		
+		int cont = contactP.indexOf(cBoxContactPerson.getValue());
+		
+		Customer customer = new Customer(persons, cont);
 		/*
-		 * Ansprechpartner im moment vordefiniert durch 0
+		 * Ansprechpartner
 		 */
 		/*
 		 * Add persons from person list
@@ -243,6 +247,8 @@ public class CreateProjectController {
 		tfPersonMail.clear();
 		tfPersonAd.clear();
 		tfPersonRelation.clear();
+		
+		
 
 		// add this person to table view
 	}
