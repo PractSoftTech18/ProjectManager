@@ -13,6 +13,7 @@ import javafx.stage.Stage;
  * @version 1.00, June 26th 2018
  */
 public class Main extends Application {
+	
 	/**
 	 * start the application
 	 * 

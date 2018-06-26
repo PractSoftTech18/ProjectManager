@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,6 +29,16 @@ import project.Status;
  * @version 1.00, June 26th 2018
  */
 public class FileHandler implements FileHandlerInterface {
+
+	private static FileHandler ourFileHandler = new FileHandler();
+
+	private FileHandler() {
+	}
+
+	public static FileHandler getFileHandler() {
+		return ourFileHandler;
+	}
+
 	/**
 	 * available data for this run of the application
 	 */
@@ -46,17 +57,16 @@ public class FileHandler implements FileHandlerInterface {
 	 *            project to be added
 	 */
 	public void add(Project project) {
-		System.out.println(active);
 		new File(active + "//" + project.getTitle()).mkdirs();
-		
+
 		// Project.txt
 		String addToFile = "";
 		addToFile += project.toFile();
 		writeToFile(new File(active.toString() + "/" + project.getTitle() + "/Project.txt"), addToFile);
-		
+
 		// Customer.txt
 		addToFile = "";
-		if(project.getCustomer() != null && project.getCustomer().getPersons() != null) {
+		if (project.getCustomer() != null && project.getCustomer().getPersons() != null) {
 			for (Iterator<Person> p = project.getCustomer().getPersons().iterator(); p.hasNext();) {
 				addToFile += p.next().toFile() + "\n";
 			}
@@ -65,34 +75,47 @@ public class FileHandler implements FileHandlerInterface {
 		writeToFile(new File(active.toString() + "/" + project.getTitle() + "/Customer.txt"), addToFile);
 
 		// Tasks.txt
-		addToFile = "";
-		if(project.getTasks() != null) {
+		addToFile = ";;;;;";
+		if (project.getTasks() != null) {
 			for (Iterator<Task> t = project.getTasks().iterator(); t.hasNext();) {
 				addToFile += t.next().toFile() + "\n";
 			}
-			addToFile.substring(0, addToFile.length() - 1);
+			if (addToFile.length() > 0)
+				addToFile.substring(0, addToFile.length() - 1);
 		}
 		writeToFile(new File(active.toString() + "/" + project.getTitle() + "/Tasks.txt"), addToFile);
-		ourData.projects.add(project);
+		
+		boolean found = false;
+		for (int i = 0; i < ourData.projects.size() && !found; i++) {
+			if (ourData.projects.get(i).getTitle().equals(project.getTitle()))
+				found = true;
+		}
+		if(!found) {
+			ourData.projects.add(project);
+		}
+		
 	}
 
 	/**
 	 * This method deletes the project internally and in the file structure.
 	 * 
 	 * @author Lydia Grillenberger
-	 * @param project project to be deleted
+	 * @param project
+	 *            project to be deleted
 	 */
 	public void delete(Project project) {
 		delete(project, project.getTitle());
 	}
-	
+
 	/**
 	 * This method deletes the project internally and in the file structure.
 	 * 
 	 * @author Lydia Grillenberger
 	 * @author Lukas Schiefermueller
-	 * @param project project to be deleted
-	 * @param title title of the project
+	 * @param project
+	 *            project to be deleted
+	 * @param title
+	 *            title of the project
 	 */
 	private void delete(Project project, String title) {
 		for (Path dir : active) {
@@ -105,16 +128,15 @@ public class FileHandler implements FileHandlerInterface {
 				break;
 			}
 		}
-		
-		int i = 0;
-		while (i < ourData.projects.size() && !ourData.projects.get(i).getTitle().equals(title)) {
-			i++;
-		}
-		if (i < ourData.projects.size()) {
-			ourData.projects.remove(i);
+
+		for (int i = 0; i < ourData.projects.size(); i++) {
+			if (ourData.projects.get(i).getTitle().equals(project.getTitle())) {
+				ourData.projects.remove(i);
+				break;
+			}
 		}
 	}
-	
+
 	/**
 	 * Here existing files need to be changed.
 	 * 
@@ -138,39 +160,47 @@ public class FileHandler implements FileHandlerInterface {
 	 * @author Lukas Schiefermueller
 	 */
 	public void read() {
-		for (Path dir : active) {
+		// https://stackoverflow.com/questions/5125242/java-list-only-subdirectories-from-a-directory-not-files
+		File file = new File(active.toString());
+		String[] directories = file.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File current, String name) {
+				return new File(current, name).isDirectory();
+			}
+		});
+		for (String dir : directories) {
 			Project pro = new Project();
 			File title, customer, tasks;
 
 			// Information of the Project
-			title = new File(dir + "/Project.txt");
+			title = new File(active.toString() + "/" + dir + "/Project.txt");
 			ArrayList<String> s = readFile(title);
-			String[] val = s.get(0).split(";");
+			String[] val = s.get(0).split(";", -1); 
 			pro.setTitle(val[0]);
 			pro.setDescription(val[1]);
 			pro.setNotes(val[2]);
-			pro.setStatus(Status.returnStatus(val[4], false));
-			pro.setPriority(Priority.returnPriority(val[5]));
-			if(val[6].equals("") || val[7].equals("") || val[8].equals(""))
+			pro.setStatus(Status.returnStatus(val[3], false));
+			pro.setPriority(Priority.returnPriority(val[4]));
+			if (val[5].equals("") || val[6].equals("") || val[7].equals(""))
 				pro.setColor(null);
 			else
-				pro.setColor(
-					new Color(Double.parseDouble(val[6]), Double.parseDouble(val[7]), Double.parseDouble(val[8]), 1));
-			if(val[9].equals(""))
+				pro.setColor(new Color(Double.parseDouble(val[5]), Double.parseDouble(val[6]),
+						Double.parseDouble(val[7]), 1));
+			if (val[8].equals(""))
 				pro.setDeadline(null);
 			else
-				pro.setDeadline(new Date(Long.parseLong(val[9])));
-			if(val[10].equals(""))
+				pro.setDeadline(new Date(Long.parseLong(val[8])));
+			if (val[9].equals(""))
 				pro.setEventDate(null);
 			else
-				pro.setEventDate(new Date(Long.parseLong(val[10])));
+				pro.setEventDate(new Date(Long.parseLong(val[9])));
 
 			// Customers of the Projects
-			customer = new File(dir + "/Customer.txt");
+			customer = new File(active.toString() + "/" + dir + "/Customer.txt");
 			s = readFile(customer);
 			Customer cust = new Customer();
 			for (Iterator<String> it = s.iterator(); it.hasNext();) {
-				val = it.next().split(";");
+				val = it.next().split(";", -1);
 				if (it.hasNext()) {
 					cust.add(new Person(val[0], val[1], val[2], val[3], val[4]));
 				} else {
@@ -180,18 +210,18 @@ public class FileHandler implements FileHandlerInterface {
 			pro.setCustomer(cust);
 
 			// Tasks of the Projects
-			tasks = new File(dir + "/Tasks.txt");
+			tasks = new File(active.toString() + "/" + dir + "/Tasks.txt");
 			s = readFile(tasks);
 			ArrayList<Task> task = new ArrayList<>();
 			Date date;
 			for (Iterator<String> it = s.iterator(); it.hasNext();) {
-				val = it.next().split(";");
-				if(val[4].equals(""))
+				val = it.next().split(";", -1);
+				if (val[4].equals(""))
 					date = null;
 				else
 					date = new Date(Long.parseLong(val[4]));
-				task.add(new Task(val[0], val[1], Status.returnStatus(val[2], true), 
-						Priority.returnPriority(val[3]), date));
+				task.add(new Task(val[0], val[1], Status.returnStatus(val[2], true), Priority.returnPriority(val[3]),
+						date));
 			}
 			pro.setTasks(task);
 			ourData.projects.add(pro);
@@ -209,20 +239,20 @@ public class FileHandler implements FileHandlerInterface {
 	 */
 	private ArrayList<String> readFile(File file) {
 		FileReader fr = null;
+		ArrayList<String> lines = new ArrayList<>();
 		try {
 			fr = new FileReader(file);
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		BufferedReader br = new BufferedReader(fr);
-		ArrayList<String> lines = new ArrayList<>();
-		String s;
-		try {
-			while ((s = br.readLine()) != null) {
-				lines.add(s);
-			}
+			BufferedReader br = new BufferedReader(fr);
+			String s;
+			try {
+				while ((s = br.readLine()) != null) {
+					lines.add(s);
+				}
 
-		} catch (IOException e1) {
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}
 		return lines;

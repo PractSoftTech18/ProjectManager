@@ -16,7 +16,7 @@ public class Data {
 	 * all projects
 	 */
 	public ArrayList<Project> projects;
-	
+	public int selected;
 	/**
 	 * only instance of Data
 	 */
@@ -25,7 +25,9 @@ public class Data {
 	/**
 	 * forbid creating of new Data
 	 */
-	private Data(){}
+	private Data(){
+		projects = new ArrayList<>();
+	}
 	
 	/**
 	 * @return the only instance of Data

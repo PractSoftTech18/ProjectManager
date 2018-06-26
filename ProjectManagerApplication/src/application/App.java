@@ -1,31 +1,18 @@
 package application;
 
 import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-/*
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-*/
-import java.util.ResourceBundle;
-
-import customer.Person;
+import files.FileHandler;
 import javafx.collections.FXCollections;
-
-//import javax.security.auth.login.Configuration;
-
-//import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
@@ -35,7 +22,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import project.Project;
-import project.Status;
 
 /**
  * controller for MyScene
@@ -45,86 +31,100 @@ import project.Status;
  * @author Lukas Schiefermueller
  * @version 1.00, June 26th 2018
  */
-public class App /*implements Initializable*/ {
+public class App {
 	/**
 	 * available data for this run of the application
 	 */
 	private Data ourData = Data.getData();
-	
+
+	/**
+	 * FileHandler
+	 */
+	private FileHandler ourFileHandler = FileHandler.getFileHandler();
+
 	@FXML
 	private TabPane MyTabPane;
-	
+
 	@FXML
 	private Tab MyMainTab, createProject;
-	
+
 	@FXML
 	private GridPane MyGridPane;
-	
+
 	@FXML
 	private ListView<String> MyListView;
-	
+
 	@FXML
-	private Button MyButton, btnCreateProject, btnStatusSettings, btnTasks;
-	
+	private Button MyButton, btnCreateProject, btnEdit, btnTasks;
+
 	@FXML
 	private TableView<TableStruct> tblProjects;
-	
+
 	@FXML
 	private TableColumn<TableStruct, String> tblColProjects;
 
 	@FXML
 	private TableColumn<TableStruct, String> tblColStatus;
-	
+
 	@FXML
 	private TableColumn<TableStruct, String> tblColDate;
-	
+
 	private static int buttonclicked;
-	
+
 	private ObservableList<TableStruct> projects;
-	
+
 	private ArrayList<TableStruct> list;
-	
+
 	public class TableStruct {
 		private String title, date, status;
-		
-		public TableStruct (String s, String st, String d) {
-			title = s; 
+
+		public TableStruct(String s, String st, String d) {
+			title = s;
 			status = st;
 			date = d;
 		}
-		
-		public String getTitle () { return title; }
-		public String getDate () { return date; }
-		public String getStatus () { return status; }
+
+		public String getTitle() {
+			return title;
+		}
+
+		public String getDate() {
+			return date;
+		}
+
+		public String getStatus() {
+			return status;
+		}
 	}
-	
+
 	@FXML
 	public void initialize() {
-		list = new ArrayList<>();
-		for (int i  = 0; i < 5; i++) {
-			list.add(new TableStruct("Titel " + i, "Status " + i, "Datum " + i));
-		}
-		System.out.println(list.size());
+		/*
+		 * list = new ArrayList<>(); for (int i = 0; i < 5; i++) { list.add(new
+		 * TableStruct("Titel " + i, "Status " + i, "Datum " + i)); }
+		 * System.out.println(list.size());
+		 */
+		ourFileHandler.read();
+
 		tblColProjects.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("title"));
 		tblColDate.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("date"));
 		tblColStatus.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("status"));
-    	
+
 		projects = FXCollections.observableArrayList();
-    	updateTblProjects();
-    	
-		
+		updateTblProjects();
+
 	}
 
 	// When user click on myButton
 	// this method will be called.
 	public void addFieldtoVBox(ActionEvent event) {
-		ObservableList<String> items = MyListView.getItems();
-		items.add(Integer.toString(++buttonclicked));
-		MyListView.setItems(items);
-
+		/*
+		 * ObservableList<String> items = MyListView.getItems();
+		 * items.add(Integer.toString(++buttonclicked)); MyListView.setItems(items);
+		 */
+		updateTblProjects();
 	}
-	
-	
+
 	/**
 	 * change to new project tab
 	 * 
@@ -132,29 +132,47 @@ public class App /*implements Initializable*/ {
 	 * @param event
 	 * @throws IOException
 	 */
-	public void createNewProject(ActionEvent event) throws IOException {		
+	public void createNewProject(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/CreateProject.fxml"));
 		Tab tabNewProject = new Tab("Neues Projekt");
 		tabNewProject.setContent(loader.load());
 		MyTabPane.getTabs().add(tabNewProject);
 		MyTabPane.getSelectionModel().select(tabNewProject);
+		// updateTblProjects();
 	}
-	
+
 	/**
-	 * change to status settings tab 
+	 * change to status settings tab
 	 * 
 	 * @author Lydia Grillenberger
 	 * @param event
 	 * @throws IOException
 	 */
-	public void changeStatusSettings(ActionEvent event) throws IOException {		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/StatusSettings.fxml"));
-		Tab tabStatusSettings = new Tab("Statuseinstellungen");
-		tabStatusSettings.setContent(loader.load());
-		MyTabPane.getTabs().add(tabStatusSettings);
-		MyTabPane.getSelectionModel().select(tabStatusSettings);
+	public void btnEdit(ActionEvent event) throws IOException {
+		TableStruct tblStruct = tblProjects.getSelectionModel().getSelectedItem();
+		if (tblStruct != null) {
+			for (int i = 0; i < ourData.projects.size(); i++) {
+				if (ourData.projects.get(i).getTitle().equals(tblStruct.getTitle())) {
+					ourData.selected = i;
+					break;
+				}
+			}
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/EditProject.fxml"));
+			Tab tabEditProject = new Tab("Bearbeiten");
+			tabEditProject.setContent(loader.load());
+			MyTabPane.getTabs().add(tabEditProject);
+			MyTabPane.getSelectionModel().select(tabEditProject);
+		}
+		else 
+		{
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Fehler");
+			alert.setHeaderText("Auswahl");
+			alert.setContentText("Kein Projekt ausgewählt!");
+			alert.showAndWait();
+		}
 	}
-	
+
 	/**
 	 * change to tasks tab
 	 * 
@@ -162,40 +180,33 @@ public class App /*implements Initializable*/ {
 	 * @param event
 	 * @throws IOException
 	 */
-	public void viewTasks(ActionEvent event) throws IOException {		
+	public void viewTasks(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/Tasks.fxml"));
 		Tab tabStatusSettings = new Tab("Tasks");
 		tabStatusSettings.setContent(loader.load());
 		MyTabPane.getTabs().add(tabStatusSettings);
 		MyTabPane.getSelectionModel().select(tabStatusSettings);
 	}
-	
+
 	/**
 	 * refresh the table of projects
 	 * 
 	 * @author Lydia Grillenberger
-	 * @version 1.00, June 26th 2018
-	 * @param event
+	 * @author Lukas Schiefermueller
 	 */
 	public void updateTblProjects() {
-		/*
 		for (Iterator<Project> pro = ourData.projects.iterator(); pro.hasNext();) {
 			Project p = pro.next();
-			projects.add(new TableStruct(p.getTitle(), p.getStatus().toString(), p.getEventDate().toString()));
-		}
-		*/
-		for (int i = 0; i < list.size(); i++) {
-			projects.add(list.get(i));
-			
+			Date d;
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+			String dateString = "";
+			if ((d = p.getEventDate()) != null) {
+				dateString = dateFormatter.format(d);
+			}
+			projects.add(new TableStruct(p.getTitle(), p.getStatus().getStatus(), dateString));
+
 		}
 		tblProjects.setItems(projects);
-	}
 
-	/*
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
 	}
-	*/
 }

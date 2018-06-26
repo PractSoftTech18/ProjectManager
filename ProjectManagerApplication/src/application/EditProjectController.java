@@ -3,6 +3,8 @@
  */
 package application;
 
+import files.FileHandler;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -22,6 +24,16 @@ import javafx.scene.control.TextField;
  */
 public class EditProjectController {
 
+	/**
+	 * available data for this run of the application
+	 */
+	private Data ourData = Data.getData();
+
+	/**
+	 * FileHandler
+	 */
+	private FileHandler ourFileHandler = FileHandler.getFileHandler();
+	
     @FXML
     private DatePicker datePDeadline;
 
@@ -140,7 +152,8 @@ public class EditProjectController {
     private TableColumn<?, ?> tblColAd;
 
 
-/*
+    private Project p; // = ourData.projects.get(ourData.selected);
+
     @FXML
     void btnSave(ActionEvent event) {
 
@@ -156,9 +169,4 @@ public class EditProjectController {
 
     }
 
-    @FXML
-    void d01616(ActionEvent event) {
-
-    }
-*/
 }

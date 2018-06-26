@@ -17,10 +17,9 @@
             <GridPane fx:id="MyGridPane" prefHeight="600.0" prefWidth="800.0">
                <children>
                  <ListView fx:id="MyListView" prefHeight="300.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                 <Button fx:id="MyButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addFieldtoVBox" prefHeight="58.0" prefWidth="78.0" text="Knopf" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                 <Button fx:id="MyButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addFieldtoVBox" prefHeight="58.0" prefWidth="132.0" text="Aktualisieren" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                  <Button id="NewTab" fx:id="btnCreateProject" contentDisplay="CENTER" mnemonicParsing="false" onAction="#createNewProject" prefHeight="40.0" prefWidth="120.0" text="Neues Projekt" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                 <ColorPicker GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Button fx:id="btnStatusSettings" mnemonicParsing="false" onAction="#changeStatusSettings" prefHeight="40.0" prefWidth="120.0" text="Statuseinstellungen" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                        <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#btnEdit" prefHeight="40.0" prefWidth="120.0" text="Bearbeiten" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                         <TableView fx:id="tblProjects" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                           <columns>
                             <TableColumn fx:id="tblColProjects" prefWidth="180.0" text="Projekt" />

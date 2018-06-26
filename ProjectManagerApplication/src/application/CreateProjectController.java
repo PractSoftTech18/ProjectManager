@@ -45,6 +45,11 @@ public class CreateProjectController {
 	 */
 	private Data ourData = Data.getData();
 
+	/**
+	 * FileHandler
+	 */
+	private FileHandler ourFileHandler = FileHandler.getFileHandler(); 
+	
 	@FXML
 	private ResourceBundle resources;
 
@@ -90,7 +95,7 @@ public class CreateProjectController {
 	@FXML
 	void addNewTab(ActionEvent event) {
 	}
-
+	
 	private ObservableList<Person> person;
 	private ObservableList<String> contactP;
 	private ObservableList<TableTask> tableTask;
@@ -189,31 +194,35 @@ public class CreateProjectController {
 
 		newProject.setColor(colorPProject.getValue());
 
-		String dummy = cBoxPriority.getSelectionModel().getSelectedItem();
-		Priority p = dummy == "Niedrig" ? Priority.LOW : (dummy == "Normal" ? Priority.NORMAL : Priority.HIGH);
-		newProject.setPriority(p);
+		newProject.setPriority(Priority.returnPriority(cBoxPriority.getSelectionModel().getSelectedItem()));
+		newProject.setStatus(Status.returnStatus(cBoxStatus.getSelectionModel().getSelectedItem(), false));
 
 		// https://stackoverflow.com/questions/20446026/get-value-from-date-picker
-		LocalDate localDate = datePDeadline.getValue();
-		Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-		newProject.setDeadline(Date.from(instant));
-
-		localDate = datePDeadline.getValue();
-		instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-		newProject.setEventDate(Date.from(instant));
-
+		LocalDate localDate;
+		Instant instant;
+		if ((localDate = datePDeadline.getValue()) != null) {
+			instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+			newProject.setDeadline(Date.from(instant));
+		} else {
+			newProject.setDeadline(null);
+		}
+		if ((localDate = datePEvent.getValue()) != null) {
+			instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+			newProject.setEventDate(Date.from(instant));
+		} else {
+			newProject.setEventDate(null);
+		}
 		ArrayList<Person> persons = new ArrayList<>();
 		persons = new ArrayList<Person>(person);
-		
-		int cont = contactP.indexOf(cBoxContactPerson.getValue());
+
+		String contactPerson;
+		int cont = 0;
+		if ((contactPerson = cBoxContactPerson.getValue()) != null) {
+			cont = contactP.indexOf(contactPerson);
+		}
 		
 		Customer customer = new Customer(persons, cont);
-		/*
-		 * Ansprechpartner
-		 */
-		/*
-		 * Add persons from person list
-		 */
+		
 		newProject.setCustomer(customer);
 
 		newProject.setTasks(task);
@@ -222,8 +231,7 @@ public class CreateProjectController {
 
 		newProject.setNotes(taNotes.getText());
 
-		FileHandlerInterface fi = new FileHandler();
-		fi.add(newProject);
+		ourFileHandler.add(newProject);
 	}
 
 	/**
@@ -247,8 +255,6 @@ public class CreateProjectController {
 		tfPersonMail.clear();
 		tfPersonAd.clear();
 		tfPersonRelation.clear();
-		
-		
 
 		// add this person to table view
 	}

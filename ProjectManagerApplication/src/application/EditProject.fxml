@@ -10,14 +10,14 @@
 
 <AnchorPane minHeight="400.0" minWidth="850.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EditProjectController">
   <children>
-      <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="400.0" minWidth="850.0" pannable="true" prefHeight="900.0" prefWidth="850.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="400.0" minWidth="850.0" pannable="true" prefHeight="400.0" prefWidth="850.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <content>
           <GridPane focusTraversable="true" layoutX="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="0.0">
             <children>
               <TextField fx:id="tfProjectName" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
               <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" text="Projektname" underline="false" visible="true" wrapText="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                 <labelFor>
-                  <Button fx:id="NewTab" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addNewTab" prefHeight="200.0" prefWidth="200.0" text="Neuer Tab" />
+                  <Button fx:id="NewTab" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="200.0" prefWidth="200.0" text="Neuer Tab" />
                 </labelFor>
                 <GridPane.margin>
                   <Insets right="4.0" fx:id="x1" />
@@ -28,12 +28,12 @@
               </Label>
               <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" text="Priorität" underline="false" visible="true" wrapText="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.margin="$x1" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                 <labelFor>
-                  <Button id="NewTab" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addNewTab" prefHeight="200.0" prefWidth="200.0" text="Neuer Tab" />
+                  <Button id="NewTab" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="200.0" prefWidth="200.0" text="Neuer Tab" />
                 </labelFor>
               </Label>
               	  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" layoutX="93.0" layoutY="87.0" text="Status" underline="false" visible="true" wrapText="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                      <labelFor>
-                        <Button id="NewTab" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addNewTab" prefHeight="200.0" prefWidth="200.0" text="Neuer Tab" />
+                        <Button id="NewTab" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="200.0" prefWidth="200.0" text="Neuer Tab" />
                      </labelFor>
                      <GridPane.margin>
                         <Insets right="4.0" />
