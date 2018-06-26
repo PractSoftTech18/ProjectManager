@@ -56,18 +56,22 @@ public class FileHandler implements FileHandlerInterface {
 		
 		// Customer.txt
 		addToFile = "";
-		for (Iterator<Person> p = project.getCustomer().getPersons().iterator(); p.hasNext();) {
-			addToFile += p.next().toFile() + "\n";
+		if(project.getCustomer() != null && project.getCustomer().getPersons() != null) {
+			for (Iterator<Person> p = project.getCustomer().getPersons().iterator(); p.hasNext();) {
+				addToFile += p.next().toFile() + "\n";
+			}
+			addToFile += project.getCustomer().getContactPersonIndex();
 		}
-		addToFile += project.getCustomer().getContactPersonIndex();
 		writeToFile(new File(active.toString() + "/" + project.getTitle() + "/Customer.txt"), addToFile);
 
 		// Tasks.txt
 		addToFile = "";
-		for (Iterator<Task> t = project.getTasks().iterator(); t.hasNext();) {
-			addToFile += t.next().toFile() + "\n";
+		if(project.getTasks() != null) {
+			for (Iterator<Task> t = project.getTasks().iterator(); t.hasNext();) {
+				addToFile += t.next().toFile() + "\n";
+			}
+			addToFile.substring(0, addToFile.length() - 1);
 		}
-		addToFile.substring(0, addToFile.length() - 1);
 		writeToFile(new File(active.toString() + "/" + project.getTitle() + "/Tasks.txt"), addToFile);
 		ourData.projects.add(project);
 	}
@@ -126,10 +130,19 @@ public class FileHandler implements FileHandlerInterface {
 			pro.setNotes(val[2]);
 			pro.setStatus(Status.returnStatus(val[4], false));
 			pro.setPriority(Priority.returnPriority(val[5]));
-			pro.setColor(
-					new Color(Double.parseDouble(val[6]), Double.parseDouble(val[7]), Double.parseDouble(val[8]), 1.));
-			pro.setDeadline(new Date(Long.parseLong(val[9])));
-			pro.setEventDate(new Date(Long.parseLong(val[10])));
+			if(val[6].equals("") || val[7].equals("") || val[8].equals(""))
+				pro.setColor(null);
+			else
+				pro.setColor(
+					new Color(Double.parseDouble(val[6]), Double.parseDouble(val[7]), Double.parseDouble(val[8]), 1));
+			if(val[9].equals(""))
+				pro.setDeadline(null);
+			else
+				pro.setDeadline(new Date(Long.parseLong(val[9])));
+			if(val[10].equals(""))
+				pro.setEventDate(null);
+			else
+				pro.setEventDate(new Date(Long.parseLong(val[10])));
 
 			// Customers of the Projects
 			customer = new File(dir + "/Customer.txt");
@@ -140,7 +153,7 @@ public class FileHandler implements FileHandlerInterface {
 				if (it.hasNext()) {
 					cust.add(new Person(val[0], val[1], val[2], val[3], val[4]));
 				} else {
-					cust.setContactPerson(Integer.parseInt(val[0]));
+					cust.setContactPerson(Integer.parseInt(val[0])); // contact person
 				}
 			}
 			pro.setCustomer(cust);
@@ -149,10 +162,15 @@ public class FileHandler implements FileHandlerInterface {
 			tasks = new File(dir + "/Tasks.txt");
 			s = readFile(tasks);
 			ArrayList<Task> task = new ArrayList<>();
+			Date date;
 			for (Iterator<String> it = s.iterator(); it.hasNext();) {
 				val = it.next().split(";");
-				task.add(new Task(val[0], val[1], Status.returnStatus(val[2], true), Priority.returnPriority(val[3]),
-						new Date(Long.parseLong(val[4]))));
+				if(val[4].equals(""))
+					date = null;
+				else
+					date = new Date(Long.parseLong(val[4]));
+				task.add(new Task(val[0], val[1], Status.returnStatus(val[2], true), 
+						Priority.returnPriority(val[3]), date));
 			}
 			pro.setTasks(task);
 			ourData.projects.add(pro);
