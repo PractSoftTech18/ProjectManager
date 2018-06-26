@@ -79,17 +79,23 @@ public class App /*implements Initializable*/ {
 	private TableColumn<TableStruct, String> tblColDate;
 	
 	private static int buttonclicked;
+	
 	private ObservableList<TableStruct> projects;
+	
 	private ArrayList<TableStruct> list;
 	
 	public class TableStruct {
-		private String title, date, stat;
+		private String title, date, status;
 		
 		public TableStruct (String s, String st, String d) {
 			title = s; 
-			stat = st;
+			status = st;
 			date = d;
 		}
+		
+		public String getTitle () { return title; }
+		public String getDate () { return date; }
+		public String getStatus () { return status; }
 	}
 	
 	@FXML
@@ -98,20 +104,19 @@ public class App /*implements Initializable*/ {
 		for (int i  = 0; i < 5; i++) {
 			list.add(new TableStruct("Titel " + i, "Status " + i, "Datum " + i));
 		}
-		
+		System.out.println(list.size());
 		tblColProjects.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("title"));
-		tblColStatus.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("stat"));
-    	tblColDate.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("date"));
+		tblColDate.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("date"));
+		tblColStatus.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("status"));
     	
-    	projects = FXCollections.observableArrayList();
+		projects = FXCollections.observableArrayList();
+    	updateTblProjects();
     	
-		//updateTblProjects;
 		
 	}
 
 	// When user click on myButton
 	// this method will be called.
-	
 	public void addFieldtoVBox(ActionEvent event) {
 		ObservableList<String> items = MyListView.getItems();
 		items.add(Integer.toString(++buttonclicked));
@@ -172,7 +177,7 @@ public class App /*implements Initializable*/ {
 	 * @version 1.00, June 26th 2018
 	 * @param event
 	 */
-	public void updateTblProjects(ActionEvent event) {
+	public void updateTblProjects() {
 		/*
 		for (Iterator<Project> pro = ourData.projects.iterator(); pro.hasNext();) {
 			Project p = pro.next();
@@ -181,6 +186,7 @@ public class App /*implements Initializable*/ {
 		*/
 		for (int i = 0; i < list.size(); i++) {
 			projects.add(list.get(i));
+			
 		}
 		tblProjects.setItems(projects);
 	}

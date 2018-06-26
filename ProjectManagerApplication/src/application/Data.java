@@ -18,16 +18,6 @@ public class Data {
 	public ArrayList<Project> projects;
 	
 	/**
-	 * all different status for projects
-	 */
-	public ArrayList<Status> projectStatus;
-	
-	/**
-	 * all different status for tasks
-	 */
-	public ArrayList<Status> taskStatus;
-	
-	/**
 	 * only instance of Data
 	 */
 	private static Data ourData = new Data();
