@@ -38,7 +38,10 @@ public class Project {
 	 */
 	public Project(String title, String description, String notes, Priority priority, Color color, 
 			Date deadline, Date eventDate, Customer customer, ArrayList<Task> tasks) {
-		this.title = title;
+		if(title.equals(""))
+			this.title = "Projektname";
+		else
+			this.title = title;
 		this.description = description;
 		this.notes = notes;
 		this.priority = priority;
@@ -68,7 +71,10 @@ public class Project {
 	 *            the title to set
 	 */
 	public void setTitle(String title) {
-		this.title = title;
+		if(title.equals(""))
+			this.title = "Projektname";
+		else
+			this.title = title;
 	}
 
 	/**

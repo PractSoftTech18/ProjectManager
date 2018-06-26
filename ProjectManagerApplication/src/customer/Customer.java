@@ -15,7 +15,7 @@ public class Customer {
 
 	public Customer() {
 		persons = new ArrayList<>();
-		contactPerson = -1;
+		contactPerson = 0;
 	}
 	/**
 	 * @param persons
