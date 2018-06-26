@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CreateProjectController">
+<AnchorPane minHeight="400.0" minWidth="850.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CreateProjectController">
   <children>
-      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="950.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="400.0" minWidth="850.0" pannable="true" prefHeight="900.0" prefWidth="850.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <content>
           <GridPane focusTraversable="true" layoutX="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -78,8 +78,6 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="tfDescription" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="25" />
-                  <TextArea fx:id="tfNotes" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="27" />
                   <TableView fx:id="tblPersons" editable="true" prefHeight="193.0" prefWidth="303.0" GridPane.columnIndex="2" GridPane.rowIndex="13">
                     <columns>
                       <TableColumn fx:id="tblColName" prefWidth="75.0" text="Name" />
@@ -117,7 +115,7 @@
                         <Insets right="4.0" />
                      </GridPane.margin>
                   </Label>
-                  <ChoiceBox fx:id="cBoxContactPerson" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="14" />
+                  <ChoiceBox fx:id="cBoxContactPerson" onShowingProperty="#selectContactPerson" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="14" />
                   <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSave" text="Speichern" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="27" />
                   <TextField fx:id="tfPersonName" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                   <TextField fx:id="tfPersonRelation" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
@@ -150,16 +148,6 @@
                      </GridPane.margin>
                   </Label>
                   <Button fx:id="btnAddPerson" mnemonicParsing="false" onAction="#btnAddPerson" text="Hinzufügen" GridPane.columnIndex="4" GridPane.rowIndex="11" />
-                  <TextField fx:id="tfTask" GridPane.columnIndex="2" GridPane.rowIndex="17" />
-                  <TextField fx:id="tfTaskRemark" GridPane.columnIndex="2" GridPane.rowIndex="21" />
-                  <Label text="Tasks" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="16">
-                     <GridPane.margin>
-                        <Insets right="4.0" />
-                     </GridPane.margin>
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
                   <Label text="Bezeichnung" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="17">
                      <GridPane.margin>
                         <Insets right="4.0" />
@@ -169,6 +157,15 @@
                      <GridPane.margin>
                         <Insets right="4.0" />
                      </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="tfTask" GridPane.columnIndex="2" GridPane.rowIndex="17" />
+                  <Label text="Tasks" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="16">
+                     <GridPane.margin>
+                        <Insets right="4.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
                   </Label>
                   <Label text="Status" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="19">
                      <GridPane.margin>
@@ -185,10 +182,13 @@
                         <Insets right="4.0" />
                      </GridPane.margin>
                   </Label>
-                  <Button fx:id="btnAddTask" mnemonicParsing="false" onAction="#btnAddTask" text="Hinzufügen" GridPane.columnIndex="4" GridPane.rowIndex="21" />
+                  <DatePicker fx:id="datePTaskDate" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="18" />
                   <ChoiceBox fx:id="cBoxTaskStatus" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="19" />
                   <ChoiceBox fx:id="cBoxTaskPriority" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="20" />
-                  <DatePicker fx:id="datePTaskDate" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="18" />
+                  <TextField fx:id="tfTaskRemark" GridPane.columnIndex="2" GridPane.rowIndex="21" />
+                  <Button fx:id="btnAddTask" mnemonicParsing="false" onAction="#btnAddTask" text="Hinzufügen" GridPane.columnIndex="4" GridPane.rowIndex="21" />
+                  <TextArea fx:id="tfDescription" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="25" />
+                  <TextArea fx:id="tfNotes" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="27" />
             </children>
             <columnConstraints>
               <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="30.0" />

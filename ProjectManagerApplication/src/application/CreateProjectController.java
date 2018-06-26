@@ -170,7 +170,7 @@ public class CreateProjectController {
 	 *            select choiceBox
 	 */
 	public void selectContactPerson(ActionEvent event) {
-		// should be called when choiceBoxContactPerson.onShowingProperty() but I cannot
+		// should be called when cBoxContactPerson.onShowingProperty() but I cannot
 		// find
 		// onShowingProperty in Scene Builder
 		if (tblColName != null) {
@@ -232,7 +232,8 @@ public class CreateProjectController {
 	 * add person to project
 	 * 
 	 * @author Julia Hofer
-	 * @param event click button "Hinzufuegen"
+	 * @param event
+	 *            click button "Hinzufuegen"
 	 */
 	public void btnAddPerson(ActionEvent event) {
 		person.add(new Person(tfPersonName.getText(), tfPersonPhone.getText(), tfPersonMail.getText(),
@@ -248,8 +249,12 @@ public class CreateProjectController {
 		// add this person to table view
 	}
 
-	
-	public class TableTask{
+	/**
+	 * 
+	 * @author Julia Hofer
+	 *
+	 */
+	public class TableTask {
 		private String tname;
 		private String tremark;
 		private String tstatus;
@@ -270,26 +275,36 @@ public class CreateProjectController {
 			this.tpriority = taskPriority;
 			this.tdate = taskDate;
 		}
+
+		public String toFile() {
+			String s = tname + " " + tremark + " " + tstatus + " " + tpriority + " " + tdate;
+			return s;
+		}
 	}
-	
-	
+
 	/**
 	 * add task to project
 	 * 
 	 * @author Julia Hofer
-	 * @param event click button "Hinzufuegen"
+	 * @param event
+	 *            click button "Hinzufuegen"
 	 */
-	public void btnAddTask(ActionEvent event) {
-		/*LocalDate localDate = datePTaskDate.getValue();
-		Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+	public void btnAddTask(ActionEvent event) {		
+		LocalDate localDate = datePTaskDate.getValue();
+		/*
+		 * Instant instant =
+		 * Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+		 * 
+		 * task.add(new Task(tfTask.getText(), tfTaskRemark.getText(),
+		 * Status.returnStatus(cBoxTaskStatus.getValue(), true),
+		 * Priority.returnPriority(cBoxTaskPriority.getValue()), Date.from(instant)));
+		 */
 
-		task.add(new Task(tfTask.getText(), tfTaskRemark.getText(), Status.returnStatus(cBoxTaskStatus.getValue(), true),
-						Priority.returnPriority(cBoxTaskPriority.getValue()), Date.from(instant)));*/
+		task.add(new TableTask(tfTask.getText(), tfTaskRemark.getText(), cBoxTaskStatus.getValue(),
+				cBoxTaskPriority.getValue(), localDate.toString()));
 
-		task.add(new TableTask(tfTask.getText(), tfTaskRemark.getText(), cBoxTaskStatus.getValue(), cBoxTaskPriority.getValue(), datePTaskDate.toString()));
-		 
-		//System.out.print(task.get(task.size() - 1).toFile());
 
+		System.out.print(task.get(task.size() - 1).toFile());
 		tblTasks.setItems(task);
 
 		tfTask.clear();
