@@ -2,14 +2,11 @@ package application;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-import application.CreateProjectController.TableTask;
+import application.TasksController.TblTask;
 import files.FileHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -63,7 +61,7 @@ public class App {
 	private ListView<String> MyListView;
 
 	@FXML
-	private Button MyButton, btnCreateProject, btnEdit, btnTasks;
+	private Button MyButton, btnCreateProject, btnEdit, btnTasks, btnAllTasks;
 
 	@FXML
 	private TableView<TableStruct> tblProjects;
@@ -249,9 +247,24 @@ public class App {
 	}
 
 	/**
-	 * change to tasks tab
+	 * change to all tasks tab
 	 * 
 	 * @author Lydia Grillenberger
+	 * @param event
+	 * @throws IOException
+	 */
+	public void viewAllTasks(ActionEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/Tasks.fxml")); Tab
+		tabTasks = new Tab("Tasks");
+		tabTasks.setContent(loader.load());
+		MyTabPane.getTabs().add(tabTasks);
+		MyTabPane.getSelectionModel().select(tabTasks);
+	}
+	
+	/**
+	 * view all tasks of the selected project
+	 * 
+	 * @author Lukas Schiefermueller
 	 * @param event
 	 * @throws IOException
 	 */
@@ -300,7 +313,7 @@ public class App {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Fehler");
 			alert.setHeaderText("Auswahl");
-			alert.setContentText("Kein Projekt ausgewählt!");
+			alert.setContentText("Kein Projekt ausgewaehlt!");
 			alert.showAndWait();
 		}
 	}
@@ -324,6 +337,66 @@ public class App {
 
 		}
 		tblProjects.setItems(projects);
+		updateTblColor();
+	}
+	
+	/**
+	 * update background colors
+	 * 
+	 * @author Lydia Grillenberger
+	 */
+	public void updateTblColor() {
+		// http://code.makery.ch/blog/javafx-8-tableview-cell-renderer/
+		
+		// status
+		tblColStatus.setCellFactory(column -> {
+		    return new TableCell<TableStruct, String>() {
+		        @Override
+		        protected void updateItem(String item, boolean empty) {
+		            super.updateItem(item, empty);
 
+		            if (item == null || empty) {
+		                setText(null);
+		                setStyle("");
+		            } else {
+		                setText(item);
+		                Status status = Status.returnStatus(item, false);
+		                String style = "-fx-background-color: rgb(" + (status.getColor().getRed() * 255)
+		                		+ ", " + (status.getColor().getGreen() * 255) 
+		                		+ ", " + (status.getColor().getBlue() * 255) + ")";
+		                setStyle(style);
+		            }
+		        }
+		    };
+		});
+		
+		// project color
+		tblColProjects.setCellFactory(column -> {
+		    return new TableCell<TableStruct, String>() {
+		        @Override
+		        protected void updateItem(String item, boolean empty) {
+		            super.updateItem(item, empty);
+
+		            if (item == null || empty) {
+		                setText(null);
+		                setStyle("");
+		            } else {
+		              setText(item);
+		              Project project = new Project();
+		              for (int i = 0; i < ourData.projects.size(); i++) {
+		            	  if ((project = ourData.projects.get(i)).getTitle().equals(item)) {
+		            		  break;
+		            		  }
+		               }
+		               if(project.getColor() != null) {
+			               String style = "-fx-background-color: rgb(" + (project.getColor().getRed() * 255)
+			            		   + ", " + (project.getColor().getGreen() * 255) 
+			            		   + ", " + (project.getColor().getBlue() * 255) + ")";
+			               setStyle(style);
+		               }
+		            }
+		        }
+		    };
+		});
 	}
 }

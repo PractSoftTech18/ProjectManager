@@ -23,10 +23,10 @@
               <columns>
                 <TableColumn prefWidth="180.0" text="Task" />
                 <TableColumn prefWidth="180.0" text="Projekt" />
-                  <TableColumn text="Datum" />
+                  <TableColumn prefWidth="120.0" text="Bemerkung" />
                   <TableColumn text="Status" />
                   <TableColumn text="Priorität" />
-                  <TableColumn prefWidth="120.0" text="Bemerkung" />
+                  <TableColumn text="Datum" />
               </columns>
             </TableView>
          </children>

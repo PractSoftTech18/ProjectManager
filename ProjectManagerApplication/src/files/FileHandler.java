@@ -30,11 +30,20 @@ import project.Status;
  */
 public class FileHandler implements FileHandlerInterface {
 
+	/**
+	 * only instance of FileHandler
+	 */
 	private static FileHandler ourFileHandler = new FileHandler();
 
+	/**
+	 * forbid creating of new FileHandler
+	 */
 	private FileHandler() {
 	}
 
+	/**
+	 * @return the only instance of FileHandler
+	 */
 	public static FileHandler getFileHandler() {
 		return ourFileHandler;
 	}
@@ -44,7 +53,9 @@ public class FileHandler implements FileHandlerInterface {
 	 */
 	private Data ourData = Data.getData();
 
-	// Sets the paths to the active and archive working directory.
+	/**
+	 * path to active working directory
+	 */
 	private final Path active = Paths.get(System.getProperty("user.home").toString() + "//ProjectManager//Projects");
 
 	/**
@@ -53,8 +64,7 @@ public class FileHandler implements FileHandlerInterface {
 	 * 
 	 * @author Lydia Grillenberger
 	 * @author Lukas Schiefermueller
-	 * @param project
-	 *            project to be added
+	 * @param project project to be added
 	 */
 	public void add(Project project) {
 		new File(active + "//" + project.getTitle()).mkdirs();
@@ -100,8 +110,7 @@ public class FileHandler implements FileHandlerInterface {
 	 * This method deletes the project internally and in the file structure.
 	 * 
 	 * @author Lydia Grillenberger
-	 * @param project
-	 *            project to be deleted
+	 * @param project project to be deleted
 	 */
 	public void delete(Project project) {
 		delete(project, project.getTitle());
@@ -112,10 +121,8 @@ public class FileHandler implements FileHandlerInterface {
 	 * 
 	 * @author Lydia Grillenberger
 	 * @author Lukas Schiefermueller
-	 * @param project
-	 *            project to be deleted
-	 * @param title
-	 *            title of the project
+	 * @param project project to be deleted
+	 * @param title title of the project
 	 */
 	private void delete(Project project, String title) {
 		for (Path dir : active) {
@@ -141,10 +148,8 @@ public class FileHandler implements FileHandlerInterface {
 	 * Here existing files need to be changed.
 	 * 
 	 * @author Lydia Grillenberger
-	 * @param project
-	 *            project to be changed with the changed values inside
-	 * @param oldTitle
-	 *            old title of the project
+	 * @param project project to be changed with the changed values inside
+	 * @param oldTitle old title of the project
 	 */
 	public void change(Project project, String oldTitle) {
 		delete(project, oldTitle);
@@ -168,63 +173,65 @@ public class FileHandler implements FileHandlerInterface {
 				return new File(current, name).isDirectory();
 			}
 		});
-		for (String dir : directories) {
-			Project pro = new Project();
-			File title, customer, tasks;
-
-			// Information of the Project
-			title = new File(active.toString() + "/" + dir + "/Project.txt");
-			ArrayList<String> s = readFile(title);
-			String[] val = s.get(0).split(";", -1); 
-			pro.setTitle(val[0]);
-			pro.setDescription(val[1]);
-			pro.setNotes(val[2]);
-			pro.setStatus(Status.returnStatus(val[3], false));
-			pro.setPriority(Priority.returnPriority(val[4]));
-			if (val[5].equals("") || val[6].equals("") || val[7].equals(""))
-				pro.setColor(null);
-			else
-				pro.setColor(new Color(Double.parseDouble(val[5]), Double.parseDouble(val[6]),
-						Double.parseDouble(val[7]), 1));
-			if (val[8].equals(""))
-				pro.setDeadline(null);
-			else
-				pro.setDeadline(new Date(Long.parseLong(val[8])));
-			if (val[9].equals(""))
-				pro.setEventDate(null);
-			else
-				pro.setEventDate(new Date(Long.parseLong(val[9])));
-
-			// Customers of the Projects
-			customer = new File(active.toString() + "/" + dir + "/Customer.txt");
-			s = readFile(customer);
-			Customer cust = new Customer();
-			for (Iterator<String> it = s.iterator(); it.hasNext();) {
-				val = it.next().split(";", -1);
-				if (it.hasNext()) {
-					cust.add(new Person(val[0], val[1], val[2], val[3], val[4]));
-				} else {
-					cust.setContactPerson(Integer.parseInt(val[0])); // contact person
-				}
-			}
-			pro.setCustomer(cust);
-
-			// Tasks of the Projects
-			tasks = new File(active.toString() + "/" + dir + "/Tasks.txt");
-			s = readFile(tasks);
-			ArrayList<Task> task = new ArrayList<>();
-			Date date;
-			for (Iterator<String> it = s.iterator(); it.hasNext();) {
-				val = it.next().split(";", -1);
-				if (val[4].equals(""))
-					date = null;
+		if(directories != null && directories.length > 0) {
+			for (String dir : directories) {
+				Project pro = new Project();
+				File title, customer, tasks;
+	
+				// Information of the Project
+				title = new File(active.toString() + "/" + dir + "/Project.txt");
+				ArrayList<String> s = readFile(title);
+				String[] val = s.get(0).split(";", -1); 
+				pro.setTitle(val[0]);
+				pro.setDescription(val[1]);
+				pro.setNotes(val[2]);
+				pro.setStatus(Status.returnStatus(val[3], false));
+				pro.setPriority(Priority.returnPriority(val[4]));
+				if (val[5].equals("") || val[6].equals("") || val[7].equals(""))
+					pro.setColor(null);
 				else
-					date = new Date(Long.parseLong(val[4]));
-				task.add(new Task(val[0], val[1], Status.returnStatus(val[2], true), Priority.returnPriority(val[3]),
-						date));
+					pro.setColor(new Color(Double.parseDouble(val[5]), Double.parseDouble(val[6]),
+							Double.parseDouble(val[7]), 1));
+				if (val[8].equals(""))
+					pro.setDeadline(null);
+				else
+					pro.setDeadline(new Date(Long.parseLong(val[8])));
+				if (val[9].equals(""))
+					pro.setEventDate(null);
+				else
+					pro.setEventDate(new Date(Long.parseLong(val[9])));
+	
+				// Customers of the Projects
+				customer = new File(active.toString() + "/" + dir + "/Customer.txt");
+				s = readFile(customer);
+				Customer cust = new Customer();
+				for (Iterator<String> it = s.iterator(); it.hasNext();) {
+					val = it.next().split(";", -1);
+					if (it.hasNext()) {
+						cust.add(new Person(val[0], val[1], val[2], val[3], val[4]));
+					} else {
+						cust.setContactPerson(Integer.parseInt(val[0])); // contact person
+					}
+				}
+				pro.setCustomer(cust);
+	
+				// Tasks of the Projects
+				tasks = new File(active.toString() + "/" + dir + "/Tasks.txt");
+				s = readFile(tasks);
+				ArrayList<Task> task = new ArrayList<>();
+				Date date;
+				for (Iterator<String> it = s.iterator(); it.hasNext();) {
+					val = it.next().split(";", -1);
+					if (val[4].equals(""))
+						date = null;
+					else
+						date = new Date(Long.parseLong(val[4]));
+					task.add(new Task(val[0], val[1], Status.returnStatus(val[2], true), Priority.returnPriority(val[3]),
+							date));
+				}
+				pro.setTasks(task);
+				ourData.projects.add(pro);
 			}
-			pro.setTasks(task);
-			ourData.projects.add(pro);
 		}
 	}
 
@@ -233,8 +240,7 @@ public class FileHandler implements FileHandlerInterface {
 	 * 
 	 * @author Lydia Grillenberger
 	 * @author Lukas Schiefermueller
-	 * @param file
-	 *            file to be read from
+	 * @param file file to be read from
 	 * @return the content of the file as a String ArrayList
 	 */
 	private ArrayList<String> readFile(File file) {
@@ -262,10 +268,8 @@ public class FileHandler implements FileHandlerInterface {
 	 * This method is used internally for saving a String to a file.
 	 * 
 	 * @author Lydia Grillenberger
-	 * @param file
-	 *            file to which to save the String
-	 * @param string
-	 *            String to save
+	 * @param file file to which to save the String
+	 * @param string String to save
 	 */
 	private void writeToFile(File file, String string) {
 		file.setWritable(true);

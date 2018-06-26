@@ -36,6 +36,7 @@
                               <TableColumn fx:id="tblColDateT" prefWidth="75.0" text="Datum" />
                           </columns>
                         </TableView>
+                        <Button fx:id="btnAllTasks" layoutX="430.0" layoutY="25.0" mnemonicParsing="false" onAction="#viewAllTasks" prefHeight="40.0" prefWidth="120.0" text="Alle Tasks" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                </children>
               <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="10.0" />
