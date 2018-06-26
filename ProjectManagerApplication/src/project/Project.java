@@ -19,7 +19,6 @@ public class Project {
 	private Status status;
 	private Priority priority;
 	private Color color;
-	//private boolean open;
 	private Date deadline;
 	private Date eventDate;
 	private Customer customer;
@@ -39,13 +38,11 @@ public class Project {
 	 */
 	public Project(String title, String description, String notes, Priority priority, Color color, 
 			Date deadline, Date eventDate, Customer customer, ArrayList<Task> tasks) {
-		// super();
 		this.title = title;
 		this.description = description;
 		this.notes = notes;
 		this.priority = priority;
 		this.color = color;
-		//this.open = open;
 		this.deadline = deadline;
 		this.eventDate = eventDate;
 		this.customer = customer;
@@ -57,23 +54,6 @@ public class Project {
 	 */
 	public Project() {
 		// everything has to be set via setters
-		/*Scanner sc = new Scanner(System.in);
-		System.out.print("Titel: ");
-		this.setTitle(sc.nextLine());
-		System.out.print("Beschreibung: ");
-		this.setDescription(sc.nextLine());
-		System.out.print("Anmerkungen: ");
-		this.setDescription(sc.nextLine());
-		System.out.print("Priority: 0=LOW\t1=NORMAL\t2=HIGH: ");
-		int i = sc.nextInt();
-		Priority p = i == 2 ? Priority.HIGH : (i == 1 ? Priority.NORMAL : Priority.LOW);
-		this.setPriority(p);
-		this.setColor(new Color(0,255,0));
-		this.setOpen(true);
-		this.setDeadline(new Date(1234));
-		this.setEventDate(new Date(2234));
-		tasks = new ArrayList<Task>();
-		// sc.close();*/
 	}
 
 	/**
@@ -166,21 +146,6 @@ public class Project {
 		this.color = p;
 	}
 
-	/*
-	 * @return the open
-	 */
-	/*public boolean isOpen() {
-		return open;
-	}*/
-
-	/*
-	 * @param open
-	 *            the open to set
-	 */
-	/*public void setOpen(boolean open) {
-		this.open = open;
-	}*/
-
 	/**
 	 * @return the deadline
 	 */
@@ -241,7 +206,45 @@ public class Project {
 		this.tasks = tasks;
 	}
 
+	/**
+	 * @return a String representation of this project
+	 */
 	public String toString() {
 		return title + "\t" + description + "\t" + priority;
+	}
+	
+	/**
+	 * @return String representation for saving into file
+	 */
+	public String toFile() {
+		String ret = "";
+		if(title != null)
+			ret += title;
+		ret += ";";
+		if(description != null)
+			ret += description;
+		ret += ";";
+		if(notes != null)
+			ret += notes;
+		ret += ";";
+		if(status != null)
+			ret += status.getStatus();
+		ret += ";";
+		if(priority != null)
+			ret += priority.name();
+		ret += ";";
+		if(color != null) {
+			ret += color.getRed() + ";";
+			ret += color.getGreen() + ";";
+			ret += color.getBlue();
+		}
+		ret += ";";
+		if(deadline != null)
+			ret += deadline.getTime();
+		ret += ";";
+		if(eventDate != null)
+			ret += eventDate.getTime();
+		ret += ";";
+		return ret;
 	}
 }

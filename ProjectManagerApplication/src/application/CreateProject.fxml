@@ -115,7 +115,7 @@
                         <Insets right="4.0" />
                      </GridPane.margin>
                   </Label>
-                  <ChoiceBox fx:id="cBoxContactPerson" onShowingProperty="#selectContactPerson" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="14" />
+                  <ChoiceBox fx:id="cBoxContactPerson" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="14" />
                   <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSave" text="Speichern" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="27" />
                   <TextField fx:id="tfPersonName" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                   <TextField fx:id="tfPersonRelation" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
