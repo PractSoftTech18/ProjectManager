@@ -60,7 +60,7 @@ public class App {
 	private ListView<String> MyListView;
 
 	@FXML
-	private Button MyButton, btnCreateProject, btnEdit, btnTasks, btnAllTasks;
+	private Button MyButton, btnCreateProject, btnEdit, btnTasks, btnAllTasks, btnDelete, btnIncreaseStatus;
 
 	@FXML
 	private TableView<TableStruct> tblProjects;
@@ -100,18 +100,52 @@ public class App {
 		private String tdate;
 
 		/**
-		 * @param name
-		 * @param remark
-		 * @param priority
-		 * @param taskOpen
-		 * @param date
+		 * constructor
+		 * 
+		 * @author Julia Hofer
+		 * @param tname name of task
+		 * @param tremark remark of task
+		 * @param tstatus status of task
+		 * @param tpriority priority of task
+		 * @param tdate date of task
 		 */
-		public TableTask(String taskName, String taskRemark, String taskStatus, String taskPriority, String taskDate) {
-			this.tname = taskName;
-			this.tremark = taskRemark;
-			this.tstatus = taskStatus;
-			this.tpriority = taskPriority;
-			this.tdate = taskDate;
+		public TableTask(String tname, String tremark, String tstatus, String tpiority, String tdate) {
+			this.tname = tname;
+			this.tremark = tremark;
+			this.tstatus = tstatus;
+			this.tpriority = tpiority;
+			this.tdate = tdate;
+		}
+		
+		/**
+		 * constructor
+		 * 
+		 * @author Lukas Schiefermueller
+		 * @param tname name of task
+		 * @param tremark remark of task
+		 * @param tstatus status of task
+		 * @param tpriority priority of task
+		 * @param tdate date of task
+		 */
+		public TableTask(String tname, String tremark, Status tstatus, Priority tpriority, Date tdate) {
+			this(tname, tremark, "", "", "");
+			String dateString = "";
+			Date date;
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+			if ((date = tdate) != null) {
+				dateString = dateFormatter.format(date);
+			}
+			String priorityString = "";
+			Priority priority;
+			if ((priority = tpriority) != null)
+				priorityString = priority.toString();
+			String statusString = "";
+			Status status;
+			if ((status = tstatus) != null)
+				statusString = status.getStatus();
+			this.tstatus = statusString;
+			this.tpriority = priorityString;
+			this.tdate = dateString;
 		}
 
 		public String toFile() {
@@ -277,34 +311,21 @@ public class App {
 		 * MyTabPane.getSelectionModel().select(tabStatusSettings);
 		 */
 		TableStruct tblStruct = tblProjects.getSelectionModel().getSelectedItem();
-		Project project = new Project();
 		if (tblStruct != null) {
+			Project project = new Project();
 			taskList.clear();
 			for (int i = 0; i < ourData.projects.size(); i++) {
 				if (ourData.projects.get(i).getTitle().equals(tblStruct.getTitle())) {
 					project = ourData.projects.get(i);
+					ourData.selected = i; // needed in increaseStatus
 					break;
 				}
 			}
 
 			ArrayList<Task> allTasks = project.getTasks();
 			for (Task task : allTasks) {
-				String dateString = "";
-				Date date;
-				SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-				if ((date = task.getDate()) != null) {
-					dateString = dateFormatter.format(date);
-				}
-				String priorityString = "";
-				Priority priority;
-				if ((priority = task.getPriority()) != null)
-					priorityString = priority.toString();
-				String statusString = "";
-				Status status;
-				if ((status = task.getStatus()) != null)
-					statusString = status.getStatus();
-				taskList.add(new TableTask(task.getName(), task.getRemark(), statusString,
-						priorityString, dateString));
+				taskList.add(new TableTask(task.getName(), task.getRemark(), task.getStatus(),
+						task.getPriority(), task.getDate()));
 
 			}
 			tblTasks.setItems(taskList);
@@ -330,14 +351,76 @@ public class App {
 			    };
 			});
 		} else {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Fehler");
-			alert.setHeaderText("Auswahl");
-			alert.setContentText("Kein Projekt ausgewaehlt!");
-			alert.showAndWait();
+			alert();
 		}
 	}
 
+	/**
+	 * print alert window
+	 * 
+	 * @author Lukas Schiefermueller
+	 */
+	public void alert() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Fehler");
+		alert.setHeaderText("Auswahl");
+		alert.setContentText("Kein Projekt ausgewaehlt!");
+		alert.showAndWait();
+	}
+	
+	/**
+	 * increase status of selected project or task
+	 * 
+	 * @author Lydia Grillenberger
+	 * @param event select button increase status
+	 */
+	public void increaseStatus(ActionEvent event) {
+		TableStruct tblStruct = tblProjects.getSelectionModel().getSelectedItem();
+		TableTask tblTask = tblTasks.getSelectionModel().getSelectedItem();
+		//TableViewSelectionModel<TableTask> selectTask = tblTasks.getSelectionModel();
+		Project project = new Project();
+		Task task = new Task();
+		//boolean ifProject = false;
+		int selected = ourData.selected;
+		if (selected >= 0 && selected < ourData.projects.size())
+			project = ourData.projects.get(selected);
+		if (tblTask != null) {
+			for (int i = 0; i < project.getTasks().size(); i++) {
+				if (project.getTasks().get(i).getName().equals(tblTask.getTname())) {
+					task = project.getTasks().get(i);
+					break;
+				}
+			}
+			if (task.getStatus() != null)
+				task.setStatus(task.getStatus().increaseStatus());
+			ourFileHandler.change(project, project.getTitle());
+		}
+		else if (tblStruct != null) {
+			//ifProject = true;
+			for (int i = 0; i < ourData.projects.size(); i++) {
+				if (ourData.projects.get(i).getTitle().equals(tblStruct.getTitle())) {
+					project = ourData.projects.get(i);
+					break;
+				}
+			}
+			if (project.getStatus() != null)
+				project.setStatus(project.getStatus().increaseStatus());
+			ourFileHandler.change(project, project.getTitle());
+		} 
+		else
+			alert();
+		updateTblProjects();
+		/*if(!ifProject) {
+			try{
+				tblTasks.setSelectionModel(selectTask);
+				viewTasks(event);
+			}
+			catch(IOException e) {
+				e.printStackTrace();
+			}
+		}*/
+	}
+	
 	/**
 	 * refresh the table of projects
 	 * 
@@ -345,6 +428,7 @@ public class App {
 	 * @author Lukas Schiefermueller
 	 */
 	public void updateTblProjects() {
+		projects.clear();
 		for (Iterator<Project> it = ourData.projects.iterator(); it.hasNext();) {
 			Project project = it.next();
 			Date date;

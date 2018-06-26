@@ -23,7 +23,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/application/MyScene.fxml"));
-			Scene scene = new Scene(root, 800, 950);
+			Scene scene = new Scene(root, 850, 650);
 			//primaryStage.setMaximized(true);
 			primaryStage.setMinHeight(400);
 			primaryStage.setMinWidth(850);

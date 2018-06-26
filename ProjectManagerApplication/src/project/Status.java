@@ -4,7 +4,8 @@ import javafx.scene.paint.Color;
 
 /**
  * https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
- * @author Lydia Grillenberger, Lukas Schiefermueller
+ * @author Lydia Grillenberger
+ * @author Lukas Schiefermueller
  * @version 1.00, June 26th 2018
  */
 public enum Status {
@@ -30,6 +31,15 @@ public enum Status {
     	task = b;
     }
     
+    /**
+     * return status of string representation
+     * 
+     * @author Lydia Grillenberger
+     * @author Lukas Schiefermueller
+     * @param status status
+     * @param task true if it is a status of a task, false otherwise
+     * @return status regarding to the input
+     */
     public static Status returnStatus (String status, boolean task) {
     	if (task) {
     		switch (status) {
@@ -60,7 +70,6 @@ public enum Status {
     }
     
     /**
-     * 
      * @return Status
      */
     public String getStatus () {
@@ -68,7 +77,6 @@ public enum Status {
     }
     
     /**
-     * 
      * @return Color of Status
      */
     public Color getColor () {
@@ -76,10 +84,44 @@ public enum Status {
     }
     
     /**
-     * 
      * @return whether it is a task status or a project status
      */
     public boolean getTask () {
     	return task;
+    }
+    
+    /**
+     * increase the status
+     * 
+     * @author Lydia Grillenberger
+     * @return the next status
+     */
+    public Status increaseStatus() {
+    	if (task) {
+    		switch (status) {
+    		case "Offen":
+    			return INPROGRESS;
+    		case "In Arbeit":
+    			return CLOSED;
+    		case "Abgeschlossen":
+    			return OPEN;
+    		default:
+    			return null;
+    		}
+    	} else {
+	    	switch (status) {
+			case "Vorproduktion":
+				return PRODUCTION;
+			case "Produktion":
+				return POSTPRODUCTION;
+			case "Post-Produktion":
+				return REVISION;
+			case "Revision":
+				return INCOME;
+			case "Geldeingang":
+				return PREPRODUCTION;
+			default: return null;
+	    	}
+    	}
     }
 }
