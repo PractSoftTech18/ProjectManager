@@ -2,9 +2,14 @@ package application;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+
+import application.CreateProjectController.TableTask;
 import files.FileHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,7 +26,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import project.Priority;
 import project.Project;
+import project.Status;
+import project.Task;
 
 /**
  * controller for MyScene
@@ -69,11 +77,71 @@ public class App {
 	@FXML
 	private TableColumn<TableStruct, String> tblColDate;
 
+	@FXML
+	private TableColumn<TableTask, String> tblColTaskT, tblColRemarkT, tblColStatusT, tblColPriorityT, tblColDateT;
+
+	@FXML
+	private TableView<TableTask> tblTasks;
+
 	private static int buttonclicked;
 
 	private ObservableList<TableStruct> projects;
 
-	private ArrayList<TableStruct> list;
+	private ObservableList<TableTask> task;
+
+	/**
+	 * Class similar to Task.java but only relies on String parameters Used for
+	 * creating/representation of tasks in tblTasks
+	 * 
+	 * @author Julia Hofer
+	 */
+	public class TableTask {
+		private String tname;
+		private String tremark;
+		private String tstatus;
+		private String tpriority;
+		private String tdate;
+
+		/**
+		 * @param name
+		 * @param remark
+		 * @param priority
+		 * @param taskOpen
+		 * @param date
+		 */
+		public TableTask(String taskName, String taskRemark, String taskStatus, String taskPriority, String taskDate) {
+			this.tname = taskName;
+			this.tremark = taskRemark;
+			this.tstatus = taskStatus;
+			this.tpriority = taskPriority;
+			this.tdate = taskDate;
+		}
+
+		public String toFile() {
+			String s = tname + " " + tremark + " " + tstatus + " " + tpriority + " " + tdate;
+			return s;
+		}
+
+		public String getTname() {
+			return tname;
+		}
+
+		public String getTremark() {
+			return tremark;
+		}
+
+		public String getTstatus() {
+			return tstatus;
+		}
+
+		public String getTpriority() {
+			return tpriority;
+		}
+
+		public String getTdate() {
+			return tdate;
+		}
+	}
 
 	public class TableStruct {
 		private String title, date, status;
@@ -111,6 +179,15 @@ public class App {
 		tblColStatus.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("status"));
 
 		projects = FXCollections.observableArrayList();
+
+		// adding data to table tasks
+		tblColTaskT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tname"));
+		tblColRemarkT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tremark"));
+		tblColStatusT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tstatus"));
+		tblColPriorityT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tpriority"));
+		tblColDateT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tdate"));
+		task = FXCollections.observableArrayList();
+
 		updateTblProjects();
 
 	}
@@ -162,9 +239,7 @@ public class App {
 			tabEditProject.setContent(loader.load());
 			MyTabPane.getTabs().add(tabEditProject);
 			MyTabPane.getSelectionModel().select(tabEditProject);
-		}
-		else 
-		{
+		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Fehler");
 			alert.setHeaderText("Auswahl");
@@ -181,11 +256,53 @@ public class App {
 	 * @throws IOException
 	 */
 	public void viewTasks(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/Tasks.fxml"));
-		Tab tabStatusSettings = new Tab("Tasks");
-		tabStatusSettings.setContent(loader.load());
-		MyTabPane.getTabs().add(tabStatusSettings);
-		MyTabPane.getSelectionModel().select(tabStatusSettings);
+		/*
+		 * FXMLLoader loader = new
+		 * FXMLLoader(getClass().getResource("/application/Tasks.fxml")); Tab
+		 * tabStatusSettings = new Tab("Tasks");
+		 * tabStatusSettings.setContent(loader.load());
+		 * MyTabPane.getTabs().add(tabStatusSettings);
+		 * MyTabPane.getSelectionModel().select(tabStatusSettings);
+		 */
+		TableStruct tblStruct = tblProjects.getSelectionModel().getSelectedItem();
+		Project p = new Project();
+		if (tblStruct != null) {
+			task.clear();
+			for (int i = 0; i < ourData.projects.size(); i++) {
+				if (ourData.projects.get(i).getTitle().equals(tblStruct.getTitle())) {
+					p = ourData.projects.get(i);
+					break;
+				}
+			}
+
+			ArrayList<Task> Tt = p.getTasks();
+			for (Task t : Tt) {
+				String dateString = "";
+				Date d;
+				SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+				if ((d = t.getDate()) != null) {
+					dateString = dateFormatter.format(d);
+				}
+				String prio = "";
+				Priority P;
+				if ((P = t.getPriority()) != null)
+					prio = P.toString();
+				String stat = "";
+				Status S;
+				if ((S = t.getStatus()) != null)
+					stat = S.getStatus();
+				task.add(new TableTask(t.getName(), t.getRemark(), stat,
+						prio, dateString));
+
+			}
+			tblTasks.setItems(task);
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Fehler");
+			alert.setHeaderText("Auswahl");
+			alert.setContentText("Kein Projekt ausgewählt!");
+			alert.showAndWait();
+		}
 	}
 
 	/**
