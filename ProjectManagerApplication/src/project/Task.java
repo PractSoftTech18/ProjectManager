@@ -13,125 +13,127 @@ public class Task {
 	private String remark;
 	private Status status;
 	private Priority priority;
-	// private boolean taskOpen;
 	private Date date;
 
 	/**
-	 * @param name
-	 * @param remark
-	 * @param priority
-	 * @param taskOpen
-	 * @param date
+	 * constructor
+	 * 
+	 * @param name the name of this task
+	 * @param remark the remark of this task
+	 * @param status the status of this task
+	 * @param priority the priority of this task
+	 * @param date the date of this task
 	 */
-	public Task(String taskName, String taskRemark, Status taskStatus, Priority taskPriority, Date taskDate) {
-		// super();
-		this.name = taskName;
-		this.remark = taskRemark;
-		this.status = taskStatus;
-		this.priority = taskPriority;
-		//this.taskOpen = taskOpen;
-		this.date = taskDate;
+	public Task(String name, String remark, Status status, Priority priority, Date date) {
+		this.name = name;
+		this.remark = remark;
+		this.status = status;
+		this.priority = priority;
+		this.date = date;
 	}
 
 	/**
-	 * 
+	 * default constructor
 	 */
 	public Task() {
 		// everything has to be set via setters
 	}
 	
 	/**
-	 * @return the taskName
+	 * @return the name
 	 */
-	public String getTaskName() {
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param taskName
-	 *            the taskName to set
+	 * @param name
+	 *            the name to set
 	 */
-	public void setTaskName(String taskName) {
-		this.name = taskName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
-	 * @return the taskRemark
+	 * @return the remark
 	 */
-	public String getTaskRemark() {
+	public String getRemark() {
 		return remark;
 	}
 
 	/**
-	 * @param taskRemark
-	 *            the taskRemark to set
+	 * @param remark
+	 *            the remark to set
 	 */
-	public void setTaskRemark(String taskRemark) {
-		this.remark = taskRemark;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	/**
-	 * @return the taskStatus
+	 * @return the status
 	 */
-	public Status getTaskStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
 	/**
 	 * @param status
-	 *            the taskStatus to set
+	 *            the status to set
 	 */
-	public void setTaskStatus(Status taskStatus) {
-		this.status = taskStatus;
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 	
 	/**
-	 * @return the taskPriority
+	 * @return the priority
 	 */
-	public Priority getTaskPriority() {
+	public Priority getPriority() {
 		return priority;
 	}
 
 	/**
-	 * @param taskPriority
-	 *            the taskPriority to set
+	 * @param priority
+	 *            the priority to set
 	 */
-	public void setTaskPriority(Priority taskPriority) {
-		this.priority = taskPriority;
+	public void setPriority(Priority priority) {
+		this.priority = priority;
 	}
 
-	/*
-	 * @return the taskOpen
-	 */
-	/*public boolean isTaskOpen() {
-		return taskOpen;
-	}*/
-
-	/*
-	 * @param taskOpen
-	 *            the taskOpen to set
-	 */
-	/*public void setTaskOpen(boolean taskOpen) {
-		this.taskOpen = taskOpen;
-	}*/
-
 	/**
-	 * @return the taskDate
+	 * @return the date
 	 */
-	public Date getTaskDate() {
+	public Date getDate() {
 		return date;
 	}
 
 	/**
-	 * @param taskDate
-	 *            the taskDate to set
+	 * @param date
+	 *            the date to set
 	 */
-	public void setTaskDate(Date taskDate) {
-		this.date = taskDate;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
+	/**
+	 * @return String representation for saving into file
+	 */
 	public String toFile() {
-		return name + ";" + remark + ";" + status.getStatus() + ";" + priority.name() + ";" +  date.getTime();
+		String ret = "";
+		if(name != null)
+			ret += name;
+		ret += ";";
+		if(remark != null)
+			ret += remark;
+		ret += ";";
+		if(status != null)
+			ret += status.getStatus();
+		ret += ";";
+		if(priority != null)
+			ret += priority.name();
+		ret += ";";
+		if(date != null)
+			ret += date.getTime();
+		ret += ";";
+		return ret;
 	}
-
 }
