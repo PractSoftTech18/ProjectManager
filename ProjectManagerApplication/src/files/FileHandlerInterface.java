@@ -16,6 +16,13 @@ public interface FileHandlerInterface {
 	public void add(Project project);
 	
 	/**
+	 * This method deletes the project internally and in the file structure.
+	 * 
+	 * @param project project to be deleted
+	 */
+	public void delete(Project project);
+	
+	/**
 	 * Here existing files need to be changed.
 	 *  (comment: The project name must not be changed! -> file structure)
 	 * 

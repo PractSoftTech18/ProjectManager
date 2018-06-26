@@ -77,18 +77,26 @@ public class FileHandler implements FileHandlerInterface {
 	}
 
 	/**
-	 * Here existing files need to be changed.
+	 * This method deletes the project internally and in the file structure.
+	 * 
+	 * @author Lydia Grillenberger
+	 * @param project project to be deleted
+	 */
+	public void delete(Project project) {
+		delete(project, project.getTitle());
+	}
+	
+	/**
+	 * This method deletes the project internally and in the file structure.
 	 * 
 	 * @author Lydia Grillenberger
 	 * @author Lukas Schiefermueller
-	 * @param project
-	 *            project to be changed with the changed values inside
-	 * @param oldTitle
-	 *            old title of the project
+	 * @param project project to be deleted
+	 * @param title title of the project
 	 */
-	public void change(Project project, String oldTitle) {
+	private void delete(Project project, String title) {
 		for (Path dir : active) {
-			if (dir.toString().equals(active.toString() + "//" + oldTitle)) {
+			if (dir.toString().equals(active.toString() + "//" + title)) {
 				try {
 					Files.delete(dir);
 				} catch (Exception e) {
@@ -97,15 +105,28 @@ public class FileHandler implements FileHandlerInterface {
 				break;
 			}
 		}
-		add(project);
-
+		
 		int i = 0;
-		while (i < ourData.projects.size() && !ourData.projects.get(i).getTitle().equals(oldTitle)) {
+		while (i < ourData.projects.size() && !ourData.projects.get(i).getTitle().equals(title)) {
 			i++;
 		}
 		if (i < ourData.projects.size()) {
 			ourData.projects.remove(i);
 		}
+	}
+	
+	/**
+	 * Here existing files need to be changed.
+	 * 
+	 * @author Lydia Grillenberger
+	 * @param project
+	 *            project to be changed with the changed values inside
+	 * @param oldTitle
+	 *            old title of the project
+	 */
+	public void change(Project project, String oldTitle) {
+		delete(project, oldTitle);
+		add(project);
 		ourData.projects.add(project);
 	}
 
