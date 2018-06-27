@@ -237,7 +237,7 @@ public class Project {
 			ret += status.getStatus();
 		ret += ";";
 		if(priority != null)
-			ret += priority.name();
+			ret += priority.toString();
 		ret += ";";
 		if(color != null) {
 			ret += color.getRed() + ";";
