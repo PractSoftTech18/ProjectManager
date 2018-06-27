@@ -370,7 +370,7 @@ public class EditProjectController {
 		if (datePTaskDate.getValue() != null) {
 			localDate = datePTaskDate.getValue();
 			date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
-			dateString = localDate.toString();
+			dateString = dateFormatter.format(date);
 		} else {
 			date = new Date(1);
 			dateString = dateFormatter.format(date);
