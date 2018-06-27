@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="apProjectView" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProjectViewController">
+  <children>
+      <ScrollPane fitToWidth="true" minWidth="870.0" pannable="true" prefHeight="420.0" prefWidth="870.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+          <GridPane focusTraversable="true" layoutX="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="0.0">
+            <children>
+              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" text="Projektname" underline="false" visible="true" wrapText="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="4.0" />
+                     </GridPane.margin>
+              </Label>
+                  <Text fx:id="textDeadline" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Text>
+              	  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" layoutX="93.0" layoutY="87.0" text="Status" underline="false" visible="true" wrapText="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets right="4.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" layoutX="69.0" layoutY="57.0" text="Prioritat" underline="false" visible="true" wrapText="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                     <labelFor>
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="200.0" prefWidth="200.0" text="Neuer Tab" />
+                     </labelFor>
+                     <GridPane.margin>
+                        <Insets right="4.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Deadline" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets right="4.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Event" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets right="4.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Beschreibung" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="13" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets right="4.0" top="4.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="Notizen" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="15" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets right="4.0" top="4.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="tblPersons" editable="true" prefHeight="193.0" prefWidth="303.0" GridPane.columnIndex="2" GridPane.rowIndex="7">
+                    <columns>
+                      <TableColumn fx:id="tblColName" prefWidth="75.0" text="Name" />
+                        <TableColumn fx:id="tblColPhone" prefWidth="75.0" text="Telefon" />
+                        <TableColumn fx:id="tblColMail" prefWidth="75.0" text="E-Mail" />
+                        <TableColumn fx:id="tblColAd" prefWidth="75.0" text="Adresse" />
+                      <TableColumn fx:id="tblColRelation" prefWidth="75.0" text="Beziehung" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <Label text="Personen" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets right="4.0" top="4.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="tblTasks" editable="true" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="11">
+                     <columns>
+                        <TableColumn fx:id="tblColTask" prefWidth="75.0" text="Task" />
+                          <TableColumn fx:id="tblColRemark" prefWidth="75.0" text="Bemerkung" />
+                          <TableColumn fx:id="tblColStatus" prefWidth="75.0" text="Status" />
+                          <TableColumn fx:id="tblColPriority" prefWidth="75.0" text="Priorität" />
+                        <TableColumn fx:id="tblColDate" prefWidth="75.0" text="Datum" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <Label text="Ansprechpartner" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+                     <GridPane.margin>
+                        <Insets right="4.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Button fx:id="btnDeleteProject" minWidth="80.0" mnemonicParsing="false" onAction="#btnDeleteProject" prefWidth="80.0" text="Löschen" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                  <Label text="Tasks" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="11" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets right="4.0" top="4.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnEditProject" minWidth="80.0" mnemonicParsing="false" onAction="#btnEditProject" prefWidth="80.0" text="Bearbeiten" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <Text fx:id="textEvent" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </Text>
+                  <Text fx:id="textPriority" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </Text>
+                  <Text fx:id="textStatus" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </Text>
+                  <Text fx:id="textContactPerson" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="9">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </Text>
+                  <Text fx:id="textDescription" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="13" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets left="10.0" top="4.0" />
+                     </GridPane.margin>
+                  </Text>
+                  <Text fx:id="textNotes" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="15" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets left="10.0" top="4.0" />
+                     </GridPane.margin>
+                  </Text>
+                  <Text fx:id="textProjectName" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </Text>
+            </children>
+            <columnConstraints>
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="30.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="100.0" />
+              <ColumnConstraints hgrow="ALWAYS" minWidth="-Infinity" prefWidth="400.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="-Infinity" prefWidth="20.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="150.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="80.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="30.0" />
+            </columnConstraints>
+            <rowConstraints>
+              <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="10.0" vgrow="NEVER" />
+              <RowConstraints maxHeight="30.0" minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER" />
+              <RowConstraints maxHeight="30.0" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="335.0" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="200.0" minHeight="-Infinity" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="200.0" minHeight="-Infinity" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="10.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+          </GridPane>
+         </content>
+      </ScrollPane>
+  </children>
+</AnchorPane>

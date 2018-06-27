@@ -1,6 +1,7 @@
 package application;
 
 import java.util.Date;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,9 +20,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
@@ -53,6 +56,9 @@ public class EditProjectController {
 	 * FileHandler
 	 */
 	private FileHandler ourFileHandler = FileHandler.getFileHandler();
+
+	@FXML
+	private AnchorPane apEditProject;
 
 	@FXML
 	private TextField tfProjectName;
@@ -158,13 +164,13 @@ public class EditProjectController {
 			for (Iterator<Person> pIt = p.getCustomer().getPersons().iterator(); pIt.hasNext();) {
 				person.add(pIt.next());
 				contactP.add(person.get(person.size() - 1).getName());
-
 			}
 		}
 		tblPersons.setItems(person);
 
+		cBoxContactPerson.setItems(contactP);
 		if (!cBoxContactPerson.getItems().isEmpty()) {
-			cBoxContactPerson.setItems(contactP);
+
 			cBoxContactPerson.setValue(p.getCustomer().getContactPerson());
 		}
 
@@ -190,10 +196,6 @@ public class EditProjectController {
 						pTask.getPriority().toString(), dateString));
 				task.add(new Task(pTask.getName(), pTask.getRemark(), pTask.getStatus(), pTask.getPriority(),
 						pTask.getDate()));
-
-				tblPersons.setItems(person);
-				contactP.add(person.get(person.size() - 1).getName());
-
 			}
 		}
 		tblTasks.setItems(tableTask);
@@ -246,6 +248,14 @@ public class EditProjectController {
 			ourFileHandler.change(newProject, p.getTitle());
 
 			clear();
+			AnchorPane pane;
+			try {
+				pane = FXMLLoader.load(getClass().getResource("/application/ProjectView.fxml"));
+				apEditProject.getChildren().setAll(pane);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);
@@ -372,7 +382,7 @@ public class EditProjectController {
 			date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
 			dateString = dateFormatter.format(date);
 		} else {
-			date = new Date(1);
+			date = new Date();
 			dateString = dateFormatter.format(date);
 		}
 
@@ -404,7 +414,7 @@ public class EditProjectController {
 		if (chosenTask != null) {
 			tfTask.setText(chosenTask.getName());
 			DateFormat dateFormat = dateFormatter;
-			Date date = new Date(System.currentTimeMillis());
+			Date date = new Date();
 			try {
 				date = dateFormat.parse(chosenTask.getDate());
 			} catch (ParseException e) {
@@ -434,8 +444,8 @@ public class EditProjectController {
 		if (chosenTask != null) {
 			if (alert(true)) {
 				int i = tableTask.indexOf(chosenTask);
-				task.remove(i);
 				tableTask.remove(i);
+				task.remove(i);
 			}
 		} else {
 			alert(false);
@@ -473,7 +483,7 @@ public class EditProjectController {
 			alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Projekt löschen");
 			alert.setHeaderText("Achtung");
-			alert.setContentText("Projekt wirklich löschen?");
+			alert.setContentText("Wirklich löschen?");
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				return true;

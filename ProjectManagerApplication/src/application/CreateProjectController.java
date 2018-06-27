@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -15,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -26,6 +28,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import project.Priority;
 import project.Project;
 import project.Status;
@@ -39,6 +42,11 @@ import files.FileHandler;
  * @version 1.00, June 28th 2018
  */
 public class CreateProjectController {
+	
+	/**
+	 * available data for this run of the application
+	 */
+	private Data ourData = Data.getData();
 	/**
 	 * FileHandler
 	 */
@@ -50,6 +58,9 @@ public class CreateProjectController {
 	@FXML
 	private URL location;
 
+	@FXML
+	private AnchorPane apCreateProject;
+	
 	@FXML
 	private Button NewTab, btnSave, btnAddPerson, btnAddTask;
 
@@ -183,13 +194,13 @@ public class CreateProjectController {
 				instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
 				newProject.setDeadline(Date.from(instant));
 			} else {
-				newProject.setDeadline(new Date(1));
+				newProject.setDeadline(new Date());
 			}
 			if ((localDate = datePEvent.getValue()) != null) {
 				instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
 				newProject.setEventDate(Date.from(instant));
 			} else {
-				newProject.setEventDate(new Date(1));
+				newProject.setEventDate(new Date());
 			}
 			ArrayList<Person> persons = new ArrayList<>();
 			persons = new ArrayList<Person>(person);
@@ -204,6 +215,8 @@ public class CreateProjectController {
 			newProject.setNotes(taNotes.getText());
 
 			ourFileHandler.add(newProject);
+			
+			//
 			tfProjectName.clear();
 			colorPProject.setValue(null);
 			cBoxPriority.setValue(Priority.NORMAL.toString());
@@ -211,11 +224,21 @@ public class CreateProjectController {
 			datePDeadline.setValue(null);
 			datePEvent.setValue(null);
 			cBoxContactPerson.getItems().clear();
-			;
 			tblPersons.getItems().clear();
 			tblTasks.getItems().clear();
 			taDescription.clear();
 			taNotes.clear();
+			
+			AnchorPane pane;
+			try {
+				pane = FXMLLoader.load(getClass().getResource("/application/ProjectView.fxml"));
+				apCreateProject.getChildren().setAll(pane);
+				Data.getProject(newProject.getTitle());
+				ourData.selected = ourData.selectedInternally;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);
@@ -268,7 +291,7 @@ public class CreateProjectController {
 			date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
 			dateString = dateFormatter.format(date);
 		} else {
-			date = new Date(1);
+			date = new Date();
 			dateString = dateFormatter.format(date);
 		}
 
