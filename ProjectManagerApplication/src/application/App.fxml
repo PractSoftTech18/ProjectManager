@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.App">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AppController">
   <children>
     <TabPane fx:id="MyTabPane" tabClosingPolicy="SELECTED_TAB" visible="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>
@@ -21,9 +21,10 @@
                         <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#btnEdit" prefHeight="40.0" prefWidth="120.0" text="Projekt bearbeiten" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                         <TableView fx:id="tblProjects" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                           <columns>
-                            <TableColumn fx:id="tblColProjects" prefWidth="180.0" text="Projekt" />
-                              <TableColumn fx:id="tblColDate" prefWidth="70.0" text="Termin" />
-                              <TableColumn fx:id="tblColStatus" prefWidth="125.0" text="Status" />
+                            <TableColumn fx:id="tblColProjects" prefWidth="88.0" text="Projekt" />
+                              <TableColumn fx:id="tblColDateEvent" prefWidth="94.0" text="Event" />
+                              <TableColumn fx:id="tblColDateDeadline" prefWidth="85.0" text="Deadline" />
+                              <TableColumn fx:id="tblColStatus" prefWidth="132.0" text="Status" />
                           </columns>
                         </TableView>
                         <Button fx:id="btnTasks" mnemonicParsing="false" onAction="#viewTasks" prefHeight="40.0" prefWidth="120.0" text="Projekt Tasks" GridPane.columnIndex="1" GridPane.rowIndex="2" />

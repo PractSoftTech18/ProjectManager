@@ -276,60 +276,6 @@ public class CreateProjectController {
 		tfPersonRelation.clear();
 	}
 
-	/**
-	 * Class similar to Task.java but only relies on String parameters Used for
-	 * creating/representation of tasks in tblTasks
-	 * 
-	 * @author Julia Hofer
-	 */
-	public class TableTask {
-		private String tname;
-		private String tremark;
-		private String tstatus;
-		private String tpriority;
-		private String tdate;
-
-		/**
-		 * @param name
-		 * @param remark
-		 * @param priority
-		 * @param taskOpen
-		 * @param date
-		 */
-		public TableTask(String taskName, String taskRemark, String taskStatus, String taskPriority, String taskDate) {
-			this.tname = taskName;
-			this.tremark = taskRemark;
-			this.tstatus = taskStatus;
-			this.tpriority = taskPriority;
-			this.tdate = taskDate;
-		}
-
-		public String toFile() {
-			String s = tname + " " + tremark + " " + tstatus + " " + tpriority + " " + tdate;
-			return s;
-		}
-
-		public String getTname() {
-			return tname;
-		}
-
-		public String getTremark() {
-			return tremark;
-		}
-
-		public String getTstatus() {
-			return tstatus;
-		}
-
-		public String getTpriority() {
-			return tpriority;
-		}
-
-		public String getTdate() {
-			return tdate;
-		}
-	}
-
 	@FXML
 	/**
 	 * add task to project

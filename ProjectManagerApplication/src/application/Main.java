@@ -23,7 +23,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/application/MyScene.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/application/App.fxml"));
 			Scene scene = new Scene(root, 850, 650);
 			primaryStage.setMinHeight(400);
 			primaryStage.setMinWidth(850);

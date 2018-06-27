@@ -12,9 +12,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Optional;
 
-import application.App.TableStruct;
-import application.CreateProjectController.TableTask;
+import application.TableTask;
 import customer.Customer;
 import customer.Person;
 import files.FileHandler;
@@ -26,6 +26,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
@@ -103,60 +104,6 @@ public class EditProjectController {
 	private Project p = ourData.projects.get(ourData.selected);
 
 	/**
-	 * Class similar to Task.java but only relies on String parameters Used for
-	 * creating/representation of tasks in tblTasks
-	 * 
-	 * @author Julia Hofer
-	 */
-	public class TableTask {
-		private String tname;
-		private String tremark;
-		private String tstatus;
-		private String tpriority;
-		private String tdate;
-
-		/**
-		 * @param name
-		 * @param remark
-		 * @param priority
-		 * @param taskOpen
-		 * @param date
-		 */
-		public TableTask(String taskName, String taskRemark, String taskStatus, String taskPriority, String taskDate) {
-			this.tname = taskName;
-			this.tremark = taskRemark;
-			this.tstatus = taskStatus;
-			this.tpriority = taskPriority;
-			this.tdate = taskDate;
-		}
-
-		public String toFile() {
-			String s = tname + " " + tremark + " " + tstatus + " " + tpriority + " " + tdate;
-			return s;
-		}
-
-		public String getTname() {
-			return tname;
-		}
-
-		public String getTremark() {
-			return tremark;
-		}
-
-		public String getTstatus() {
-			return tstatus;
-		}
-
-		public String getTpriority() {
-			return tpriority;
-		}
-
-		public String getTdate() {
-			return tdate;
-		}
-	}
-
-	/**
 	 * initialize view of changing a project
 	 * 
 	 * @author Julia Hofer
@@ -218,7 +165,6 @@ public class EditProjectController {
 			}
 		}
 		tblPersons.setItems(person);
-
 
 		if (!cBoxContactPerson.getItems().isEmpty()) {
 			cBoxContactPerson.setItems(contactP);
@@ -299,20 +245,8 @@ public class EditProjectController {
 			newProject.setNotes(taNotes.getText());
 
 			ourFileHandler.change(newProject, p.getTitle());
-			;
-
-			tfProjectName.clear();
-			colorPProject.setValue(null);
-			cBoxPriority.setValue(Priority.NORMAL.toString());
-			cBoxStatus.setValue(Status.PREPRODUCTION.getStatus());
-			datePDeadline.setValue(null);
-			datePEvent.setValue(null);
-			cBoxContactPerson.getItems().clear();
-			;
-			tblPersons.getItems().clear();
-			tblTasks.getItems().clear();
-			taDescription.clear();
-			taNotes.clear();
+			
+			clear();
 
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);
@@ -323,6 +257,25 @@ public class EditProjectController {
 		}
 	}
 
+	/**
+	 * Clears the Scene
+	 * @author Julia Hofer
+	 */
+	private void clear() {
+		tfProjectName.clear();
+		colorPProject.setValue(null);
+		cBoxPriority.setValue(Priority.NORMAL.toString());
+		cBoxStatus.setValue(Status.PREPRODUCTION.getStatus());
+		datePDeadline.setValue(null);
+		datePEvent.setValue(null);
+		cBoxContactPerson.getItems().clear();
+		
+		tblPersons.getItems().clear();
+		tblTasks.getItems().clear();
+		taDescription.clear();
+		taNotes.clear();
+	}
+	
 	@FXML
 	void btnAddPerson(ActionEvent event) {
 		person.add(new Person(tfPersonName.getText(), tfPersonPhone.getText(), tfPersonMail.getText(),
@@ -373,15 +326,19 @@ public class EditProjectController {
 	public void btnDeletePerson(ActionEvent event) {
 		chosenPerson = tblPersons.getSelectionModel().getSelectedItem();
 		if (chosenPerson != null) {
-			int i = person.indexOf(chosenPerson);
-			person.remove(i);
+			if (alert(true)) {
+				int i = person.indexOf(chosenPerson);
+				person.remove(i);
 
-			contactP.remove(i);
-			if (cBoxContactPerson.getItems().indexOf(chosenPerson.getName()) == p.getCustomer()
-					.getContactPersonIndex()) {
-				cBoxContactPerson.setValue(null);
+				contactP.remove(i);
+				if (cBoxContactPerson.getItems().indexOf(chosenPerson.getName()) == p.getCustomer()
+						.getContactPersonIndex()) {
+					cBoxContactPerson.setValue(null);
+				}
+				cBoxContactPerson.setItems(contactP);
 			}
-			cBoxContactPerson.setItems(contactP);
+		} else {
+			alert(false);
 		}
 	}
 
@@ -458,10 +415,56 @@ public class EditProjectController {
 	public void btnDeleteTask(ActionEvent event) {
 		chosenTask = tblTasks.getSelectionModel().getSelectedItem();
 		if (chosenTask != null) {
-			int i = tableTask.indexOf(chosenTask);
-			task.remove(i);
-			tableTask.remove(i);
+			if (alert(true)) {
+				int i = tableTask.indexOf(chosenTask);
+				task.remove(i);
+				tableTask.remove(i);
+			}
+		} else {
+			alert(false);
 		}
 	}
 
+	/**
+	 * Deletes the seected project in the edit task
+	 * @author Lukas Schiefermueller
+	 */
+	public void btnDeleteProject(ActionEvent event) {
+		if (alert(true)) {
+			ourFileHandler.delete(p);
+			clear();
+		}else {
+			alert(false);
+		}
+	}
+	
+	/**
+	 * print alert window
+	 * 
+	 * @author Lukas Schiefermueller
+	 * @param delete
+	 *            true if delete project, false otherwise
+	 * @return true if ok is pressed
+	 */
+	private boolean alert(boolean delete) {
+		// http://code.makery.ch/blog/javafx-dialogs-official/
+		Alert alert;
+		if (delete) {
+			alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Projekt l�schen");
+			alert.setHeaderText("Achtung");
+			alert.setContentText("Projekt wirklich l�schen?");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				return true;
+			}
+			return false;
+		}
+		alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Fehler");
+		alert.setHeaderText("Auswahl");
+		alert.setContentText("Kein Projekt ausgew�hlt!");
+		alert.showAndWait();
+		return false;
+	}
 }

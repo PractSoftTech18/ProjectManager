@@ -197,7 +197,7 @@
                      <GridPane.margin>
                         <Insets bottom="4.0" />
                      </GridPane.margin></Button>
-                  <Button fx:id="btnDeleteProject" mnemonicParsing="false" text="Projekt löschen" textFill="#d01616" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                  <Button fx:id="btnDeleteProject" mnemonicParsing="false" onAction="#btnDeleteProject" text="Projekt löschen" textFill="#d01616" GridPane.columnIndex="4" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

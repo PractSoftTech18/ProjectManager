@@ -25,7 +25,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import project.Priority;
 import project.Project;
 import project.Status;
 import project.Task;
@@ -38,7 +37,7 @@ import project.Task;
  * @author Lukas Schiefermueller
  * @version 1.00, June 27th 2018
  */
-public class App {
+public class AppController {
 	/**
 	 * available data for this run of the application
 	 */
@@ -68,13 +67,7 @@ public class App {
 	private TableView<TableStruct> tblProjects;
 
 	@FXML
-	private TableColumn<TableStruct, String> tblColProjects;
-
-	@FXML
-	private TableColumn<TableStruct, String> tblColStatus;
-
-	@FXML
-	private TableColumn<TableStruct, String> tblColDate;
+	private TableColumn<TableStruct, String> tblColProjects, tblColStatus, tblColDateEvent, tblColDateDeadline;
 
 	@FXML
 	private TableColumn<TableTask, String> tblColTaskT, tblColRemarkT, tblColStatusT, tblColPriorityT, tblColDateT;
@@ -87,190 +80,7 @@ public class App {
 
 	@FXML
 	private ObservableList<TableTask> taskList;
-
-	/**
-	 * Class similar to Task but only relies on String parameters Used for
-	 * creating/representation of tasks in tblTasks
-	 * 
-	 * @author Julia Hofer
-	 */
-	public class TableTask {
-		private String tname;
-		private String tremark;
-		private String tstatus;
-		private String tpriority;
-		private String tdate;
-
-		/**
-		 * constructor
-		 * 
-		 * @author Julia Hofer
-		 * @param tname
-		 *            the name of the task
-		 * @param tremark
-		 *            the remark of the task
-		 * @param tstatus
-		 *            the status of the task
-		 * @param tpriority
-		 *            the priority of the task
-		 * @param tdate
-		 *            the date of the task
-		 */
-		public TableTask(String tname, String tremark, String tstatus, String tpiority, String tdate) {
-			this.tname = tname;
-			this.tremark = tremark;
-			this.tstatus = tstatus;
-			this.tpriority = tpiority;
-			this.tdate = tdate;
-		}
-
-		/**
-		 * constructor with regarding types
-		 * 
-		 * @author Lukas Schiefermueller
-		 * @param tname
-		 *            the name of the task
-		 * @param tremark
-		 *            the remark of the task
-		 * @param tstatus
-		 *            the status of the task
-		 * @param tpriority
-		 *            the priority of the task
-		 * @param tdate
-		 *            the date of the task
-		 */
-		public TableTask(String tname, String tremark, Status tstatus, Priority tpriority, Date tdate) {
-			this(tname, tremark, "", "", "");
-			String dateString = "";
-			Date date;
-			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-			if ((date = tdate) != null) {
-				dateString = dateFormatter.format(date);
-			}
-			String priorityString = "";
-			Priority priority;
-			if ((priority = tpriority) != null)
-				priorityString = priority.toString();
-			String statusString = "";
-			Status status;
-			if ((status = tstatus) != null)
-				statusString = status.getStatus();
-			this.tstatus = statusString;
-			this.tpriority = priorityString;
-			this.tdate = dateString;
-		}
-
-		/**
-		 * getter for tname
-		 * 
-		 * @return the name of the task
-		 */
-		public String getTname() {
-			return tname;
-		}
-
-		/**
-		 * getter for tremark
-		 * 
-		 * @return the remark of the task
-		 */
-		public String getTremark() {
-			return tremark;
-		}
-
-		/**
-		 * getter for tstatus
-		 * 
-		 * @return the status of the task
-		 */
-		public String getTstatus() {
-			return tstatus;
-		}
-
-		/**
-		 * getter for tpriority
-		 * 
-		 * @return the priority of the task
-		 */
-		public String getTpriority() {
-			return tpriority;
-		}
-
-		/**
-		 * getter for tdate
-		 * 
-		 * @return the date of the task
-		 */
-		public String getTdate() {
-			return tdate;
-		}
-	}
-
-	/**
-	 * used for filling tblProjects
-	 * 
-	 * @author Lukas Schiefermueller
-	 */
-	public class TableStruct {
-		/**
-		 * the title of the project
-		 */
-		private String title;
-
-		/**
-		 * the status of the project
-		 */
-		private String status;
-
-		/**
-		 * the date of the project
-		 */
-		private String date;
-
-		/**
-		 * constructor
-		 * 
-		 * @param title
-		 *            the title to set
-		 * @param status
-		 *            the status to set
-		 * @param date
-		 *            the date to set
-		 */
-		public TableStruct(String title, String status, String date) {
-			this.title = title;
-			this.status = status;
-			this.date = date;
-		}
-
-		/**
-		 * getter for title
-		 * 
-		 * @return the title of the project
-		 */
-		public String getTitle() {
-			return title;
-		}
-
-		/**
-		 * getter for status
-		 * 
-		 * @return the status of the project
-		 */
-		public String getStatus() {
-			return status;
-		}
-
-		/**
-		 * getter for date
-		 * 
-		 * @return the date of the project
-		 */
-		public String getDate() {
-			return date;
-		}
-	}
-
+	
 	/**
 	 * initialize MyScene
 	 */
@@ -279,7 +89,8 @@ public class App {
 		ourFileHandler.read();
 
 		tblColProjects.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("title"));
-		tblColDate.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("date"));
+		tblColDateEvent.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("event"));
+		tblColDateDeadline.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("deadline"));
 		tblColStatus.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("status"));
 
 		projects = FXCollections.observableArrayList();
@@ -395,9 +206,9 @@ public class App {
 		Alert alert;
 		if (delete) {
 			alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Projekt löschen");
+			alert.setTitle("Projekt lï¿½schen");
 			alert.setHeaderText("Achtung");
-			alert.setContentText("Projekt wirklich löschen?");
+			alert.setContentText("Projekt wirklich lï¿½schen?");
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				return true;
@@ -407,7 +218,7 @@ public class App {
 		alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Fehler");
 		alert.setHeaderText("Auswahl");
-		alert.setContentText("Kein Projekt ausgewählt!");
+		alert.setContentText("Kein Projekt ausgewï¿½hlt!");
 		alert.showAndWait();
 		return false;
 	}
@@ -518,11 +329,14 @@ public class App {
 			Project project = it.next();
 			Date date;
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-			String dateString = "";
+			String dateEventString = "", dateDeadlineString = "";
 			if ((date = project.getEventDate()) != null) {
-				dateString = dateFormatter.format(date);
+				dateEventString = dateFormatter.format(date);
 			}
-			projects.add(new TableStruct(project.getTitle(), project.getStatus().getStatus(), dateString));
+			if ((date = project.getDeadline()) != null) {
+				dateDeadlineString = dateFormatter.format(date);
+			}
+			projects.add(new TableStruct(project.getTitle(), project.getStatus().getStatus(), dateEventString, dateDeadlineString));
 
 		}
 		tblProjects.setItems(projects);
