@@ -3,7 +3,9 @@
  */
 package application;
 
-import java.sql.Date;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -11,6 +13,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import application.App.TableStruct;
+import application.CreateProjectController.TableTask;
 import customer.Customer;
 import customer.Person;
 import files.FileHandler;
@@ -92,6 +96,9 @@ public class EditProjectController {
 	private ObservableList<String> contactP;
 	private ObservableList<TableTask> tableTask;
 	private ArrayList<Task> task = new ArrayList<>();
+	SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+	private Person chosenPerson;
+	private TableTask chosenTask;
 
 	private Project p = ourData.projects.get(ourData.selected);
 
@@ -212,8 +219,11 @@ public class EditProjectController {
 		}
 		tblPersons.setItems(person);
 
-		cBoxContactPerson.setItems(contactP);
-		cBoxContactPerson.setValue(p.getCustomer().getContactPerson());
+
+		if (!cBoxContactPerson.getItems().isEmpty()) {
+			cBoxContactPerson.setItems(contactP);
+			cBoxContactPerson.setValue(p.getCustomer().getContactPerson());
+		}
 
 		taDescription.setText(p.getDescription());
 		taNotes.setText(p.getNotes());
@@ -227,7 +237,6 @@ public class EditProjectController {
 		tableTask = FXCollections.observableArrayList();
 
 		String dateString = "";
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 		if (p.getTasks() != null) {
 			for (Iterator<Task> t = p.getTasks().iterator(); t.hasNext();) {
 				Task pTask = t.next();
@@ -248,6 +257,7 @@ public class EditProjectController {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	@FXML
 	/**
 	 * 
@@ -268,13 +278,13 @@ public class EditProjectController {
 				instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
 				newProject.setDeadline(Date.from(instant));
 			} else {
-				newProject.setDeadline(null);
+				newProject.setDeadline(new Date(1));
 			}
 			if ((localDate = datePEvent.getValue()) != null) {
 				instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
 				newProject.setEventDate(Date.from(instant));
 			} else {
-				newProject.setEventDate(null);
+				newProject.setEventDate(new Date(1));
 			}
 			ArrayList<Person> persons = new ArrayList<>();
 			persons = new ArrayList<Person>(person);
@@ -315,12 +325,143 @@ public class EditProjectController {
 
 	@FXML
 	void btnAddPerson(ActionEvent event) {
+		person.add(new Person(tfPersonName.getText(), tfPersonPhone.getText(), tfPersonMail.getText(),
+				tfPersonAd.getText(), tfPersonRelation.getText()));
+		tblPersons.setItems(person);
 
+		contactP = cBoxContactPerson.getItems();
+		contactP.add(tfPersonName.getText());
+		cBoxContactPerson.setItems(contactP);
+
+		tfPersonName.clear();
+		tfPersonPhone.clear();
+		tfPersonMail.clear();
+		tfPersonAd.clear();
+		tfPersonRelation.clear();
 	}
 
 	@FXML
-	void btnAddTask(ActionEvent event) {
+	/**
+	 * 
+	 * @author Julia Hofer
+	 */
+	public void btnEditPerson(ActionEvent event) {
+		chosenPerson = tblPersons.getSelectionModel().getSelectedItem();
+		if (chosenPerson != null) {
+			tfPersonName.setText(chosenPerson.getName());
+			tfPersonPhone.setText(chosenPerson.getPhoneNumber());
+			tfPersonMail.setText(chosenPerson.getEmail());
+			tfPersonAd.setText(chosenPerson.getAddress());
+			tfPersonRelation.setText(chosenPerson.getRelation());
 
+			int i = person.indexOf(chosenPerson);
+			person.remove(i);
+
+			contactP.remove(i);
+			if (cBoxContactPerson.getItems().indexOf(chosenPerson.getName()) == p.getCustomer()
+					.getContactPersonIndex()) {
+				cBoxContactPerson.setValue(null);
+			}
+			cBoxContactPerson.setItems(contactP);
+		}
+	}
+
+	/**
+	 * 
+	 * @author Julia Hofer
+	 */
+	public void btnDeletePerson(ActionEvent event) {
+		chosenPerson = tblPersons.getSelectionModel().getSelectedItem();
+		if (chosenPerson != null) {
+			int i = person.indexOf(chosenPerson);
+			person.remove(i);
+
+			contactP.remove(i);
+			if (cBoxContactPerson.getItems().indexOf(chosenPerson.getName()) == p.getCustomer()
+					.getContactPersonIndex()) {
+				cBoxContactPerson.setValue(null);
+			}
+			cBoxContactPerson.setItems(contactP);
+		}
+	}
+
+	@FXML
+	/**
+	 * add task to project
+	 * 
+	 * @author Julia Hofer
+	 * @param event
+	 *            click button "Hinzufuegen"
+	 */
+	public void btnAddTask(ActionEvent event) {
+		String dateString = "";
+		Date date;
+		LocalDate localDate;
+
+		if (datePTaskDate.getValue() != null) {
+			localDate = datePTaskDate.getValue();
+			date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
+			dateString = localDate.toString();
+		} else {
+			date = new Date(1);
+			dateString = dateFormatter.format(date);
+		}
+
+		task.add(
+				new Task(tfTask.getText(), tfTaskRemark.getText(), Status.returnStatus(cBoxTaskStatus.getValue(), true),
+						Priority.returnPriority(cBoxTaskPriority.getValue()), date));
+
+		tableTask.add(new TableTask(tfTask.getText(), tfTaskRemark.getText(), cBoxTaskStatus.getValue(),
+				cBoxTaskPriority.getValue(), dateString));
+		tblTasks.setItems(tableTask);
+
+		tfTask.clear();
+		datePTaskDate.setValue(null);
+		tfTaskRemark.clear();
+		cBoxTaskStatus.setValue(Status.OPEN.getStatus());
+		cBoxTaskPriority.setValue(Priority.NORMAL.toString());
+	}
+
+	/**
+	 * 
+	 * @author Julia Hofer
+	 */
+	public void btnEditTask(ActionEvent event) {
+
+		chosenTask = tblTasks.getSelectionModel().getSelectedItem();
+		if (chosenTask != null) {
+			tfTask.setText(chosenTask.getTname());
+			DateFormat dateFormat = dateFormatter;
+			Date date = new Date(System.currentTimeMillis());
+			try {
+				date = dateFormat.parse(chosenTask.getTdate());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			datePTaskDate.setValue(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+			tfTaskRemark.setText(chosenTask.getTremark());
+			cBoxTaskStatus.setValue(chosenTask.getTstatus());
+			cBoxTaskPriority.setValue(chosenTask.getTpriority());
+
+			int i = tableTask.indexOf(chosenTask);
+			task.remove(i);
+			tableTask.remove(i);
+		}
+	}
+
+	/**
+	 * 
+	 * @author Julia Hofer
+	 */
+	public void btnDeleteTask(ActionEvent event) {
+		chosenTask = tblTasks.getSelectionModel().getSelectedItem();
+		if (chosenTask != null) {
+			int i = tableTask.indexOf(chosenTask);
+			task.remove(i);
+			tableTask.remove(i);
+		}
 	}
 
 }

@@ -1,6 +1,7 @@
 package application;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -102,6 +103,7 @@ public class CreateProjectController {
 	void addNewTab(ActionEvent event) {
 	}
 
+	SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 	private ObservableList<Person> person;
 	private ObservableList<String> contactP;
 	private ObservableList<TableTask> tableTask;
@@ -192,10 +194,7 @@ public class CreateProjectController {
 	 *            select button save
 	 */
 	public void btnSave(ActionEvent event) {
-		// read the given information
-		// FileHandler.add(project)
-		// close this tab and go to dashboard
-		
+
 		if (!tfProjectName.getText().equals("")) {
 			Project newProject = new Project();
 			newProject.setTitle(tfProjectName.getText());
@@ -210,13 +209,13 @@ public class CreateProjectController {
 				instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
 				newProject.setDeadline(Date.from(instant));
 			} else {
-				newProject.setDeadline(null);
+				newProject.setDeadline(new Date(1));
 			}
 			if ((localDate = datePEvent.getValue()) != null) {
 				instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
 				newProject.setEventDate(Date.from(instant));
 			} else {
-				newProject.setEventDate(null);
+				newProject.setEventDate(new Date(1));
 			}
 			ArrayList<Person> persons = new ArrayList<>();
 			persons = new ArrayList<Person>(person);
@@ -237,13 +236,13 @@ public class CreateProjectController {
 			cBoxStatus.setValue(Status.PREPRODUCTION.getStatus());
 			datePDeadline.setValue(null);
 			datePEvent.setValue(null);
-			cBoxContactPerson.getItems().clear();;
+			cBoxContactPerson.getItems().clear();
+			;
 			tblPersons.getItems().clear();
 			tblTasks.getItems().clear();
 			taDescription.clear();
 			taNotes.clear();
-			
-			
+
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Information");
@@ -253,6 +252,7 @@ public class CreateProjectController {
 		}
 	}
 
+	@FXML
 	/**
 	 * add person to project
 	 * 
@@ -274,8 +274,6 @@ public class CreateProjectController {
 		tfPersonMail.clear();
 		tfPersonAd.clear();
 		tfPersonRelation.clear();
-
-		// add this person to table view
 	}
 
 	/**
@@ -332,6 +330,7 @@ public class CreateProjectController {
 		}
 	}
 
+	@FXML
 	/**
 	 * add task to project
 	 * 
@@ -342,20 +341,24 @@ public class CreateProjectController {
 	public void btnAddTask(ActionEvent event) {
 
 		String dateString = "";
-		Instant instant;
+		Date date;
+		LocalDate localDate;
 
 		if (datePTaskDate.getValue() != null) {
-			LocalDate localDate = datePTaskDate.getValue();
+			localDate = datePTaskDate.getValue();
+			date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
 			dateString = localDate.toString();
-			instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
 		} else {
-			instant = null;
+			date = new Date(1);
+			dateString = dateFormatter.format(date);
 		}
 
-		task.add(
-				new Task(tfTask.getText(), tfTaskRemark.getText(), Status.returnStatus(cBoxTaskStatus.getValue(), true),
-						Priority.returnPriority(cBoxTaskPriority.getValue()), Date.from(instant)));
-
+	
+		
+		task.add(new Task(tfTask.getText(), tfTaskRemark.getText(),
+				Status.returnStatus(cBoxTaskStatus.getValue(), true),
+				Priority.returnPriority(cBoxTaskPriority.getValue()), date));
+		
 		tableTask.add(new TableTask(tfTask.getText(), tfTaskRemark.getText(), cBoxTaskStatus.getValue(),
 				cBoxTaskPriority.getValue(), dateString));
 		tblTasks.setItems(tableTask);
@@ -365,7 +368,5 @@ public class CreateProjectController {
 		tfTaskRemark.clear();
 		cBoxTaskStatus.setValue(Status.OPEN.getStatus());
 		cBoxTaskPriority.setValue(Priority.NORMAL.toString());
-
-		// add this task to table view
 	}
 }
