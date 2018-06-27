@@ -19,7 +19,7 @@ import project.Task;
  * controller for Tasks
  * 
  * @author Lydia Grillenberger
- * @version 1.00, June 27th 2018
+ * @version 1.00, June 28th 2018
  */
 public class TasksController {
 	/**
@@ -28,14 +28,14 @@ public class TasksController {
 	private Data ourData = Data.getData();
 
 	@FXML
-	private TableView<TblTask> tblTasks;
+	private TableView<TableTask> tblTasks;
 
 	@FXML
-	private TableColumn<TblTask, String> tblColTask, tblColProject, tblColRemark, tblColStatus, tblColPriority,
+	private TableColumn<TableTask, String> tblColTask, tblColProject, tblColRemark, tblColStatus, tblColPriority,
 			tblColDate;
 
 	@FXML
-	private ObservableList<TblTask> listTask;
+	private ObservableList<TableTask> listTask;
 
 	/**
 	 * initialize view of tasks
@@ -44,12 +44,12 @@ public class TasksController {
 	 */
 	@FXML
 	public void initialize() {
-		tblColTask.setCellValueFactory(new PropertyValueFactory<TblTask, String>("name"));
-		tblColProject.setCellValueFactory(new PropertyValueFactory<TblTask, String>("project"));
-		tblColRemark.setCellValueFactory(new PropertyValueFactory<TblTask, String>("remark"));
-		tblColStatus.setCellValueFactory(new PropertyValueFactory<TblTask, String>("status"));
-		tblColPriority.setCellValueFactory(new PropertyValueFactory<TblTask, String>("priority"));
-		tblColDate.setCellValueFactory(new PropertyValueFactory<TblTask, String>("date"));
+		tblColTask.setCellValueFactory(new PropertyValueFactory<TableTask, String>("name"));
+		tblColProject.setCellValueFactory(new PropertyValueFactory<TableTask, String>("project"));
+		tblColRemark.setCellValueFactory(new PropertyValueFactory<TableTask, String>("remark"));
+		tblColStatus.setCellValueFactory(new PropertyValueFactory<TableTask, String>("status"));
+		tblColPriority.setCellValueFactory(new PropertyValueFactory<TableTask, String>("priority"));
+		tblColDate.setCellValueFactory(new PropertyValueFactory<TableTask, String>("date"));
 		listTask = FXCollections.observableArrayList();
 		fillTable();
 	}
@@ -80,7 +80,7 @@ public class TasksController {
 					priorityString = priority.toString();
 				if ((date = task.getDate()) != null)
 					dateString = dateFormatter.format(date);
-				listTask.add(new TblTask(task.getName(), project.getTitle(), task.getRemark(), statusString,
+				listTask.add(new TableTask(task.getName(), project.getTitle(), task.getRemark(), statusString,
 						priorityString, dateString));
 			}
 		}
@@ -88,7 +88,7 @@ public class TasksController {
 
 		// project color
 		tblColProject.setCellFactory(column -> {
-			return new TableCell<TblTask, String>() {
+			return new TableCell<TableTask, String>() {
 				@Override
 				protected void updateItem(String item, boolean empty) {
 					super.updateItem(item, empty);
@@ -116,7 +116,7 @@ public class TasksController {
 
 		// status color
 		tblColStatus.setCellFactory(column -> {
-			return new TableCell<TblTask, String>() {
+			return new TableCell<TableTask, String>() {
 				@Override
 				protected void updateItem(String item, boolean empty) {
 					super.updateItem(item, empty);
@@ -134,121 +134,5 @@ public class TasksController {
 				}
 			};
 		});
-	}
-
-	/**
-	 * class for filling the table with tasks
-	 * 
-	 * @author Lydia Grillenberger
-	 */
-	public class TblTask {
-		/**
-		 * the name of the task
-		 */
-		private String name;
-
-		/**
-		 * the project of the task
-		 */
-		private String project;
-
-		/**
-		 * the remark of the task
-		 */
-		private String remark;
-
-		/**
-		 * the status of the task
-		 */
-		private String status;
-
-		/**
-		 * the priority of the task
-		 */
-		private String priority;
-
-		/**
-		 * the date of the task
-		 */
-		private String date;
-
-		/**
-		 * constructor
-		 * 
-		 * @param name
-		 *            the name of the task
-		 * @param project
-		 *            the project of the task
-		 * @param remark
-		 *            the remark of the task
-		 * @param status
-		 *            the status of the task
-		 * @param priority
-		 *            the priority of the task
-		 * @param date
-		 *            the date of the task
-		 */
-		public TblTask(String name, String project, String remark, String status, String priority, String date) {
-			this.name = name;
-			this.project = project;
-			this.remark = remark;
-			this.status = status;
-			this.priority = priority;
-			this.date = date;
-		}
-
-		/**
-		 * getter for name
-		 * 
-		 * @return the name of the task
-		 */
-		public String getName() {
-			return name;
-		}
-
-		/**
-		 * getter for project
-		 * 
-		 * @return the project of the task
-		 */
-		public String getProject() {
-			return project;
-		}
-
-		/**
-		 * getter for remark
-		 * 
-		 * @return the remark of the task
-		 */
-		public String getRemark() {
-			return remark;
-		}
-
-		/**
-		 * getter for status
-		 * 
-		 * @return the status of the task
-		 */
-		public String getStatus() {
-			return status;
-		}
-
-		/**
-		 * getter for priority
-		 * 
-		 * @return the priority of the task
-		 */
-		public String getPriority() {
-			return priority;
-		}
-
-		/**
-		 * getter for date
-		 * 
-		 * @return the date of the task
-		 */
-		public String getDate() {
-			return date;
-		}
 	}
 }

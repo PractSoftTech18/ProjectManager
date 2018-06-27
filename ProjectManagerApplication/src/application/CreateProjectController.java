@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import customer.Customer;
@@ -16,42 +15,30 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import project.Priority;
 import project.Project;
 import project.Status;
 import project.Task;
 import files.FileHandler;
-import files.FileHandlerInterface;
 
 /**
  * controller for CreateProject
  * 
  * @author Julia Hofer
- * @version 1.00, June 26th 2018
+ * @version 1.00, June 28th 2018
  */
 public class CreateProjectController {
-	/**
-	 * available data for this run of the application
-	 */
-	private Data ourData = Data.getData();
-
 	/**
 	 * FileHandler
 	 */
@@ -104,9 +91,13 @@ public class CreateProjectController {
 	}
 
 	SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+
 	private ObservableList<Person> person;
+
 	private ObservableList<String> contactP;
+
 	private ObservableList<TableTask> tableTask;
+
 	private ArrayList<Task> task = new ArrayList<>();
 
 	/**
@@ -160,30 +151,13 @@ public class CreateProjectController {
 		person = FXCollections.observableArrayList();
 
 		// adding data to table tasks
-		tblColTask.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tname"));
-		tblColRemark.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tremark"));
-		tblColStatus.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tstatus"));
-		tblColPriority.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tpriority"));
-		tblColDate.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tdate"));
+		tblColTask.setCellValueFactory(new PropertyValueFactory<TableTask, String>("name"));
+		tblColRemark.setCellValueFactory(new PropertyValueFactory<TableTask, String>("remark"));
+		tblColStatus.setCellValueFactory(new PropertyValueFactory<TableTask, String>("status"));
+		tblColPriority.setCellValueFactory(new PropertyValueFactory<TableTask, String>("priority"));
+		tblColDate.setCellValueFactory(new PropertyValueFactory<TableTask, String>("date"));
 		tableTask = FXCollections.observableArrayList();
-
 	}
-	/*
-	 * /** initialize choiceBox menu of choiceBoxContactPerson
-	 * 
-	 * @author Lydia Grillenberger
-	 * 
-	 * @param event select choiceBox
-	 * 
-	 * public void selectContactPerson(ActionEvent event) { // should be called when
-	 * cBoxContactPerson.onShowingProperty() but I cannot // find //
-	 * onShowingProperty in Scene Builder if (tblColName != null) {
-	 * ObservableList<TableColumn<Person, ?>> personChoice =
-	 * tblColName.getColumns(); if (personChoice != null) { ObservableList<String>
-	 * items = cBoxContactPerson.getItems(); for (Iterator<TableColumn<Person, ?>>
-	 * it = personChoice.iterator(); it.hasNext();) {
-	 * items.add(it.next().toString()); } cBoxContactPerson.setItems(items); } } }
-	 */
 
 	/**
 	 * save project
@@ -254,11 +228,11 @@ public class CreateProjectController {
 
 	@FXML
 	/**
-	 * add person to project
+	 * add a person
 	 * 
 	 * @author Julia Hofer
 	 * @param event
-	 *            click button "Hinzufuegen"
+	 *            select add person
 	 */
 	public void btnAddPerson(ActionEvent event) {
 		person.add(new Person(tfPersonName.getText(), tfPersonPhone.getText(), tfPersonMail.getText(),
@@ -278,14 +252,13 @@ public class CreateProjectController {
 
 	@FXML
 	/**
-	 * add task to project
+	 * add a task
 	 * 
 	 * @author Julia Hofer
 	 * @param event
-	 *            click button "Hinzufuegen"
+	 *            select add task
 	 */
 	public void btnAddTask(ActionEvent event) {
-
 		String dateString = "";
 		Date date;
 		LocalDate localDate;
@@ -299,13 +272,11 @@ public class CreateProjectController {
 			dateString = dateFormatter.format(date);
 		}
 
-	
-		
-		task.add(new Task(tfTask.getText(), tfTaskRemark.getText(),
-				Status.returnStatus(cBoxTaskStatus.getValue(), true),
-				Priority.returnPriority(cBoxTaskPriority.getValue()), date));
-		
-		tableTask.add(new TableTask(tfTask.getText(), tfTaskRemark.getText(), cBoxTaskStatus.getValue(),
+		task.add(
+				new Task(tfTask.getText(), tfTaskRemark.getText(), Status.returnStatus(cBoxTaskStatus.getValue(), true),
+						Priority.returnPriority(cBoxTaskPriority.getValue()), date));
+
+		tableTask.add(new TableTask(tfTask.getText(), "", tfTaskRemark.getText(), cBoxTaskStatus.getValue(),
 				cBoxTaskPriority.getValue(), dateString));
 		tblTasks.setItems(tableTask);
 

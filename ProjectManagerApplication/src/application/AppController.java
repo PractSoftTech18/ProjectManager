@@ -35,7 +35,7 @@ import project.Task;
  * @author Lydia Grillenberger
  * @author Julia Hofer
  * @author Lukas Schiefermueller
- * @version 1.00, June 27th 2018
+ * @version 1.00, June 28th 2018
  */
 public class AppController {
 	/**
@@ -96,11 +96,11 @@ public class AppController {
 		projects = FXCollections.observableArrayList();
 
 		// adding data to table tasks
-		tblColTaskT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tname"));
-		tblColRemarkT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tremark"));
-		tblColStatusT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tstatus"));
-		tblColPriorityT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tpriority"));
-		tblColDateT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tdate"));
+		tblColTaskT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("name"));
+		tblColRemarkT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("remark"));
+		tblColStatusT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("status"));
+		tblColPriorityT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("priority"));
+		tblColDateT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("date"));
 		taskList = FXCollections.observableArrayList();
 
 		updateTblProjects();
@@ -206,9 +206,9 @@ public class AppController {
 		Alert alert;
 		if (delete) {
 			alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Projekt lï¿½schen");
+			alert.setTitle("Projekt löschen");
 			alert.setHeaderText("Achtung");
-			alert.setContentText("Projekt wirklich lï¿½schen?");
+			alert.setContentText("Projekt wirklich löschen?");
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				return true;
@@ -218,7 +218,7 @@ public class AppController {
 		alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Fehler");
 		alert.setHeaderText("Auswahl");
-		alert.setContentText("Kein Projekt ausgewï¿½hlt!");
+		alert.setContentText("Es ist nichts ausgewählt!");
 		alert.showAndWait();
 		return false;
 	}
@@ -259,7 +259,7 @@ public class AppController {
 			project = ourData.projects.get(selected);
 		if (tableTask != null) {
 			for (int i = 0; i < project.getTasks().size(); i++) {
-				if (project.getTasks().get(i).getName().equals(tableTask.getTname())) {
+				if (project.getTasks().get(i).getName().equals(tableTask.getName())) {
 					task = project.getTasks().get(i);
 					break;
 				}
@@ -289,7 +289,7 @@ public class AppController {
 		Project project = ourData.projects.get(ourData.selected);
 		ArrayList<Task> allTasks = project.getTasks();
 		for (Task task : allTasks) {
-			taskList.add(new TableTask(task.getName(), task.getRemark(), task.getStatus(), task.getPriority(),
+			taskList.add(new TableTask(task.getName(), "", task.getRemark(), task.getStatus(), task.getPriority(),
 					task.getDate()));
 
 		}

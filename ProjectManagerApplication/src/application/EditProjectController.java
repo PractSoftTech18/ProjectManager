@@ -1,6 +1,3 @@
-/**
- * 
- */
 package application;
 
 import java.util.Date;
@@ -42,8 +39,8 @@ import project.Status;
 /**
  * controller for EditProject
  * 
- * @author Julia
- * @version 1.00, June 26th 2018
+ * @author Julia Hofer
+ * @version 1.00, June 28th 2018
  */
 public class EditProjectController {
 
@@ -175,11 +172,11 @@ public class EditProjectController {
 		taNotes.setText(p.getNotes());
 
 		// adding data to table tasks
-		tblColTask.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tname"));
-		tblColRemark.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tremark"));
-		tblColStatus.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tstatus"));
-		tblColPriority.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tpriority"));
-		tblColDate.setCellValueFactory(new PropertyValueFactory<TableTask, String>("tdate"));
+		tblColTask.setCellValueFactory(new PropertyValueFactory<TableTask, String>("name"));
+		tblColRemark.setCellValueFactory(new PropertyValueFactory<TableTask, String>("remark"));
+		tblColStatus.setCellValueFactory(new PropertyValueFactory<TableTask, String>("status"));
+		tblColPriority.setCellValueFactory(new PropertyValueFactory<TableTask, String>("priority"));
+		tblColDate.setCellValueFactory(new PropertyValueFactory<TableTask, String>("date"));
 		tableTask = FXCollections.observableArrayList();
 
 		String dateString = "";
@@ -189,7 +186,7 @@ public class EditProjectController {
 				if (pTask.getDate() != null) {
 					dateString = dateFormatter.format(pTask.getDate());
 				}
-				tableTask.add(new TableTask(pTask.getName(), pTask.getRemark(), pTask.getStatus().getStatus(),
+				tableTask.add(new TableTask(pTask.getName(), "", pTask.getRemark(), pTask.getStatus().getStatus(),
 						pTask.getPriority().toString(), dateString));
 				task.add(new Task(pTask.getName(), pTask.getRemark(), pTask.getStatus(), pTask.getPriority(),
 						pTask.getDate()));
@@ -203,11 +200,13 @@ public class EditProjectController {
 
 	}
 
-	@SuppressWarnings("deprecation")
 	@FXML
 	/**
+	 * save project
 	 * 
 	 * @author Julia Hofer
+	 * @param event
+	 *            select button save
 	 */
 	void btnSave(ActionEvent event) {
 		if (!tfProjectName.getText().equals("")) {
@@ -245,7 +244,7 @@ public class EditProjectController {
 			newProject.setNotes(taNotes.getText());
 
 			ourFileHandler.change(newProject, p.getTitle());
-			
+
 			clear();
 
 		} else {
@@ -258,7 +257,8 @@ public class EditProjectController {
 	}
 
 	/**
-	 * Clears the Scene
+	 * clear the scene
+	 * 
 	 * @author Julia Hofer
 	 */
 	private void clear() {
@@ -269,14 +269,20 @@ public class EditProjectController {
 		datePDeadline.setValue(null);
 		datePEvent.setValue(null);
 		cBoxContactPerson.getItems().clear();
-		
+
 		tblPersons.getItems().clear();
 		tblTasks.getItems().clear();
 		taDescription.clear();
 		taNotes.clear();
 	}
-	
+
 	@FXML
+	/**
+	 * add a person
+	 * 
+	 * @param event
+	 *            select add person
+	 */
 	void btnAddPerson(ActionEvent event) {
 		person.add(new Person(tfPersonName.getText(), tfPersonPhone.getText(), tfPersonMail.getText(),
 				tfPersonAd.getText(), tfPersonRelation.getText()));
@@ -295,8 +301,11 @@ public class EditProjectController {
 
 	@FXML
 	/**
+	 * edit a person
 	 * 
 	 * @author Julia Hofer
+	 * @param event
+	 *            select edit a person
 	 */
 	public void btnEditPerson(ActionEvent event) {
 		chosenPerson = tblPersons.getSelectionModel().getSelectedItem();
@@ -320,8 +329,11 @@ public class EditProjectController {
 	}
 
 	/**
+	 * delete a person
 	 * 
 	 * @author Julia Hofer
+	 * @param event
+	 *            select delete a person
 	 */
 	public void btnDeletePerson(ActionEvent event) {
 		chosenPerson = tblPersons.getSelectionModel().getSelectedItem();
@@ -348,7 +360,7 @@ public class EditProjectController {
 	 * 
 	 * @author Julia Hofer
 	 * @param event
-	 *            click button "Hinzufuegen"
+	 *            select add task
 	 */
 	public void btnAddTask(ActionEvent event) {
 		String dateString = "";
@@ -368,7 +380,7 @@ public class EditProjectController {
 				new Task(tfTask.getText(), tfTaskRemark.getText(), Status.returnStatus(cBoxTaskStatus.getValue(), true),
 						Priority.returnPriority(cBoxTaskPriority.getValue()), date));
 
-		tableTask.add(new TableTask(tfTask.getText(), tfTaskRemark.getText(), cBoxTaskStatus.getValue(),
+		tableTask.add(new TableTask(tfTask.getText(), "", tfTaskRemark.getText(), cBoxTaskStatus.getValue(),
 				cBoxTaskPriority.getValue(), dateString));
 		tblTasks.setItems(tableTask);
 
@@ -380,27 +392,29 @@ public class EditProjectController {
 	}
 
 	/**
+	 * edit a task
 	 * 
 	 * @author Julia Hofer
+	 * @param event
+	 *            select edit a task
 	 */
 	public void btnEditTask(ActionEvent event) {
 
 		chosenTask = tblTasks.getSelectionModel().getSelectedItem();
 		if (chosenTask != null) {
-			tfTask.setText(chosenTask.getTname());
+			tfTask.setText(chosenTask.getName());
 			DateFormat dateFormat = dateFormatter;
 			Date date = new Date(System.currentTimeMillis());
 			try {
-				date = dateFormat.parse(chosenTask.getTdate());
+				date = dateFormat.parse(chosenTask.getDate());
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			datePTaskDate.setValue(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-			tfTaskRemark.setText(chosenTask.getTremark());
-			cBoxTaskStatus.setValue(chosenTask.getTstatus());
-			cBoxTaskPriority.setValue(chosenTask.getTpriority());
+			tfTaskRemark.setText(chosenTask.getRemark());
+			cBoxTaskStatus.setValue(chosenTask.getStatus());
+			cBoxTaskPriority.setValue(chosenTask.getPriority());
 
 			int i = tableTask.indexOf(chosenTask);
 			task.remove(i);
@@ -409,8 +423,11 @@ public class EditProjectController {
 	}
 
 	/**
+	 * delete a task
 	 * 
 	 * @author Julia Hofer
+	 * @param select
+	 *            delete a task
 	 */
 	public void btnDeleteTask(ActionEvent event) {
 		chosenTask = tblTasks.getSelectionModel().getSelectedItem();
@@ -426,18 +443,21 @@ public class EditProjectController {
 	}
 
 	/**
-	 * Deletes the seected project in the edit task
+	 * delete the selected project in the edit tab
+	 * 
 	 * @author Lukas Schiefermueller
+	 * @param event
+	 *            select delete the project
 	 */
 	public void btnDeleteProject(ActionEvent event) {
 		if (alert(true)) {
 			ourFileHandler.delete(p);
 			clear();
-		}else {
+		} else {
 			alert(false);
 		}
 	}
-	
+
 	/**
 	 * print alert window
 	 * 
@@ -451,9 +471,9 @@ public class EditProjectController {
 		Alert alert;
 		if (delete) {
 			alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Projekt lï¿½schen");
+			alert.setTitle("Projekt löschen");
 			alert.setHeaderText("Achtung");
-			alert.setContentText("Projekt wirklich lï¿½schen?");
+			alert.setContentText("Projekt wirklich löschen?");
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				return true;
@@ -463,7 +483,7 @@ public class EditProjectController {
 		alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Fehler");
 		alert.setHeaderText("Auswahl");
-		alert.setContentText("Kein Projekt ausgewï¿½hlt!");
+		alert.setContentText("Es ist nichts ausgewählt!");
 		alert.showAndWait();
 		return false;
 	}

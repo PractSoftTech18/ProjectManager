@@ -11,115 +11,151 @@ import project.Status;
  * creating/representation of tasks in tblTasks
  * 
  * @author Julia Hofer
+ * @version 1.00, June 28th 2018
  */
 public class TableTask {
-	private String tname;
-	private String tremark;
-	private String tstatus;
-	private String tpriority;
-	private String tdate;
+	/**
+	 * the name of the task
+	 */
+	private String name;
+	
+	/**
+	 * the project of the task
+	 */
+	private String project;
+	
+	/**
+	 * the remark of the task
+	 */
+	private String remark;
+	
+	/**
+	 * the status of the task
+	 */
+	private String status;
+	
+	/**
+	 * the priority of the task
+	 */
+	private String priority;
+	
+	/**
+	 * the date of the task
+	 */
+	private String date;
 
 	/**
 	 * constructor
 	 * 
 	 * @author Julia Hofer
-	 * @param tname
+	 * @param name
 	 *            the name of the task
-	 * @param tremark
+	 * @param project the project of the task
+	 * @param remark
 	 *            the remark of the task
-	 * @param tstatus
+	 * @param status
 	 *            the status of the task
-	 * @param tpriority
+	 * @param priority
 	 *            the priority of the task
-	 * @param tdate
+	 * @param date
 	 *            the date of the task
 	 */
-	public TableTask(String tname, String tremark, String tstatus, String tpiority, String tdate) {
-		this.tname = tname;
-		this.tremark = tremark;
-		this.tstatus = tstatus;
-		this.tpriority = tpiority;
-		this.tdate = tdate;
+	public TableTask(String name, String project, String remark, String status, String piority, String date) {
+		this.name = name;
+		this.project = project;
+		this.remark = remark;
+		this.status = status;
+		this.priority = piority;
+		this.date = date;
 	}
 
 	/**
 	 * constructor with regarding types
 	 * 
 	 * @author Lukas Schiefermueller
-	 * @param tname
+	 * @param name
 	 *            the name of the task
-	 * @param tremark
+	 * @param remark
 	 *            the remark of the task
-	 * @param tstatus
+	 * @param status
 	 *            the status of the task
-	 * @param tpriority
+	 * @param priority
 	 *            the priority of the task
-	 * @param tdate
+	 * @param date
 	 *            the date of the task
 	 */
-	public TableTask(String tname, String tremark, Status tstatus, Priority tpriority, Date tdate) {
-		this(tname, tremark, "", "", "");
+	public TableTask(String name, String project, String remark, Status status, Priority priority, Date date) {
+		this(name, project, remark, "", "", "");
 		String dateString = "";
-		Date date;
+		Date dateDate;
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-		if ((date = tdate) != null) {
-			dateString = dateFormatter.format(date);
+		if ((dateDate = date) != null) {
+			dateString = dateFormatter.format(dateDate);
 		}
 		String priorityString = "";
-		Priority priority;
-		if ((priority = tpriority) != null)
-			priorityString = priority.toString();
+		Priority priorityPriority;
+		if ((priorityPriority = priority) != null)
+			priorityString = priorityPriority.toString();
 		String statusString = "";
-		Status status;
-		if ((status = tstatus) != null)
-			statusString = status.getStatus();
-		this.tstatus = statusString;
-		this.tpriority = priorityString;
-		this.tdate = dateString;
+		Status statusStatus;
+		if ((statusStatus = status) != null)
+			statusString = statusStatus.getStatus();
+		this.status = statusString;
+		this.priority = priorityString;
+		this.date = dateString;
 	}
 
 	/**
-	 * getter for tname
+	 * getter for name
 	 * 
 	 * @return the name of the task
 	 */
-	public String getTname() {
-		return tname;
+	public String getName() {
+		return name;
+	}
+	
+	/**
+	 * getter for project
+	 * 
+	 * @return the project of the task
+	 */
+	public String getProject() {
+		return project;
 	}
 
 	/**
-	 * getter for tremark
+	 * getter for remark
 	 * 
 	 * @return the remark of the task
 	 */
-	public String getTremark() {
-		return tremark;
+	public String getRemark() {
+		return remark;
 	}
 
 	/**
-	 * getter for tstatus
+	 * getter for status
 	 * 
 	 * @return the status of the task
 	 */
-	public String getTstatus() {
-		return tstatus;
+	public String getStatus() {
+		return status;
 	}
 
 	/**
-	 * getter for tpriority
+	 * getter for priority
 	 * 
 	 * @return the priority of the task
 	 */
-	public String getTpriority() {
-		return tpriority;
+	public String getPriority() {
+		return priority;
 	}
 
 	/**
-	 * getter for tdate
+	 * getter for date
 	 * 
 	 * @return the date of the task
 	 */
-	public String getTdate() {
-		return tdate;
+	public String getDate() {
+		return date;
 	}
 }
