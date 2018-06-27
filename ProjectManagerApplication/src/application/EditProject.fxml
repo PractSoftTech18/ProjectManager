@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane minHeight="400.0" minWidth="850.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EditProjectController">
+<AnchorPane minWidth="850.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EditProjectController">
   <children>
-      <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="400.0" minWidth="850.0" pannable="true" prefHeight="400.0" prefWidth="850.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" minWidth="870.0" pannable="true" prefHeight="420.0" prefWidth="870.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
           <GridPane focusTraversable="true" layoutX="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -147,7 +147,7 @@
                         <Insets right="4.0" />
                      </GridPane.margin>
                   </Label>
-                  <Button fx:id="btnAddPerson" mnemonicParsing="false" onAction="#btnAddPerson" text="Hinzufügen" GridPane.columnIndex="4" GridPane.rowIndex="11" />
+                  <Button fx:id="btnAddPerson" minWidth="75.0" mnemonicParsing="false" onAction="#btnAddPerson" text="Hinzufügen" GridPane.columnIndex="4" GridPane.rowIndex="11" />
                   <Label text="Bezeichnung" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="17">
                      <GridPane.margin>
                         <Insets right="4.0" />
@@ -186,16 +186,24 @@
                   <ChoiceBox fx:id="cBoxTaskStatus" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="19" />
                   <ChoiceBox fx:id="cBoxTaskPriority" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="20" />
                   <TextField fx:id="tfTaskRemark" GridPane.columnIndex="2" GridPane.rowIndex="21" />
-                  <Button fx:id="btnAddTask" mnemonicParsing="false" onAction="#btnAddTask" text="Hinzufügen" GridPane.columnIndex="4" GridPane.rowIndex="21" />
+                  <Button fx:id="btnAddTask" minWidth="75.0" mnemonicParsing="false" onAction="#btnAddTask" text="Hinzufügen" GridPane.columnIndex="4" GridPane.rowIndex="21" />
                   <TextArea fx:id="taDescription" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="25" />
                   <TextArea fx:id="taNotes" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="27" />
-                  <Button fx:id="btnDeletePerson" disable="true" mnemonicParsing="false" text="Löschen" GridPane.columnIndex="4" GridPane.rowIndex="13" />
-                  <Button fx:id="btnDeleteTask" disable="true" mnemonicParsing="false" text="Löschen" GridPane.columnIndex="4" GridPane.rowIndex="23" />
-                  <Button mnemonicParsing="false" text="Projekt löschen" textFill="#d01616" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                  <Button fx:id="btnDeletePerson" minWidth="75.0" mnemonicParsing="false" onAction="#btnDeletePerson" text="Löschen" GridPane.columnIndex="4" GridPane.rowIndex="13" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets bottom="4.0" />
+                     </GridPane.margin></Button>
+                  <Button fx:id="btnDeleteTask" minWidth="75.0" mnemonicParsing="false" onAction="#btnDeleteTask" text="Löschen" GridPane.columnIndex="4" GridPane.rowIndex="23" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets bottom="4.0" />
+                     </GridPane.margin></Button>
+                  <Button fx:id="btnDeleteProject" mnemonicParsing="false" text="Projekt löschen" textFill="#d01616" GridPane.columnIndex="4" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
+                  <Button fx:id="btnEditPerson" minWidth="75.0" mnemonicParsing="false" onAction="#btnEditPerson" text="Bearbeiten" GridPane.columnIndex="4" GridPane.rowIndex="13" />
+                  <Button fx:id="btnEditTask" minWidth="75.0" mnemonicParsing="false" onAction="#btnEditTask" text="Bearbeiten" GridPane.columnIndex="4" GridPane.rowIndex="23" />
             </children>
             <columnConstraints>
               <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="30.0" />
