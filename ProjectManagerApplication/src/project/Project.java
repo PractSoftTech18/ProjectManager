@@ -281,13 +281,8 @@ public class Project {
 		if (status != null)
 			ret += status.getStatus();
 		ret += ";";
-<<<<<<< HEAD
-		if (priority != null)
-			ret += priority.name();
-=======
 		if(priority != null)
 			ret += priority.toString();
->>>>>>> branch 'master' of https://github.com/PractSoftTech18/ProjectManager.git
 		ret += ";";
 		if (color != null) {
 			ret += color.getRed() + ";";
