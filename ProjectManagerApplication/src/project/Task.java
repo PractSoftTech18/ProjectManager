@@ -129,7 +129,7 @@ public class Task {
 			ret += status.getStatus();
 		ret += ";";
 		if(priority != null)
-			ret += priority.name();
+			ret += priority.toString();
 		ret += ";";
 		if(date != null)
 			ret += date.getTime();

@@ -87,6 +87,7 @@ public class FileHandler implements FileHandlerInterface {
 		// Tasks.txt
 		addToFile = ";;;;;";
 		if (project.getTasks() != null) {
+			addToFile = "";
 			for (Iterator<Task> t = project.getTasks().iterator(); t.hasNext();) {
 				addToFile += t.next().toFile() + "\n";
 			}
