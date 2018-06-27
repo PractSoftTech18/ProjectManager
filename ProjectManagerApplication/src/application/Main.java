@@ -25,7 +25,7 @@ public class Main extends Application {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/application/App.fxml"));
 			Scene scene = new Scene(root, 850, 650);
-			primaryStage.setMinHeight(400);
+			primaryStage.setMinHeight(650);
 			primaryStage.setMinWidth(850);
 			primaryStage.setTitle("Project Manager");
 			primaryStage.setScene(scene);

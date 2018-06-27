@@ -8,13 +8,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AppController">
+<AnchorPane minHeight="600.0" minWidth="850.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AppController">
   <children>
-    <TabPane fx:id="MyTabPane" tabClosingPolicy="SELECTED_TAB" visible="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <TabPane fx:id="MyTabPane" minHeight="400.0" minWidth="850.0" tabClosingPolicy="SELECTED_TAB" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>
         <Tab fx:id="MyMainTab" closable="false" text="Übersicht">
           <content>
-            <GridPane fx:id="MyGridPane" prefHeight="600.0" prefWidth="800.0">
+            <GridPane fx:id="MyGridPane" prefWidth="800.0">
                <children>
                  <Button fx:id="btnActualize" contentDisplay="CENTER" mnemonicParsing="false" onAction="#actualize" prefHeight="40.0" prefWidth="120.0" text="Aktualisieren" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                  <Button id="NewTab" fx:id="btnCreateProject" contentDisplay="CENTER" mnemonicParsing="false" onAction="#createNewProject" prefHeight="40.0" prefWidth="120.0" text="Neues Projekt" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
