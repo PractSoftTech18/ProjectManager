@@ -191,7 +191,7 @@
                   <TextArea fx:id="taNotes" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="27" />
                   <Button fx:id="btnDeletePerson" disable="true" mnemonicParsing="false" text="Löschen" GridPane.columnIndex="4" GridPane.rowIndex="13" />
                   <Button fx:id="btnDeleteTask" disable="true" mnemonicParsing="false" text="Löschen" GridPane.columnIndex="4" GridPane.rowIndex="23" />
-                  <Button mnemonicParsing="false" text="Projekt löschen" textFill="#d01616" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                  <Button fx:id="btnDeleteProject" mnemonicParsing="false" text="Projekt löschen" textFill="#d01616" GridPane.columnIndex="4" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

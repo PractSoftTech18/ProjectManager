@@ -15,14 +15,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -48,8 +54,8 @@ public class CreateProjectController {
 	/**
 	 * FileHandler
 	 */
-	private FileHandler ourFileHandler = FileHandler.getFileHandler(); 
-	
+	private FileHandler ourFileHandler = FileHandler.getFileHandler();
+
 	@FXML
 	private ResourceBundle resources;
 
@@ -95,7 +101,7 @@ public class CreateProjectController {
 	@FXML
 	void addNewTab(ActionEvent event) {
 	}
-	
+
 	private ObservableList<Person> person;
 	private ObservableList<String> contactP;
 	private ObservableList<TableTask> tableTask;
@@ -181,6 +187,7 @@ public class CreateProjectController {
 	 * save project
 	 * 
 	 * @author Lukas Schiefermueller
+	 * @author Julia Hofer
 	 * @param event
 	 *            select button save
 	 */
@@ -188,50 +195,62 @@ public class CreateProjectController {
 		// read the given information
 		// FileHandler.add(project)
 		// close this tab and go to dashboard
-		Project newProject = new Project();
-
-		newProject.setTitle(tfProjectName.getText());
-
-		newProject.setColor(colorPProject.getValue());
-
-		newProject.setPriority(Priority.returnPriority(cBoxPriority.getSelectionModel().getSelectedItem()));
-		newProject.setStatus(Status.returnStatus(cBoxStatus.getSelectionModel().getSelectedItem(), false));
-
-		// https://stackoverflow.com/questions/20446026/get-value-from-date-picker
-		LocalDate localDate;
-		Instant instant;
-		if ((localDate = datePDeadline.getValue()) != null) {
-			instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-			newProject.setDeadline(Date.from(instant));
-		} else {
-			newProject.setDeadline(null);
-		}
-		if ((localDate = datePEvent.getValue()) != null) {
-			instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-			newProject.setEventDate(Date.from(instant));
-		} else {
-			newProject.setEventDate(null);
-		}
-		ArrayList<Person> persons = new ArrayList<>();
-		persons = new ArrayList<Person>(person);
-
-		String contactPerson;
-		int cont = 0;
-		if ((contactPerson = cBoxContactPerson.getValue()) != null) {
-			cont = contactP.indexOf(contactPerson);
-		}
 		
-		Customer customer = new Customer(persons, cont);
-		
-		newProject.setCustomer(customer);
+		if (!tfProjectName.getText().equals("")) {
+			Project newProject = new Project();
+			newProject.setTitle(tfProjectName.getText());
+			newProject.setColor(colorPProject.getValue());
+			newProject.setPriority(Priority.returnPriority(cBoxPriority.getSelectionModel().getSelectedItem()));
+			newProject.setStatus(Status.returnStatus(cBoxStatus.getSelectionModel().getSelectedItem(), false));
 
-		newProject.setTasks(task);
+			// https://stackoverflow.com/questions/20446026/get-value-from-date-picker
+			LocalDate localDate;
+			Instant instant;
+			if ((localDate = datePDeadline.getValue()) != null) {
+				instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+				newProject.setDeadline(Date.from(instant));
+			} else {
+				newProject.setDeadline(null);
+			}
+			if ((localDate = datePEvent.getValue()) != null) {
+				instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+				newProject.setEventDate(Date.from(instant));
+			} else {
+				newProject.setEventDate(null);
+			}
+			ArrayList<Person> persons = new ArrayList<>();
+			persons = new ArrayList<Person>(person);
+			String contactPerson;
+			int cont = 0;
+			if ((contactPerson = cBoxContactPerson.getValue()) != null) {
+				cont = contactP.indexOf(contactPerson);
+			}
+			newProject.setCustomer(new Customer(persons, cont));
+			newProject.setTasks(task);
+			newProject.setDescription(taDescription.getText());
+			newProject.setNotes(taNotes.getText());
 
-		newProject.setDescription(taDescription.getText());
-
-		newProject.setNotes(taNotes.getText());
-
-		ourFileHandler.add(newProject);
+			ourFileHandler.add(newProject);
+			tfProjectName.clear();
+			colorPProject.setValue(null);
+			cBoxPriority.setValue(Priority.NORMAL.toString());
+			cBoxStatus.setValue(Status.PREPRODUCTION.getStatus());
+			datePDeadline.setValue(null);
+			datePEvent.setValue(null);
+			cBoxContactPerson.getItems().clear();;
+			tblPersons.getItems().clear();
+			tblTasks.getItems().clear();
+			taDescription.clear();
+			taNotes.clear();
+			
+			
+		} else {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Information");
+			alert.setHeaderText("Kein Projektname eingegeben!");
+			alert.setContentText("Bitte Projektnamen eingeben und erneut speichern.");
+			alert.showAndWait();
+		}
 	}
 
 	/**
@@ -330,7 +349,7 @@ public class CreateProjectController {
 			dateString = localDate.toString();
 			instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
 		} else {
-			instant = Instant.now();
+			instant = null;
 		}
 
 		task.add(
@@ -342,6 +361,7 @@ public class CreateProjectController {
 		tblTasks.setItems(tableTask);
 
 		tfTask.clear();
+		datePTaskDate.setValue(null);
 		tfTaskRemark.clear();
 		cBoxTaskStatus.setValue(Status.OPEN.getStatus());
 		cBoxTaskPriority.setValue(Priority.NORMAL.toString());
