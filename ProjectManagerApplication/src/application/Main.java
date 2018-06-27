@@ -10,27 +10,27 @@ import javafx.stage.Stage;
  * class to start the application
  * 
  * @author Lukas Schiefermueller
- * @version 1.00, June 26th 2018
+ * @version 1.00, June 27th 2018
  */
 public class Main extends Application {
-	
+
 	/**
 	 * start the application
 	 * 
-	 * @param primaryStage stage
+	 * @param primaryStage
+	 *            stage
 	 */
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/application/MyScene.fxml"));
 			Scene scene = new Scene(root, 850, 650);
-			//primaryStage.setMaximized(true);
 			primaryStage.setMinHeight(400);
 			primaryStage.setMinWidth(850);
 			primaryStage.setTitle("Project Manager");
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -39,7 +39,8 @@ public class Main extends Application {
 	/**
 	 * main method for launching
 	 * 
-	 * @param args are launched
+	 * @param args
+	 *            are launched
 	 */
 	public static void main(String[] args) {
 		launch(args);

@@ -26,7 +26,7 @@ import project.Status;
 /**
  * @author Lydia Grillenberger
  * @author Lukas Schiefermueller
- * @version 1.00, June 26th 2018
+ * @version 1.00, June 27th 2018
  */
 public class FileHandler implements FileHandlerInterface {
 
@@ -42,6 +42,8 @@ public class FileHandler implements FileHandlerInterface {
 	}
 
 	/**
+	 * getter for ourFileHandler
+	 * 
 	 * @return the only instance of FileHandler
 	 */
 	public static FileHandler getFileHandler() {
@@ -59,12 +61,14 @@ public class FileHandler implements FileHandlerInterface {
 	private final Path active = Paths.get(System.getProperty("user.home").toString() + "//ProjectManager//Projects");
 
 	/**
-	 * This includes creating the files/data structure that are needed for storing a
+	 * This method adds a project internally and in the file structure. This
+	 * includes creating the files/data structure that are needed for storing a
 	 * project such that it can be reloaded after closing the application.
 	 * 
 	 * @author Lydia Grillenberger
 	 * @author Lukas Schiefermueller
-	 * @param project project to be added
+	 * @param project
+	 *            the project to be added
 	 */
 	public void add(Project project) {
 		new File(active + "//" + project.getTitle()).mkdirs();
@@ -95,23 +99,20 @@ public class FileHandler implements FileHandlerInterface {
 				addToFile.substring(0, addToFile.length() - 1);
 		}
 		writeToFile(new File(active.toString() + "/" + project.getTitle() + "/Tasks.txt"), addToFile);
-		
-		boolean found = false;
-		for (int i = 0; i < ourData.projects.size() && !found; i++) {
-			if (ourData.projects.get(i).getTitle().equals(project.getTitle()))
-				found = true;
-		}
-		if(!found) {
+
+		// add to ourData if it's not already there
+		if (Data.getProject(project.getTitle()) == null) {
 			ourData.projects.add(project);
 		}
-		
+
 	}
 
 	/**
 	 * This method deletes the project internally and in the file structure.
 	 * 
 	 * @author Lydia Grillenberger
-	 * @param project project to be deleted
+	 * @param project
+	 *            the project to be deleted
 	 */
 	public void delete(Project project) {
 		delete(project, project.getTitle());
@@ -122,45 +123,45 @@ public class FileHandler implements FileHandlerInterface {
 	 * 
 	 * @author Lydia Grillenberger
 	 * @author Lukas Schiefermueller
-	 * @param project project to be deleted
-	 * @param title title of the project
+	 * @param project
+	 *            the project to be deleted
+	 * @param title
+	 *            the title of the project
 	 */
 	private void delete(Project project, String title) {
-		for (Path dir : active) {
-			if (dir.toString().equals(active.toString() + "//" + title)) {
-				try {
-					Files.delete(dir);
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-				break;
+		String deleteString = active.toString() + "//" + title;
+		Path delete = Paths.get(deleteString);
+		File deleteFile = new File(deleteString);
+		try {
+			for (File file : deleteFile.listFiles()) {
+				if (!file.isDirectory())
+					file.delete();
 			}
+			Files.delete(delete);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
-		for (int i = 0; i < ourData.projects.size(); i++) {
-			if (ourData.projects.get(i).getTitle().equals(project.getTitle())) {
-				ourData.projects.remove(i);
-				break;
-			}
-		}
+		Data.getProject(project.getTitle()); // set selectedInternally
+		ourData.projects.remove(ourData.selectedInternally);
 	}
 
 	/**
-	 * Here existing files need to be changed.
+	 * This method makes changes in the given project.
 	 * 
 	 * @author Lydia Grillenberger
-	 * @param project project to be changed with the changed values inside
-	 * @param oldTitle old title of the project
+	 * @param project
+	 *            the project to be changed with the changed values inside
+	 * @param oldTitle
+	 *            the old title of the project
 	 */
 	public void change(Project project, String oldTitle) {
 		delete(project, oldTitle);
 		add(project);
-		ourData.projects.add(project);
 	}
 
 	/**
-	 * There should be a possibility for getting all existing projects to initialize
-	 * them after starting the application.
+	 * This method gets all existing projects for initializing them after starting
+	 * the application.
 	 * 
 	 * @author Lydia Grillenberger
 	 * @author Lukas Schiefermueller
@@ -174,15 +175,15 @@ public class FileHandler implements FileHandlerInterface {
 				return new File(current, name).isDirectory();
 			}
 		});
-		if(directories != null && directories.length > 0) {
+		if (directories != null && directories.length > 0) {
 			for (String dir : directories) {
 				Project pro = new Project();
 				File title, customer, tasks;
-	
+
 				// Information of the Project
 				title = new File(active.toString() + "/" + dir + "/Project.txt");
 				ArrayList<String> s = readFile(title);
-				String[] val = s.get(0).split(";", -1); 
+				String[] val = s.get(0).split(";", -1);
 				pro.setTitle(val[0]);
 				pro.setDescription(val[1]);
 				pro.setNotes(val[2]);
@@ -201,7 +202,7 @@ public class FileHandler implements FileHandlerInterface {
 					pro.setEventDate(null);
 				else
 					pro.setEventDate(new Date(Long.parseLong(val[9])));
-	
+
 				// Customers of the Projects
 				customer = new File(active.toString() + "/" + dir + "/Customer.txt");
 				s = readFile(customer);
@@ -215,7 +216,7 @@ public class FileHandler implements FileHandlerInterface {
 					}
 				}
 				pro.setCustomer(cust);
-	
+
 				// Tasks of the Projects
 				tasks = new File(active.toString() + "/" + dir + "/Tasks.txt");
 				s = readFile(tasks);
@@ -227,8 +228,8 @@ public class FileHandler implements FileHandlerInterface {
 						date = null;
 					else
 						date = new Date(Long.parseLong(val[4]));
-					task.add(new Task(val[0], val[1], Status.returnStatus(val[2], true), Priority.returnPriority(val[3]),
-							date));
+					task.add(new Task(val[0], val[1], Status.returnStatus(val[2], true),
+							Priority.returnPriority(val[3]), date));
 				}
 				pro.setTasks(task);
 				ourData.projects.add(pro);
@@ -241,7 +242,8 @@ public class FileHandler implements FileHandlerInterface {
 	 * 
 	 * @author Lydia Grillenberger
 	 * @author Lukas Schiefermueller
-	 * @param file file to be read from
+	 * @param file
+	 *            the file to be read from
 	 * @return the content of the file as a String ArrayList
 	 */
 	private ArrayList<String> readFile(File file) {
@@ -269,8 +271,10 @@ public class FileHandler implements FileHandlerInterface {
 	 * This method is used internally for saving a String to a file.
 	 * 
 	 * @author Lydia Grillenberger
-	 * @param file file to which to save the String
-	 * @param string String to save
+	 * @param file
+	 *            the file to which to save the String
+	 * @param string
+	 *            the String to save
 	 */
 	private void writeToFile(File file, String string) {
 		file.setWritable(true);

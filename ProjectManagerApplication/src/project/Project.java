@@ -3,14 +3,13 @@ package project;
 import customer.*;
 import javafx.scene.paint.Color;
 import java.util.Date;
-//import java.util.Scanner;
 import java.util.ArrayList;
 
 /**
  * In this class all details of a project are stored.
  * 
  * @author Lukas Schiefermueller
- * @version 1.00, June 26th 2018
+ * @version 1.00, June 27th 2018
  */
 public class Project {
 	private String title;
@@ -25,6 +24,8 @@ public class Project {
 	private ArrayList<Task> tasks;
 
 	/**
+	 * constructor
+	 * 
 	 * @param title
 	 * @param description
 	 * @param notes
@@ -36,9 +37,9 @@ public class Project {
 	 * @param customer
 	 * @param tasks
 	 */
-	public Project(String title, String description, String notes, Priority priority, Color color, 
-			Date deadline, Date eventDate, Customer customer, ArrayList<Task> tasks) {
-		if(title.equals(""))
+	public Project(String title, String description, String notes, Priority priority, Color color, Date deadline,
+			Date eventDate, Customer customer, ArrayList<Task> tasks) {
+		if (title.equals(""))
 			this.title = "Projektname";
 		else
 			this.title = title;
@@ -53,38 +54,46 @@ public class Project {
 	}
 
 	/**
-	 * 
+	 * default constructor
 	 */
 	public Project() {
 		// everything has to be set via setters
 	}
 
 	/**
-	 * @return the title
+	 * getter of title
+	 * 
+	 * @return the title of the project
 	 */
 	public String getTitle() {
 		return title;
 	}
 
 	/**
+	 * setter of title
+	 * 
 	 * @param title
 	 *            the title to set
 	 */
 	public void setTitle(String title) {
-		if(title.equals(""))
+		if (title.equals(""))
 			this.title = "Projektname";
 		else
 			this.title = title;
 	}
 
 	/**
-	 * @return the description
+	 * getter of description
+	 * 
+	 * @return the description of the project
 	 */
 	public String getDescription() {
 		return description;
 	}
 
 	/**
+	 * setter of description
+	 * 
 	 * @param description
 	 *            the description to set
 	 */
@@ -93,13 +102,17 @@ public class Project {
 	}
 
 	/**
-	 * @return the notes
+	 * getter of notes
+	 * 
+	 * @return the notes of the project
 	 */
 	public String getNotes() {
 		return notes;
 	}
 
 	/**
+	 * setter of notes
+	 * 
 	 * @param notes
 	 *            the notes to set
 	 */
@@ -108,28 +121,36 @@ public class Project {
 	}
 
 	/**
-	 * @return the status
+	 * getter of status
+	 * 
+	 * @return the status of the project
 	 */
 	public Status getStatus() {
 		return status;
 	}
 
 	/**
+	 * setter of status
+	 * 
 	 * @param status
 	 *            the status to set
 	 */
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	
+
 	/**
-	 * @return the priority
+	 * getter of priority
+	 * 
+	 * @return the priority of the project
 	 */
 	public Priority getPriority() {
 		return priority;
 	}
 
 	/**
+	 * setter of priority
+	 * 
 	 * @param priority
 	 *            the priority to set
 	 */
@@ -138,13 +159,17 @@ public class Project {
 	}
 
 	/**
-	 * @return the color
+	 * getter of color
+	 * 
+	 * @return the color of the project
 	 */
 	public Color getColor() {
 		return color;
 	}
 
 	/**
+	 * setter of color
+	 * 
 	 * @param p
 	 *            the color to set
 	 */
@@ -153,13 +178,17 @@ public class Project {
 	}
 
 	/**
-	 * @return the deadline
+	 * getter of deadline
+	 * 
+	 * @return the deadline of the project
 	 */
 	public Date getDeadline() {
 		return deadline;
 	}
 
 	/**
+	 * setter of deadline
+	 * 
 	 * @param deadline
 	 *            the deadline to set
 	 */
@@ -168,13 +197,17 @@ public class Project {
 	}
 
 	/**
-	 * @return the eventDate
+	 * getter of event date
+	 * 
+	 * @return the eventDate of the project
 	 */
 	public Date getEventDate() {
 		return eventDate;
 	}
 
 	/**
+	 * setter of event date
+	 * 
 	 * @param eventDate
 	 *            the eventDate to set
 	 */
@@ -183,13 +216,17 @@ public class Project {
 	}
 
 	/**
-	 * @return the customer
+	 * getter of customer
+	 * 
+	 * @return the customer of the project
 	 */
 	public Customer getCustomer() {
 		return customer;
 	}
 
 	/**
+	 * setter of customer
+	 * 
 	 * @param customer
 	 *            the customer to set
 	 */
@@ -198,13 +235,17 @@ public class Project {
 	}
 
 	/**
-	 * @return the tasks
+	 * getter of tasks
+	 * 
+	 * @return the tasks of the project
 	 */
 	public ArrayList<Task> getTasks() {
 		return tasks;
 	}
 
 	/**
+	 * setter of tasks
+	 * 
 	 * @param tasks
 	 *            the tasks to set
 	 */
@@ -213,42 +254,46 @@ public class Project {
 	}
 
 	/**
-	 * @return a String representation of this project
+	 * compute a String representation
+	 * 
+	 * @return a String representation of the project
 	 */
 	public String toString() {
 		return title + "\t" + description + "\t" + priority;
 	}
-	
+
 	/**
+	 * compute a String for saving into file
+	 * 
 	 * @return String representation for saving into file
 	 */
 	public String toFile() {
 		String ret = "";
-		if(title != null)
+		if (title != null)
 			ret += title;
 		ret += ";";
-		if(description != null)
+		if (description != null)
 			ret += description;
 		ret += ";";
-		if(notes != null)
+		if (notes != null)
 			ret += notes;
 		ret += ";";
-		if(status != null)
+		if (status != null)
 			ret += status.getStatus();
 		ret += ";";
-		if(priority != null)
+		if (priority != null)
 			ret += priority.name();
 		ret += ";";
-		if(color != null) {
+		if (color != null) {
 			ret += color.getRed() + ";";
 			ret += color.getGreen() + ";";
 			ret += color.getBlue();
 		}
 		ret += ";";
-		if(deadline != null)
+		if (deadline != null)
 			ret += deadline.getTime();
 		ret += ";";
-		if(eventDate != null)
+		if (eventDate != null)
 			ret += eventDate.getTime();
 		ret += ";";
 		return ret;
