@@ -4,7 +4,7 @@ package customer;
  * In this class all details about a person are stored.
  * 
  * @author Lukas Schiefermueller
- * @version 1.00, June 27th 2018
+ * @version 1.00, June 28th 2018
  */
 public class Person {
 	/**

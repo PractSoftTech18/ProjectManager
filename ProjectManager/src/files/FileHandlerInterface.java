@@ -5,7 +5,7 @@ import project.Project;
 
 /**
  * @author Lydia Grillenberger
- * @version 1.00, June 27th 2018
+ * @version 1.00, June 28th 2018
  */
 public interface FileHandlerInterface {
 	/**

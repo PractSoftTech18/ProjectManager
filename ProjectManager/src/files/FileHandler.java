@@ -30,7 +30,7 @@ import project.Status;
 /**
  * @author Lydia Grillenberger
  * @author Lukas Schiefermueller
- * @version 1.00, June 27th 2018
+ * @version 1.00, June 28th 2018
  */
 public class FileHandler implements FileHandlerInterface {
 

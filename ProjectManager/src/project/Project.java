@@ -14,7 +14,7 @@ import customer.Customer;
  * In this class all details of a project are stored.
  * 
  * @author Lukas Schiefermueller
- * @version 1.00, June 27th 2018
+ * @version 1.00, June 28th 2018
  */
 public class Project {
 	private String title;

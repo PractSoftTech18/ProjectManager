@@ -59,7 +59,7 @@ public class AppController extends Controller {
 	private TableColumn<TableProject, String> tblColProjects, tblColStatus, tblColDateEvent, tblColDateDeadline;
 
 	@FXML
-	private TableColumn<TableTask, String> tblColTaskT, tblColRemarkT, tblColStatusT, tblColPriorityT, tblColDateT;
+	private TableColumn<TableTask, String> tblColTaskT, tblColStatusT, tblColPriorityT, tblColDateT;
 
 	@FXML
 	private TableView<TableTask> tblTasks;
@@ -86,7 +86,6 @@ public class AppController extends Controller {
 
 		// adding data to table tasks
 		tblColTaskT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("name"));
-		tblColRemarkT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("remark"));
 		tblColStatusT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("status"));
 		tblColPriorityT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("priority"));
 		tblColDateT.setCellValueFactory(new PropertyValueFactory<TableTask, String>("date"));
@@ -271,7 +270,7 @@ public class AppController extends Controller {
 		Project project = ourData.projects.get(ourData.selected);
 		ArrayList<Task> allTasks = project.getTasks();
 		for (Task task : allTasks) {
-			taskList.add(new TableTask(task.getName(), "", task.getRemark(), task.getStatus(), task.getPriority(),
+			taskList.add(new TableTask(task.getName(), "", "", task.getStatus(), task.getPriority(),
 					task.getDate()));
 
 		}

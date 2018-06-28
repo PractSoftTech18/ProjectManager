@@ -11,6 +11,7 @@ import project.Status;
  * used for filling tblProjects
  * 
  * @author Lukas Schiefermueller
+ * @version 1.00, June 28th 2018
  */
 public class TableProject {
 	/**
