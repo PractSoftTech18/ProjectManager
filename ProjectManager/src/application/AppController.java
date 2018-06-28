@@ -1,42 +1,41 @@
 package application;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Optional;
-
+// JavaFX imports
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+
+// Java imports
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+// ProjectManager imports
 import project.Project;
 import project.Status;
 import project.Task;
 
 /**
- * controller for MyScene
+ * controller for App
  * 
  * @author Lydia Grillenberger
  * @author Julia Hofer
  * @author Lukas Schiefermueller
  * @version 1.00, June 28th 2018
  */
-public class AppController extends Controller{
+public class AppController extends Controller {
 	@FXML
 	private TabPane MyTabPane;
 
@@ -50,13 +49,14 @@ public class AppController extends Controller{
 	private ListView<String> MyListView;
 
 	@FXML
-	private Button btnActualize, btnCreateProject, btnEdit, btnTasks, btnAllTasks, btnDelete, btnIncreaseStatus;
+	private Button btnProjectView, btnActualize, btnCreateProject, btnEdit, btnTasks, btnAllTasks, btnDelete,
+			btnIncreaseStatus;
 
 	@FXML
-	private TableView<TableStruct> tblProjects;
+	private TableView<TableProject> tblProjects;
 
 	@FXML
-	private TableColumn<TableStruct, String> tblColProjects, tblColStatus, tblColDateEvent, tblColDateDeadline;
+	private TableColumn<TableProject, String> tblColProjects, tblColStatus, tblColDateEvent, tblColDateDeadline;
 
 	@FXML
 	private TableColumn<TableTask, String> tblColTaskT, tblColRemarkT, tblColStatusT, tblColPriorityT, tblColDateT;
@@ -65,23 +65,23 @@ public class AppController extends Controller{
 	private TableView<TableTask> tblTasks;
 
 	@FXML
-	private ObservableList<TableStruct> projects;
+	private ObservableList<TableProject> projects;
 
 	@FXML
 	private ObservableList<TableTask> taskList;
-	
+
+	@FXML
 	/**
 	 * initialize MyScene
 	 */
-	@FXML
 	public void initialize() {
 		ourFileHandler.read();
 
-		tblColProjects.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("title"));
-		tblColDateEvent.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("event"));
-		tblColDateDeadline.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("deadline"));
-		tblColStatus.setCellValueFactory(new PropertyValueFactory<TableStruct, String>("status"));
-
+		// adding data to table projects
+		tblColProjects.setCellValueFactory(new PropertyValueFactory<TableProject, String>("title"));
+		tblColDateEvent.setCellValueFactory(new PropertyValueFactory<TableProject, String>("event"));
+		tblColDateDeadline.setCellValueFactory(new PropertyValueFactory<TableProject, String>("deadline"));
+		tblColStatus.setCellValueFactory(new PropertyValueFactory<TableProject, String>("status"));
 		projects = FXCollections.observableArrayList();
 
 		// adding data to table tasks
@@ -93,7 +93,6 @@ public class AppController extends Controller{
 		taskList = FXCollections.observableArrayList();
 
 		updateTblProjects();
-
 	}
 
 	/**
@@ -132,17 +131,16 @@ public class AppController extends Controller{
 	 * @throws IOException
 	 */
 	public void btnEdit(ActionEvent event) throws IOException {
-		TableStruct tblStruct = tblProjects.getSelectionModel().getSelectedItem();
-		if (tblStruct != null) {
-			Data.getProject(tblStruct.getTitle()); // set selectedInternally
-			ourData.selected = ourData.selectedInternally;
+		TableProject tblProject = tblProjects.getSelectionModel().getSelectedItem();
+		if (tblProject != null) {
+			ourData.selected = Data.getIndex(tblProject.getTitle());
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/EditProject.fxml"));
-			Tab tabEditProject = new Tab("Bearbeiten");
+			Tab tabEditProject = new Tab(tblProject.getTitle());
 			tabEditProject.setContent(loader.load());
 			MyTabPane.getTabs().add(tabEditProject);
 			MyTabPane.getSelectionModel().select(tabEditProject);
 		} else {
-			alert(false);
+			alert(AlertType.ERROR);
 		}
 	}
 
@@ -171,18 +169,16 @@ public class AppController extends Controller{
 	 * @throws IOException
 	 */
 	public void viewTasks(ActionEvent event) throws IOException {
-		TableStruct tblStruct = tblProjects.getSelectionModel().getSelectedItem();
-		if (tblStruct != null) {
+		TableProject tblProject = tblProjects.getSelectionModel().getSelectedItem();
+		if (tblProject != null) {
 			taskList.clear();
-			Data.getProject(tblStruct.getTitle()); // set selectedInternally
-			ourData.selected = ourData.selectedInternally;
+			ourData.selected = Data.getIndex(tblProject.getTitle());
 			updateTblTasks();
 			updateTblProjects();
 		} else
-			alert(false);
+			alert(AlertType.ERROR);
 	}
 
-	
 	/**
 	 * delete the selected project
 	 * 
@@ -191,15 +187,15 @@ public class AppController extends Controller{
 	 *            select button delete
 	 */
 	public void delete(ActionEvent event) {
-		TableStruct tblStruct = tblProjects.getSelectionModel().getSelectedItem();
-		if (tblStruct != null) {
-			if (alert(true)) {
-				Project project = Data.getProject(tblStruct.getTitle());
+		TableProject tblProject = tblProjects.getSelectionModel().getSelectedItem();
+		if (tblProject != null) {
+			if (alert(AlertType.CONFIRMATION)) {
+				Project project = Data.getProject(tblProject.getTitle());
 				ourFileHandler.delete(project);
 				updateTblProjects();
 			}
 		} else
-			alert(false);
+			alert(AlertType.ERROR);
 	}
 
 	/**
@@ -210,7 +206,7 @@ public class AppController extends Controller{
 	 *            select button increase status
 	 */
 	public void increaseStatus(ActionEvent event) {
-		TableStruct tblStruct = tblProjects.getSelectionModel().getSelectedItem();
+		TableProject tblProject = tblProjects.getSelectionModel().getSelectedItem();
 		TableTask tableTask = tblTasks.getSelectionModel().getSelectedItem();
 		Project project = new Project();
 		Task task = new Task();
@@ -228,14 +224,40 @@ public class AppController extends Controller{
 				task.setStatus(task.getStatus().increaseStatus());
 			ourFileHandler.change(project, project.getTitle());
 			updateTblTasks();
-		} else if (tblStruct != null) {
-			project = Data.getProject(tblStruct.getTitle());
+		} else if (tblProject != null) {
+			project = Data.getProject(tblProject.getTitle());
 			if (project.getStatus() != null)
 				project.setStatus(project.getStatus().increaseStatus());
 			ourFileHandler.change(project, project.getTitle());
 			updateTblProjects();
 		} else
-			alert(false);
+			alert(AlertType.ERROR);
+	}
+
+	@FXML
+	/**
+	 * change to project view
+	 * 
+	 * @author Julia Hofer
+	 * @param event
+	 *            select button project view
+	 */
+	public void btnProjectView(ActionEvent event) {
+		TableProject tblProject = tblProjects.getSelectionModel().getSelectedItem();
+		if (tblProject != null) {
+			ourData.selected = Data.getIndex(tblProject.getTitle());
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/ProjectView.fxml"));
+			Tab tabEditProject = new Tab(tblProject.getTitle());
+			try {
+				tabEditProject.setContent(loader.load());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			MyTabPane.getTabs().add(tabEditProject);
+			MyTabPane.getSelectionModel().select(tabEditProject);
+		} else {
+			alert(AlertType.ERROR);
+		}
 	}
 
 	/**
@@ -287,16 +309,8 @@ public class AppController extends Controller{
 		projects.clear();
 		for (Iterator<Project> it = ourData.projects.iterator(); it.hasNext();) {
 			Project project = it.next();
-			Date date;
-			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-			String dateEventString = "", dateDeadlineString = "";
-			if ((date = project.getEventDate()) != null) {
-				dateEventString = dateFormatter.format(date);
-			}
-			if ((date = project.getDeadline()) != null) {
-				dateDeadlineString = dateFormatter.format(date);
-			}
-			projects.add(new TableStruct(project.getTitle(), project.getStatus().getStatus(), dateEventString, dateDeadlineString));
+			projects.add(new TableProject(project.getTitle(), project.getStatus(), project.getEventDate(),
+					project.getDeadline()));
 
 		}
 		tblProjects.setItems(projects);
@@ -313,7 +327,7 @@ public class AppController extends Controller{
 
 		// status
 		tblColStatus.setCellFactory(column -> {
-			return new TableCell<TableStruct, String>() {
+			return new TableCell<TableProject, String>() {
 				@Override
 				protected void updateItem(String item, boolean empty) {
 					super.updateItem(item, empty);
@@ -334,7 +348,7 @@ public class AppController extends Controller{
 
 		// project color
 		tblColProjects.setCellFactory(column -> {
-			return new TableCell<TableStruct, String>() {
+			return new TableCell<TableProject, String>() {
 				@Override
 				protected void updateItem(String item, boolean empty) {
 					super.updateItem(item, empty);

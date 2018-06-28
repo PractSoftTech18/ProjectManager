@@ -1,9 +1,14 @@
 package project;
 
-import customer.*;
+// JavaFX imports
 import javafx.scene.paint.Color;
 import java.util.Date;
+
+// Java imports
 import java.util.ArrayList;
+
+// ProjectManager imports
+import customer.Customer;
 
 /**
  * In this class all details of a project are stored.
@@ -281,7 +286,7 @@ public class Project {
 		if (status != null)
 			ret += status.getStatus();
 		ret += ";";
-		if(priority != null)
+		if (priority != null)
 			ret += priority.toString();
 		ret += ";";
 		if (color != null) {

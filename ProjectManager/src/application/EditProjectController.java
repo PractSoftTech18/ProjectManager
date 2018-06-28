@@ -1,31 +1,15 @@
 package application;
 
-import java.util.Date;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Optional;
-
-import application.TableTask;
-import customer.Customer;
-import customer.Person;
+// JavaFX imports
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
@@ -33,6 +17,21 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+
+// Java imports
+import java.util.Date;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+// ProjectManager imports
+import application.TableTask;
+import customer.Customer;
+import customer.Person;
 import project.Priority;
 import project.Project;
 import project.Task;
@@ -44,7 +43,7 @@ import project.Status;
  * @author Julia Hofer
  * @version 1.00, June 28th 2018
  */
-public class EditProjectController extends Controller{
+public class EditProjectController extends Controller {
 	@FXML
 	private AnchorPane apEditProject;
 
@@ -105,8 +104,8 @@ public class EditProjectController extends Controller{
 		tfProjectName.setText(p.getTitle());
 		colorPProject.setValue(p.getColor());
 
-		datePEvent.setValue(p.getEventDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-		datePDeadline.setValue(p.getDeadline().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+		datePEvent.setValue(dateToLocalDate(p.getEventDate()));
+		datePDeadline.setValue(dateToLocalDate(p.getDeadline()));
 
 		// Project
 		ObservableList<String> items = cBoxPriority.getItems();
@@ -137,6 +136,7 @@ public class EditProjectController extends Controller{
 		}
 		cBoxTaskStatus.setItems(items);
 		cBoxTaskStatus.setValue(Status.OPEN.getStatus());
+		datePTaskDate.setValue(dateToLocalDate(new Date()));
 
 		// https://docs.oracle.com/javafx/2/ui_controls/table-view.htm
 		// adding data to table persons
@@ -223,62 +223,17 @@ public class EditProjectController extends Controller{
 
 			ourFileHandler.change(newProject, p.getTitle());
 
-			clear();
 			AnchorPane pane;
 			try {
 				pane = FXMLLoader.load(getClass().getResource("/application/ProjectView.fxml"));
 				apEditProject.getChildren().setAll(pane);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 		} else {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Information");
-			alert.setHeaderText("Kein Projektname eingegeben!");
-			alert.setContentText("Bitte Projektnamen eingeben und erneut speichern.");
-			alert.showAndWait();
+			alert(AlertType.INFORMATION);
 		}
-	}
-
-	/**
-	 * https://stackoverflow.com/questions/20446026/get-value-from-date-picker
-	 * convert a LocalDate to a Date
-	 * 
-	 * @author Julia Hofer
-	 * @param localDate
-	 *            the LocalDate format from the DatePicker
-	 */
-	private Date localDateToDate(LocalDate localDate) {
-		// https://stackoverflow.com/questions/20446026/get-value-from-date-picker
-		Instant instant;
-		if (localDate != null) {
-			instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-			return Date.from(instant);
-		} else {
-			return new Date();
-		}
-	}
-
-	/**
-	 * clear the scene
-	 * 
-	 * @author Julia Hofer
-	 */
-	private void clear() {
-		tfProjectName.clear();
-		colorPProject.setValue(null);
-		cBoxPriority.setValue(Priority.NORMAL.toString());
-		cBoxStatus.setValue(Status.PREPRODUCTION.getStatus());
-		datePDeadline.setValue(null);
-		datePEvent.setValue(null);
-		cBoxContactPerson.getItems().clear();
-
-		tblPersons.getItems().clear();
-		tblTasks.getItems().clear();
-		taDescription.clear();
-		taNotes.clear();
 	}
 
 	@FXML
@@ -343,7 +298,7 @@ public class EditProjectController extends Controller{
 	public void btnDeletePerson(ActionEvent event) {
 		chosenPerson = tblPersons.getSelectionModel().getSelectedItem();
 		if (chosenPerson != null) {
-			if (alert(true)) {
+			if (alert(AlertType.CONFIRMATION)) {
 				int i = person.indexOf(chosenPerson);
 				person.remove(i);
 
@@ -355,7 +310,7 @@ public class EditProjectController extends Controller{
 				cBoxContactPerson.setItems(contactP);
 			}
 		} else {
-			alert(false);
+			alert(AlertType.ERROR);
 		}
 	}
 
@@ -381,7 +336,7 @@ public class EditProjectController extends Controller{
 		tblTasks.setItems(tableTask);
 
 		tfTask.clear();
-		datePTaskDate.setValue(null);
+		datePTaskDate.setValue(dateToLocalDate(new Date()));
 		tfTaskRemark.clear();
 		cBoxTaskStatus.setValue(Status.OPEN.getStatus());
 		cBoxTaskPriority.setValue(Priority.NORMAL.toString());
@@ -428,13 +383,13 @@ public class EditProjectController extends Controller{
 	public void btnDeleteTask(ActionEvent event) {
 		chosenTask = tblTasks.getSelectionModel().getSelectedItem();
 		if (chosenTask != null) {
-			if (alert(true)) {
+			if (alert(AlertType.CONFIRMATION)) {
 				int i = tableTask.indexOf(chosenTask);
 				tableTask.remove(i);
 				task.remove(i);
 			}
 		} else {
-			alert(false);
+			alert(AlertType.ERROR);
 		}
 	}
 
@@ -446,11 +401,10 @@ public class EditProjectController extends Controller{
 	 *            select delete the project
 	 */
 	public void btnDeleteProject(ActionEvent event) {
-		if (alert(true)) {
+		if (alert(AlertType.CONFIRMATION)) {
 			ourFileHandler.delete(p);
-			clear();
 		} else {
-			alert(false);
+			alert(AlertType.ERROR);
 		}
 	}
 }

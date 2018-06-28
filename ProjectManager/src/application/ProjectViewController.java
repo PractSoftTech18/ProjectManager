@@ -9,13 +9,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 // Java imports
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
 // ProjectManager imports
@@ -55,8 +55,8 @@ public class ProjectViewController extends Controller {
 
 	private Project p = ourData.projects.get(ourData.selected);
 
-	SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 	private ObservableList<Person> person;
+
 	private ObservableList<TableTask> tableTask;
 
 	@FXML
@@ -66,7 +66,7 @@ public class ProjectViewController extends Controller {
 		textEvent.setText(dateFormatter.format(p.getEventDate()));
 		textPriority.setText(p.getPriority().toString());
 		textStatus.setText(p.getStatus().getStatus());
-		// textContactPerson.setText(p.getCustomer().getContactPerson());
+		textContactPerson.setText(p.getCustomer().getContactPerson() != null ? p.getCustomer().getContactPerson() : "");
 		textDescription.setText(p.getDescription());
 		textNotes.setText(p.getNotes());
 
@@ -113,7 +113,7 @@ public class ProjectViewController extends Controller {
 	 *            select delete the project
 	 */
 	public void btnDeleteProject(ActionEvent event) {
-		if (alert(true)) {
+		if (alert(AlertType.CONFIRMATION)) {
 			ourFileHandler.delete(p);
 		}
 	}

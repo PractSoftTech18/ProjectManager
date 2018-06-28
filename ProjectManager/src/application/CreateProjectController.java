@@ -1,17 +1,6 @@
 package application;
 
-import java.io.IOException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.ResourceBundle;
-
-import customer.Customer;
-import customer.Person;
+// JavaFX imports
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,6 +18,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+
+// Java imports
+import java.io.IOException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.ResourceBundle;
+
+// ProjectManager imports
+import customer.Customer;
+import customer.Person;
 import project.Priority;
 import project.Project;
 import project.Status;
@@ -40,7 +41,7 @@ import project.Task;
  * @author Julia Hofer
  * @version 1.00, June 28th 2018
  */
-public class CreateProjectController extends Controller{
+public class CreateProjectController extends Controller {
 	@FXML
 	private ResourceBundle resources;
 
@@ -49,7 +50,7 @@ public class CreateProjectController extends Controller{
 
 	@FXML
 	private AnchorPane apCreateProject;
-	
+
 	@FXML
 	private Button NewTab, btnSave, btnAddPerson, btnAddTask;
 
@@ -116,6 +117,8 @@ public class CreateProjectController extends Controller{
 		items.addAll(Priority.HIGH.toString(), Priority.NORMAL.toString(), Priority.LOW.toString());
 		cBoxPriority.setItems(items);
 		cBoxPriority.setValue(Priority.NORMAL.toString());
+		datePEvent.setValue(dateToLocalDate(new Date()));
+		datePDeadline.setValue(dateToLocalDate(new Date()));
 
 		// Task
 		cBoxTaskPriority.setItems(items);
@@ -140,6 +143,7 @@ public class CreateProjectController extends Controller{
 		}
 		cBoxTaskStatus.setItems(items);
 		cBoxTaskStatus.setValue(Status.OPEN.getStatus());
+		datePTaskDate.setValue(dateToLocalDate(new Date()));
 
 		// https://docs.oracle.com/javafx/2/ui_controls/table-view.htm
 		// adding data to table persons
@@ -177,8 +181,8 @@ public class CreateProjectController extends Controller{
 			newProject.setStatus(Status.returnStatus(cBoxStatus.getSelectionModel().getSelectedItem(), false));
 
 			newProject.setDeadline(localDateToDate(datePDeadline.getValue()));
-			newProject.setDeadline(localDateToDate(datePEvent.getValue()));
-			
+			newProject.setEventDate(localDateToDate(datePEvent.getValue()));
+
 			ArrayList<Person> persons = new ArrayList<>();
 			persons = new ArrayList<Person>(person);
 			String contactPerson;
@@ -192,7 +196,7 @@ public class CreateProjectController extends Controller{
 			newProject.setNotes(taNotes.getText());
 
 			ourFileHandler.add(newProject);
-			
+
 			tfProjectName.clear();
 			colorPProject.setValue(null);
 			cBoxPriority.setValue(Priority.NORMAL.toString());
@@ -204,13 +208,12 @@ public class CreateProjectController extends Controller{
 			tblTasks.getItems().clear();
 			taDescription.clear();
 			taNotes.clear();
-			
+
 			AnchorPane pane;
 			try {
 				pane = FXMLLoader.load(getClass().getResource("/application/ProjectView.fxml"));
 				apCreateProject.getChildren().setAll(pane);
-				Data.getProject(newProject.getTitle());
-				ourData.selected = ourData.selectedInternally;
+				ourData.selected = Data.getIndex(newProject.getTitle());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -224,25 +227,6 @@ public class CreateProjectController extends Controller{
 		}
 	}
 
-	/**
-	 * https://stackoverflow.com/questions/20446026/get-value-from-date-picker
-	 * convert a LocalDate to a Date
-	 * 
-	 * @author Julia Hofer
-	 * @param localDate
-	 *            the LocalDate format from the DatePicker
-	 */
-	private Date localDateToDate(LocalDate localDate) {
-		// https://stackoverflow.com/questions/20446026/get-value-from-date-picker
-		Instant instant;
-		if (localDate != null) {
-			instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-			return Date.from(instant);
-		} else {
-			return new Date();
-		}
-	}
-	
 	@FXML
 	/**
 	 * add a person
@@ -276,29 +260,17 @@ public class CreateProjectController extends Controller{
 	 *            select add task
 	 */
 	public void btnAddTask(ActionEvent event) {
-		String dateString = "";
-		Date date;
-		LocalDate localDate;
-
-		if (datePTaskDate.getValue() != null) {
-			localDate = datePTaskDate.getValue();
-			date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
-			dateString = dateFormatter.format(date);
-		} else {
-			date = new Date();
-			dateString = dateFormatter.format(date);
-		}
-
+		Date date = localDateToDate(datePTaskDate.getValue());
 		task.add(
 				new Task(tfTask.getText(), tfTaskRemark.getText(), Status.returnStatus(cBoxTaskStatus.getValue(), true),
 						Priority.returnPriority(cBoxTaskPriority.getValue()), date));
 
 		tableTask.add(new TableTask(tfTask.getText(), "", tfTaskRemark.getText(), cBoxTaskStatus.getValue(),
-				cBoxTaskPriority.getValue(), dateString));
+				cBoxTaskPriority.getValue(), dateFormatter.format(date)));
 		tblTasks.setItems(tableTask);
 
 		tfTask.clear();
-		datePTaskDate.setValue(null);
+		datePTaskDate.setValue(dateToLocalDate(new Date()));
 		tfTaskRemark.clear();
 		cBoxTaskStatus.setValue(Status.OPEN.getStatus());
 		cBoxTaskPriority.setValue(Priority.NORMAL.toString());

@@ -1,5 +1,6 @@
 package project;
 
+// JavaFX imports
 import javafx.scene.paint.Color;
 
 /**

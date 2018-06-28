@@ -1,7 +1,9 @@
 package application;
 
+// Java imports
 import java.util.ArrayList;
 
+// ProjectManager imports
 import project.Project;
 
 /**
@@ -20,11 +22,6 @@ public class Data {
 	 * store the position of the selected project
 	 */
 	public int selected;
-	
-	/**
-	 * store the position of the selected project in getProject
-	 */
-	public int selectedInternally;
 
 	/**
 	 * only instance of Data
@@ -57,10 +54,27 @@ public class Data {
 	public static Project getProject(String title) {
 		for (int i = 0; i < ourData.projects.size(); i++) {
 			if (ourData.projects.get(i).getTitle().equals(title)) {
-				ourData.selectedInternally = i;
+				ourData.selected = i;
 				return ourData.projects.get(i);
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * getter for index of given project
+	 * 
+	 * @author Lukas Schiefermueller
+	 * @param title
+	 *            the title of the project
+	 * @return the index of the given project in projects
+	 */
+	public static int getIndex(String title) {
+		for (int i = 0; i < ourData.projects.size(); i++) {
+			if (ourData.projects.get(i).getTitle().equals(title)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }

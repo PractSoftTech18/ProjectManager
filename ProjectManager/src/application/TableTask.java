@@ -1,8 +1,10 @@
 package application;
 
+// Java imports
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+// ProjectManager imports
 import project.Priority;
 import project.Status;
 
@@ -18,27 +20,27 @@ public class TableTask {
 	 * the name of the task
 	 */
 	private String name;
-	
+
 	/**
 	 * the project of the task
 	 */
 	private String project;
-	
+
 	/**
 	 * the remark of the task
 	 */
 	private String remark;
-	
+
 	/**
 	 * the status of the task
 	 */
 	private String status;
-	
+
 	/**
 	 * the priority of the task
 	 */
 	private String priority;
-	
+
 	/**
 	 * the date of the task
 	 */
@@ -50,7 +52,8 @@ public class TableTask {
 	 * @author Julia Hofer
 	 * @param name
 	 *            the name of the task
-	 * @param project the project of the task
+	 * @param project
+	 *            the project of the task
 	 * @param remark
 	 *            the remark of the task
 	 * @param status
@@ -87,10 +90,11 @@ public class TableTask {
 	public TableTask(String name, String project, String remark, Status status, Priority priority, Date date) {
 		this(name, project, remark, "", "", "");
 		String dateString = "";
-		Date dateDate;
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-		if ((dateDate = date) != null) {
-			dateString = dateFormatter.format(dateDate);
+		if (date != null) {
+			dateString = dateFormatter.format(date);
+		} else {
+			dateString = dateFormatter.format(new Date());
 		}
 		String priorityString = "";
 		Priority priorityPriority;
@@ -113,7 +117,7 @@ public class TableTask {
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * getter for project
 	 * 

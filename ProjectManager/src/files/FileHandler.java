@@ -1,5 +1,9 @@
 package files;
 
+// JavaFX imports
+import javafx.scene.paint.Color;
+
+// Java imports
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,10 +18,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
+// ProjectManager imports
 import application.Data;
 import customer.Customer;
 import customer.Person;
-import javafx.scene.paint.Color;
 import project.Priority;
 import project.Project;
 import project.Task;
@@ -101,8 +105,9 @@ public class FileHandler implements FileHandlerInterface {
 		writeToFile(new File(active.toString() + "/" + project.getTitle() + "/Tasks.txt"), addToFile);
 
 		// add to ourData if it's not already there
-		if (Data.getProject(project.getTitle()) == null) {
+		if (Data.getIndex(project.getTitle()) == -1) {
 			ourData.projects.add(project);
+			ourData.selected = ourData.projects.size() - 1;
 		}
 
 	}
@@ -141,8 +146,9 @@ public class FileHandler implements FileHandlerInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Data.getProject(project.getTitle()); // set selectedInternally
-		ourData.projects.remove(ourData.selectedInternally);
+		int index = Data.getIndex(project.getTitle());
+		if (index != -1)
+			ourData.projects.remove(index);
 	}
 
 	/**

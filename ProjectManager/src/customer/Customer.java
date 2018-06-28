@@ -1,5 +1,6 @@
 package customer;
 
+// Java imports
 import java.util.ArrayList;
 
 /**
@@ -76,7 +77,9 @@ public class Customer {
 	 * @return the contact person of the customer
 	 */
 	public String getContactPerson() {
-		return persons.get(contactPerson).getName();
+		if (persons != null && persons.size() > 0)
+			return persons.get(contactPerson).getName();
+		return null;
 	}
 
 	/**

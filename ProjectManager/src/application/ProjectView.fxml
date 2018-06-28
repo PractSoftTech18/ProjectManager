@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="apProjectView" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProjectViewController">
+<AnchorPane fx:id="apProjectView" minHeight="400.0" minWidth="850.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProjectViewController">
   <children>
-      <ScrollPane fitToWidth="true" minWidth="870.0" pannable="true" prefHeight="420.0" prefWidth="870.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ScrollPane fitToWidth="true" minWidth="800.0" pannable="true" prefHeight="420.0" prefWidth="870.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
           <GridPane focusTraversable="true" layoutX="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -22,10 +22,6 @@
                         <Insets right="4.0" />
                      </GridPane.margin>
               </Label>
-                  <Text fx:id="textDeadline" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin></Text>
               	  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" layoutX="93.0" layoutY="87.0" text="Status" underline="false" visible="true" wrapText="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets right="4.0" />
@@ -39,12 +35,12 @@
                         <Insets right="4.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Deadline" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                  <Label text="Deadline" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets right="4.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Event" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                  <Label text="Event" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets right="4.0" />
                      </GridPane.margin>
@@ -102,7 +98,7 @@
                         <Insets right="4.0" />
                      </GridPane.margin>
                   </Label>
-                  <Button fx:id="btnDeleteProject" minWidth="80.0" mnemonicParsing="false" onAction="#btnDeleteProject" prefWidth="80.0" text="Löschen" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                  <Button fx:id="btnDeleteProject" minWidth="80.0" mnemonicParsing="false" onAction="#btnDeleteProject" prefWidth="80.0" text="Löschen" textFill="RED" GridPane.columnIndex="4" GridPane.rowIndex="3" />
                   <Label text="Tasks" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="11" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets right="4.0" top="4.0" />
@@ -112,7 +108,7 @@
                      </font>
                   </Label>
                   <Button fx:id="btnEditProject" minWidth="80.0" mnemonicParsing="false" onAction="#btnEditProject" prefWidth="80.0" text="Bearbeiten" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                  <Text fx:id="textEvent" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                  <Text fx:id="textEvent" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin>
@@ -143,6 +139,11 @@
                      </GridPane.margin>
                   </Text>
                   <Text fx:id="textProjectName" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </Text>
+                  <Text fx:id="textDeadline" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin>

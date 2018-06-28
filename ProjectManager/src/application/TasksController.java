@@ -1,8 +1,6 @@
 package application;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+// JavaFX imports
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,6 +8,12 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+// Java imports
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+// ProjectManager imports
 import project.Priority;
 import project.Project;
 import project.Status;
