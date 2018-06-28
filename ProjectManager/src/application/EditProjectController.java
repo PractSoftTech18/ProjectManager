@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -47,6 +48,9 @@ public class EditProjectController extends Controller {
 	@FXML
 	private AnchorPane apEditProject;
 
+	@FXML
+	private ScrollPane spEditProject;
+	
 	@FXML
 	private TextField tfProjectName;
 
@@ -223,14 +227,20 @@ public class EditProjectController extends Controller {
 
 			ourFileHandler.change(newProject, p.getTitle());
 
-			AnchorPane pane;
+			/*AnchorPane pane;
 			try {
 				pane = FXMLLoader.load(getClass().getResource("/application/ProjectView.fxml"));
 				apEditProject.getChildren().setAll(pane);
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			}*/
 
+			try {
+				spEditProject.setContent(FXMLLoader.load(getClass().getResource("/application/ProjectView2.fxml")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		} else {
 			alert(AlertType.INFORMATION);
 		}

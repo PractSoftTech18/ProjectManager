@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -50,6 +51,9 @@ public class CreateProjectController extends Controller {
 
 	@FXML
 	private AnchorPane apCreateProject;
+	
+	@FXML
+	private ScrollPane spCreateProject;
 
 	@FXML
 	private Button NewTab, btnSave, btnAddPerson, btnAddTask;
@@ -209,14 +213,19 @@ public class CreateProjectController extends Controller {
 			taDescription.clear();
 			taNotes.clear();
 
-			AnchorPane pane;
+			try {
+				spCreateProject.setContent(FXMLLoader.load(getClass().getResource("/application/ProjectView2.fxml")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			/*AnchorPane pane;
 			try {
 				pane = FXMLLoader.load(getClass().getResource("/application/ProjectView.fxml"));
 				apCreateProject.getChildren().setAll(pane);
 				ourData.selected = Data.getIndex(newProject.getTitle());
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			}*/
 
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);

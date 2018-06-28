@@ -118,6 +118,7 @@ public class ProjectViewController extends Controller {
 		}
 	}
 
+	
 	@FXML
 	/**
 	 * edit the project

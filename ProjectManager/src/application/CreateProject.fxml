@@ -10,7 +10,7 @@
 
 <AnchorPane fx:id="apCreateProject" minHeight="400.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CreateProjectController">
   <children>
-      <ScrollPane fitToWidth="true" minWidth="800.0" pannable="true" prefHeight="420.0" prefWidth="870.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ScrollPane fx:id="spCreateProject" fitToWidth="true" minWidth="800.0" pannable="true" prefHeight="420.0" prefWidth="870.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
           <GridPane focusTraversable="true" layoutX="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="0.0">
             <children>

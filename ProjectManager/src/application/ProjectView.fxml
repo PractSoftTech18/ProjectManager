@@ -107,7 +107,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnEditProject" minWidth="80.0" mnemonicParsing="false" onAction="#btnEditProject" prefWidth="120.0" text="Bearbeiten" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <Button fx:id="btnEditProject" minWidth="80.0" mnemonicParsing="false" onAction="#btnEditProject" prefWidth="120.0" text="Bearbeiten" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="2" />
                   <Text fx:id="textEvent" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="10.0" />
