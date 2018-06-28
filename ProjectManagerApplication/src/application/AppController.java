@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Optional;
 
-import files.FileHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -37,17 +36,7 @@ import project.Task;
  * @author Lukas Schiefermueller
  * @version 1.00, June 28th 2018
  */
-public class AppController {
-	/**
-	 * available data for this run of the application
-	 */
-	private Data ourData = Data.getData();
-
-	/**
-	 * FileHandler
-	 */
-	private FileHandler ourFileHandler = FileHandler.getFileHandler();
-
+public class AppController extends Controller{
 	@FXML
 	private TabPane MyTabPane;
 
@@ -193,36 +182,7 @@ public class AppController {
 			alert(false);
 	}
 
-	/**
-	 * print alert window
-	 * 
-	 * @author Lukas Schiefermueller
-	 * @param delete
-	 *            true if delete project, false otherwise
-	 * @return true if ok is pressed
-	 */
-	private boolean alert(boolean delete) {
-		// http://code.makery.ch/blog/javafx-dialogs-official/
-		Alert alert;
-		if (delete) {
-			alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Projekt löschen");
-			alert.setHeaderText("Achtung");
-			alert.setContentText("Projekt wirklich löschen?");
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK) {
-				return true;
-			}
-			return false;
-		}
-		alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Fehler");
-		alert.setHeaderText("Auswahl");
-		alert.setContentText("Es ist nichts ausgewählt!");
-		alert.showAndWait();
-		return false;
-	}
-
+	
 	/**
 	 * delete the selected project
 	 * 

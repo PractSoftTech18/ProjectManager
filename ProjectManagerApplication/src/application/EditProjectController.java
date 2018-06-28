@@ -15,7 +15,6 @@ import java.util.Optional;
 import application.TableTask;
 import customer.Customer;
 import customer.Person;
-import files.FileHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -45,18 +44,7 @@ import project.Status;
  * @author Julia Hofer
  * @version 1.00, June 28th 2018
  */
-public class EditProjectController {
-
-	/**
-	 * available data for this run of the application
-	 */
-	private Data ourData = Data.getData();
-
-	/**
-	 * FileHandler
-	 */
-	private FileHandler ourFileHandler = FileHandler.getFileHandler();
-
+public class EditProjectController extends Controller{
 	@FXML
 	private AnchorPane apEditProject;
 
@@ -218,21 +206,9 @@ public class EditProjectController {
 			newProject.setPriority(Priority.returnPriority(cBoxPriority.getSelectionModel().getSelectedItem()));
 			newProject.setStatus(Status.returnStatus(cBoxStatus.getSelectionModel().getSelectedItem(), false));
 
-			// https://stackoverflow.com/questions/20446026/get-value-from-date-picker
-			LocalDate localDate;
-			Instant instant;
-			if ((localDate = datePDeadline.getValue()) != null) {
-				instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-				newProject.setDeadline(Date.from(instant));
-			} else {
-				newProject.setDeadline(new Date(1));
-			}
-			if ((localDate = datePEvent.getValue()) != null) {
-				instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-				newProject.setEventDate(Date.from(instant));
-			} else {
-				newProject.setEventDate(new Date(1));
-			}
+			newProject.setDeadline(localDateToDate(datePDeadline.getValue()));
+			newProject.setEventDate(localDateToDate(datePEvent.getValue()));
+
 			ArrayList<Person> persons = new ArrayList<>();
 			persons = new ArrayList<Person>(person);
 			String contactPerson;
@@ -263,6 +239,25 @@ public class EditProjectController {
 			alert.setHeaderText("Kein Projektname eingegeben!");
 			alert.setContentText("Bitte Projektnamen eingeben und erneut speichern.");
 			alert.showAndWait();
+		}
+	}
+
+	/**
+	 * https://stackoverflow.com/questions/20446026/get-value-from-date-picker
+	 * convert a LocalDate to a Date
+	 * 
+	 * @author Julia Hofer
+	 * @param localDate
+	 *            the LocalDate format from the DatePicker
+	 */
+	private Date localDateToDate(LocalDate localDate) {
+		// https://stackoverflow.com/questions/20446026/get-value-from-date-picker
+		Instant instant;
+		if (localDate != null) {
+			instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+			return Date.from(instant);
+		} else {
+			return new Date();
 		}
 	}
 
@@ -374,17 +369,8 @@ public class EditProjectController {
 	 */
 	public void btnAddTask(ActionEvent event) {
 		String dateString = "";
-		Date date;
-		LocalDate localDate;
-
-		if (datePTaskDate.getValue() != null) {
-			localDate = datePTaskDate.getValue();
-			date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
-			dateString = dateFormatter.format(date);
-		} else {
-			date = new Date();
-			dateString = dateFormatter.format(date);
-		}
+		Date date = localDateToDate(datePTaskDate.getValue());
+		dateString = dateFormatter.format(date);
 
 		task.add(
 				new Task(tfTask.getText(), tfTaskRemark.getText(), Status.returnStatus(cBoxTaskStatus.getValue(), true),
@@ -466,35 +452,5 @@ public class EditProjectController {
 		} else {
 			alert(false);
 		}
-	}
-
-	/**
-	 * print alert window
-	 * 
-	 * @author Lukas Schiefermueller
-	 * @param delete
-	 *            true if delete project, false otherwise
-	 * @return true if ok is pressed
-	 */
-	private boolean alert(boolean delete) {
-		// http://code.makery.ch/blog/javafx-dialogs-official/
-		Alert alert;
-		if (delete) {
-			alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Projekt löschen");
-			alert.setHeaderText("Achtung");
-			alert.setContentText("Wirklich löschen?");
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK) {
-				return true;
-			}
-			return false;
-		}
-		alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Fehler");
-		alert.setHeaderText("Auswahl");
-		alert.setContentText("Es ist nichts ausgewählt!");
-		alert.showAndWait();
-		return false;
 	}
 }

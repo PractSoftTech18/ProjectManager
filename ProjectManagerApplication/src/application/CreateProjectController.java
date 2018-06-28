@@ -33,7 +33,6 @@ import project.Priority;
 import project.Project;
 import project.Status;
 import project.Task;
-import files.FileHandler;
 
 /**
  * controller for CreateProject
@@ -41,17 +40,7 @@ import files.FileHandler;
  * @author Julia Hofer
  * @version 1.00, June 28th 2018
  */
-public class CreateProjectController {
-	
-	/**
-	 * available data for this run of the application
-	 */
-	private Data ourData = Data.getData();
-	/**
-	 * FileHandler
-	 */
-	private FileHandler ourFileHandler = FileHandler.getFileHandler();
-
+public class CreateProjectController extends Controller{
 	@FXML
 	private ResourceBundle resources;
 
@@ -187,21 +176,9 @@ public class CreateProjectController {
 			newProject.setPriority(Priority.returnPriority(cBoxPriority.getSelectionModel().getSelectedItem()));
 			newProject.setStatus(Status.returnStatus(cBoxStatus.getSelectionModel().getSelectedItem(), false));
 
-			// https://stackoverflow.com/questions/20446026/get-value-from-date-picker
-			LocalDate localDate;
-			Instant instant;
-			if ((localDate = datePDeadline.getValue()) != null) {
-				instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-				newProject.setDeadline(Date.from(instant));
-			} else {
-				newProject.setDeadline(new Date());
-			}
-			if ((localDate = datePEvent.getValue()) != null) {
-				instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-				newProject.setEventDate(Date.from(instant));
-			} else {
-				newProject.setEventDate(new Date());
-			}
+			newProject.setDeadline(localDateToDate(datePDeadline.getValue()));
+			newProject.setDeadline(localDateToDate(datePEvent.getValue()));
+			
 			ArrayList<Person> persons = new ArrayList<>();
 			persons = new ArrayList<Person>(person);
 			String contactPerson;
@@ -216,7 +193,6 @@ public class CreateProjectController {
 
 			ourFileHandler.add(newProject);
 			
-			//
 			tfProjectName.clear();
 			colorPProject.setValue(null);
 			cBoxPriority.setValue(Priority.NORMAL.toString());
@@ -236,7 +212,6 @@ public class CreateProjectController {
 				Data.getProject(newProject.getTitle());
 				ourData.selected = ourData.selectedInternally;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -249,6 +224,25 @@ public class CreateProjectController {
 		}
 	}
 
+	/**
+	 * https://stackoverflow.com/questions/20446026/get-value-from-date-picker
+	 * convert a LocalDate to a Date
+	 * 
+	 * @author Julia Hofer
+	 * @param localDate
+	 *            the LocalDate format from the DatePicker
+	 */
+	private Date localDateToDate(LocalDate localDate) {
+		// https://stackoverflow.com/questions/20446026/get-value-from-date-picker
+		Instant instant;
+		if (localDate != null) {
+			instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+			return Date.from(instant);
+		} else {
+			return new Date();
+		}
+	}
+	
 	@FXML
 	/**
 	 * add a person
